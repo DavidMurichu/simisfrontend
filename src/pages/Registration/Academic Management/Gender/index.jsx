@@ -18,30 +18,30 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import MainCard from 'components/MainCard';
 import { Link } from 'react-router-dom';
-import { toast } from "react-toastify";
-import TeacherService from "../../../../services/TeacherService";
+import { toast } from 'react-toastify';
+import GenderService from '../../../../services/pupilservice';
 
-function Teachers() {
-    const [teachers, setTeachers] = useState([]);
+function Gender() {
+    const [genders, setGenders] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [searchQuery, setSearchQuery] = useState('');
     const [showFilters, setShowFilters] = useState(false);
-    const [deleteTeacherId, setDeleteTeacherId] = useState(null);
+    const [deleteGenderId, setDeleteGenderId] = useState(null);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-    const fetchTeachers = async () => {
+    const fetchGenders = async () => {
         try {
-            const response = await TeacherService.getAllPersons();
-            setTeachers(response.data);
+            const response = await GenderService.getAllGenders();
+            setGenders(response.data);
         } catch (error) {
-            console.error('Error fetching teachers:', error);
-            toast.error('Error fetching teachers. Please try again.');
+            console.error('Error fetching genders:', error);
+            toast.error('Error fetching genders. Please try again.');
         }
     };
 
     useEffect(() => {
-        fetchTeachers();
+        fetchGenders();
     }, []);
 
     const handleChangePage = (event, newPage) => {
@@ -57,24 +57,25 @@ function Teachers() {
         setSearchQuery(event.target.value);
     };
 
-    const handleDeleteTeacher = (teacherId) => {
-        setDeleteTeacherId(teacherId);
+    const handleDeleteGender = (genderId) => {
+        setDeleteGenderId(genderId);
         setOpenDeleteDialog(true);
     };
 
     const handleConfirmDelete = async () => {
         try {
-            const response = await TeacherService.deletePerson(deleteTeacherId);
+            // Replace with actual API call to delete gender
+            const response = await GenderService.deleteGender(deleteGenderId);
             if (response.status === 200) {
-                toast.success("Deleted teacher successfully");
-                setTeachers(teachers.filter(teacher => teacher.id !== deleteTeacherId));
+                toast.success('Deleted gender successfully');
+                setGenders(genders.filter(gender => gender.id !== deleteGenderId));
                 setOpenDeleteDialog(false);
             } else {
-                toast.warning("Error, try again");
+                toast.warning('Error deleting gender. Please try again.');
             }
         } catch (error) {
-            console.error('Error deleting teacher:', error);
-            toast.error("Error deleting teacher. Please try again.");
+            console.error('Error deleting gender:', error);
+            toast.error('Error deleting gender. Please try again.');
         }
     };
 
@@ -82,14 +83,14 @@ function Teachers() {
         setOpenDeleteDialog(false);
     };
 
-    const filteredTeachers = teachers.filter((teacher) =>
-        teacher.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredGenders = genders.filter((gender) =>
+        gender.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
-        <MainCard title="Teacher Management">
+        <MainCard title="Gender Management">
             <Typography variant="body1" gutterBottom>
-                Welcome to the Teacher Management page. Here you can manage teacher details and their actions.
+                Welcome to the Gender Management page. Here you can manage gender details and their actions.
             </Typography>
 
             <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
@@ -114,47 +115,41 @@ function Teachers() {
                     {/* Add filter options here if needed */}
                 </Box>
             </Collapse>
-
+            <Button
+                variant="contained"
+                color="primary"
+                component={Link}
+                to="/add-gender"
+                sx={{ mb: 2 }}
+            >
+                Add Gender
+            </Button>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell>Name</TableCell>
-                            <TableCell>Surname</TableCell>
-                            <TableCell>First Name</TableCell>
-                            <TableCell>Last Name</TableCell>
-                            <TableCell>Title</TableCell>
-                            <TableCell>Mobile No</TableCell>
-                            <TableCell>Email</TableCell>
-                            <TableCell>Physical Address</TableCell>
-                            <TableCell>Created On</TableCell>
+                            <TableCell>Description</TableCell>
                             <TableCell>Is Active</TableCell>
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredTeachers
+                        {filteredGenders
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((teacher, index) => (
-                                <TableRow key={teacher.id}>
+                            .map((gender, index) => (
+                                <TableRow key={gender.id}>
                                     <TableCell>{index + 1}</TableCell>
-                                    <TableCell>{teacher.name}</TableCell>
-                                    <TableCell>{teacher.surname}</TableCell>
-                                    <TableCell>{teacher.firstname}</TableCell>
-                                    <TableCell>{teacher.lastname}</TableCell>
-                                    <TableCell>{teacher.title}</TableCell>
-                                    <TableCell>{teacher.mobileno}</TableCell>
-                                    <TableCell>{teacher.email}</TableCell>
-                                    <TableCell>{teacher.physicaladdress}</TableCell>
-                                    <TableCell>{new Date(teacher.createdon).toLocaleDateString()}</TableCell>
-                                    <TableCell>{teacher.isActive ? 'Active' : 'Inactive'}</TableCell>
+                                    <TableCell>{gender.name}</TableCell>
+                                    <TableCell>{gender.description}</TableCell>
+                                    <TableCell>{gender.is_active === '1' ? 'Active' : 'Inactive'}</TableCell>
                                     <TableCell>
                                         <Button
                                             variant="outlined"
                                             color="primary"
                                             component={Link}
-                                            to={`/edit-teacher/${teacher.id}`}
+                                            to={`/edit-gender/${gender.id}`}
                                             sx={{ mr: 1 }}
                                         >
                                             Edit
@@ -162,7 +157,7 @@ function Teachers() {
                                         <Button
                                             variant="outlined"
                                             color="secondary"
-                                            onClick={() => handleDeleteTeacher(teacher.id)}
+                                            onClick={() => handleDeleteGender(gender.id)}
                                         >
                                             Delete
                                         </Button>
@@ -176,7 +171,7 @@ function Teachers() {
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={filteredTeachers.length}
+                count={filteredGenders.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -184,9 +179,9 @@ function Teachers() {
             />
 
             <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
-                <DialogTitle>Delete Teacher</DialogTitle>
+                <DialogTitle>Delete Gender</DialogTitle>
                 <DialogContent>
-                    Are you sure you want to delete this teacher?
+                    Are you sure you want to delete this gender?
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog}>Cancel</Button>
@@ -197,4 +192,4 @@ function Teachers() {
     );
 }
 
-export default Teachers;
+export default Gender;

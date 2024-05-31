@@ -1,207 +1,587 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import MainCard from 'components/MainCard';
-import {Link} from "react-router-dom";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Link, useNavigate } from 'react-router-dom';
+import Account from '../../../services/account';
+import GenderService from '../../../services/pupilservice';
+import AcademicYearService from '../../../services/calendarService';
+import { toast } from 'react-toastify';
+import PupilService from '../../../services/pupilservice';
+import ClassesService from '../../../services/classesService';
+import MenuItem from "@mui/material/MenuItem";
 
 function AddPupil() {
-    const [name, setName] = useState('');
-    const [admissionNo, setAdmissionNo] = useState('');
-    const [gender, setGender] = useState('');
-    const [admissionClass, setAdmissionClass] = useState('');
-    const [currentClass, setCurrentClass] = useState('');
-    const [currentTerm, setCurrentTerm] = useState('');
-    const [parentName, setParentName] = useState('');
-    const [mobile, setMobile] = useState('');
-    const [secondaryMobile, setSecondaryMobile] = useState('');
-    const [city, setCity] = useState('');
-    const [town, setTown] = useState('');
-    const [address, setAddress] = useState('');
-    const [admissionYear, setAdmissionYear] = useState('');
-    const [currentAcademicYear, setCurrentAcademicYear] = useState('');
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        name: '',
+        admission_no: '',
+        nemis_number: '',
+        assessment_number: '',
+        parentname: '',
+        classid: '',
+        academicyearid: '',
+        parent_mobile: '',
+        secondary_mobile: '',
+        dob: '',
+        city: '',
+        town: '',
+        streetaddress: '',
+        mobile: '',
+        email: '',
+        remarks: '',
+        is_active: '',
+        ipaddress: '',
+        prev_class_id: '',
+        current_class_id: '',
+        current_term_id: '',
+        current_academic_year: '',
+        genderid: '',
+        teachers_student: '0',
+        deactivated: '',
+        deactivate_reason: '',
+        branch_id: '',
+        fathers_name: '',
+        fathers_phone: '',
+        mothers_name: '',
+        mothers_phone: '',
+        guardians_name: '',
+        guardians_phone: '',
+        last_school_attended: '',
+        birth_cert_no: '',
+        upi_no: '',
+        transfer_term_id: '',
+        createdby: '',
+        lasteditedby: ''
+    });
+
+    const [branches, setBranches] = useState([]);
+    const [genders, setGenders] = useState([]);
+    const [terms, setTerms] = useState([]);
+    const [classes, setClasses] = useState([]);
+    const [branchName, setBranchName] = useState('');
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        fetchBranches();
+        fetchGenders();
+        fetchTerms();
+        fetchClasses();
+        const branchName = sessionStorage.getItem("role");
+        setBranchName(branchName);
+    }, []);
+
+    useEffect(() => {
+        if (branches.length > 0 && branchName) {
+            const branch = branches.find(branch => branch.name === branchName);
+            if (branch) {
+                setFormData(prevData => ({
+                    ...prevData,
+                    branch_id: branch.id
+                }));
+            }
+        }
+    }, [branches, branchName]);
+
+    const fetchBranches = async () => {
+        try {
+            const response = await Account.getAllBranches();
+            setBranches(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching branches:', error);
+            setLoading(false);
+        }
+    };
+
+    const fetchGenders = async () => {
+        try {
+            const response = await GenderService.getAllGenders();
+            setGenders(response.data);
+        } catch (error) {
+            console.error('Error fetching genders:', error);
+            toast.error('Error fetching genders. Please try again.');
+        }
+    };
+
+    const fetchTerms = async () => {
+        try {
+            const response = await AcademicYearService.getAllTerms();
+            setTerms(response.data);
+        } catch (error) {
+            console.error('Error fetching terms:', error);
+        }
+    };
+
+    const fetchClasses = async () => {
+        try {
+            const response = await ClassesService.getAllClasses();
+            setClasses(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching classes:', error);
+            setLoading(false);
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!name.trim() || !gender.trim()) {
+        if (!formData.name.trim() || !formData.genderid.trim()) {
             setError('Name and Gender are required.');
             return;
         }
-        // Add logic to save pupil data
-        console.log('New Pupil:', {
-            name,
-            admissionNo,
-            gender,
-            admissionClass,
-            currentClass,
-            currentTerm,
-            parentName,
-            mobile,
-            secondaryMobile,
-            city,
-            town,
-            address,
-            admissionYear,
-            currentAcademicYear,
-        });
-        clearForm();
-        setSuccessMessage('Pupil added successfully!');
-        setError('');
+        try {
+            const response = await PupilService.addPupil({
+                ...formData,
+                genderid: parseInt(formData.genderid, 10),
+                branch_id: parseInt(formData.branch_id, 10),
+                prev_class_id: parseInt(formData.prev_class_id, 10),
+                current_class_id: parseInt(formData.current_class_id, 10),
+                current_term_id: parseInt(formData.current_term_id, 10),
+                transfer_term_id: parseInt(formData.transfer_term_id, 10)
+            });
+            if (response) {
+                toast.success("Successfully added user to database");
+                navigate("/registration/student-information");
+            }
+        } catch (err) {
+            console.log("Error adding a new student", err);
+            toast.warning("Could not add pupil, try again");
+        }
     };
 
     const clearForm = () => {
-        setName('');
-        setAdmissionNo('');
-        setGender('');
-        setAdmissionClass('');
-        setCurrentClass('');
-        setCurrentTerm('');
-        setParentName('');
-        setMobile('');
-        setSecondaryMobile('');
-        setCity('');
-        setTown('');
-        setAddress('');
-        setAdmissionYear('');
-        setCurrentAcademicYear('');
+        setFormData({
+            name: '',
+            admission_no: '',
+            nemis_number: '',
+            assessment_number: '',
+            parentname: '',
+            classid: '',
+            academicyearid: '',
+            parent_mobile: '',
+            secondary_mobile: '',
+            dob: '',
+            city: '',
+            town: '',
+            streetaddress: '',
+            mobile: '',
+            email: '',
+            remarks: '',
+            is_active: '',
+            ipaddress: '',
+            prev_class_id: '',
+            current_class_id: '',
+            current_term_id: '',
+            current_academic_year: '',
+            genderid: '',
+            teachers_student: '',
+            deactivated: '',
+            deactivate_reason: '',
+            branch_id: '',
+            fathers_name: '',
+            fathers_phone: '',
+            mothers_name: '',
+            mothers_phone: '',
+            guardians_name: '',
+            guardians_phone: '',
+            last_school_attended: '',
+            birth_cert_no: '',
+            upi_no: '',
+            transfer_term_id: '',
+            createdby: '',
+            lasteditedby: ''
+        });
     };
 
     return (
         <MainCard title="Add Pupil">
             <form onSubmit={handleSubmit}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Pupil's Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            fullWidth
-                            error={!!error && !name.trim()}
-                            helperText={!!error && !name.trim() ? 'Name is required.' : ''}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Admission No"
-                            value={admissionNo}
-                            onChange={(e) => setAdmissionNo(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            select
-                            label="Gender"
-                            value={gender}
-                            onChange={(e) => setGender(e.target.value)}
-                            fullWidth
-                            error={!!error && !gender.trim()}
-                            helperText={!!error && !gender.trim() ? 'Gender is required.' : ''}
-                            SelectProps={{
-                                native: true,
-                            }}
-                        >
-                            <option value=""></option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Admission Class"
-                            value={admissionClass}
-                            onChange={(e) => setAdmissionClass(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Current Class"
-                            value={currentClass}
-                            onChange={(e) => setCurrentClass(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Current Term"
-                            value={currentTerm}
-                            onChange={(e) => setCurrentTerm(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Parent Name"
-                            value={parentName}
-                            onChange={(e) => setParentName(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Mobile"
-                            value={mobile}
-                            onChange={(e) => setMobile(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Secondary Mobile"
-                            value={secondaryMobile}
-                            onChange={(e) => setSecondaryMobile(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="City"
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Town"
-                            value={town}
-                            onChange={(e) => setTown(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Address"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Admission Year"
-                            value={admissionYear}
-                            onChange={(e) => setAdmissionYear(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Current Academic Year"
-                            value={currentAcademicYear}
-                            onChange={(e) => setCurrentAcademicYear(e.target.value)}
-                            fullWidth
-                        />
-                    </Grid>
+                <Accordion defaultExpanded>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography>Personal Information</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Pupil's Name"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    error={!!error && !formData.name.trim()}
+                                    helperText={!!error && !formData.name.trim() ? 'Name is required.' : ''}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    select
+                                    label="Gender "
+                                    name="genderid"
+                                    value={formData.genderid}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    SelectProps={{
+                                        native: true,
+                                    }}
+                                >
+                                    <option value=""></option>
+                                    {genders.map(gender => (
+                                        <option key={gender.id} value={gender.id}>{gender.name}</option>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Date of Birth"
+                                    name="dob"
+                                    type="date"
+                                    value={formData.dob}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="City"
+                                    name="city"
+                                    value={formData.city}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Town"
+                                    name="town"
+                                    value={formData.town}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Street Address"
+                                    name="streetaddress"
+                                    value={formData.streetaddress}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                        </Grid>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography>Contact Information</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Mobile"
+                                    name="mobile"
+                                    value={formData.mobile}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Email"
+                                    name="email"
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Parent Mobile"
+                                    name="parent_mobile"
+                                    value={formData.parent_mobile}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Secondary Mobile"
+                                    name="secondary_mobile"
+                                    value={formData.secondary_mobile}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                        </Grid>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography>Parental Information</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Father's Name"
+                                    name="fathers_name"
+                                    value={formData.fathers_name}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Father's Phone"
+                                    name="fathers_phone"
+                                    value={formData.fathers_phone}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Mother's Name"
+                                    name="mothers_name"
+                                    value={formData.mothers_name}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Mother's Phone"
+                                    name="mothers_phone"
+                                    value={formData.mothers_phone}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Guardian's Name"
+                                    name="guardians_name"
+                                    value={formData.guardians_name}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Guardian's Phone"
+                                    name="guardians_phone"
+                                    value={formData.guardians_phone}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                        </Grid>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography>Academic Information</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Admission No"
+                                    name="admission_no"
+                                    value={formData.admission_no}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="NEMIS Number"
+                                    name="nemis_number"
+                                    value={formData.nemis_number}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Assessment Number"
+                                    name="assessment_number"
+                                    value={formData.assessment_number}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    select
+                                    label="Previous Class"
+                                    name="prev_class_id"
+                                    value={formData.prev_class_id}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    SelectProps={{
+                                        native: true,
+                                    }}
+                                >
+                                    <option value=""></option>
+                                    {classes.map(cls => (
+                                        <option key={cls.id} value={cls.id}>{cls.name}</option>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    select
+                                    label="Current Class"
+                                    name="current_class_id"
+                                    value={formData.current_class_id}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    SelectProps={{
+                                        native: true,
+                                    }}
+                                >
+                                    <option value=""></option>
+                                    {classes.map(cls => (
+                                        <option key={cls.id} value={cls.id}>{cls.name}</option>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    select
+                                    label="Term ID"
+                                    name="current_term_id"
+                                    value={formData.current_term_id}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    SelectProps={{
+                                        native: true,
+                                    }}
+                                >
+                                    <option value=""></option>
+                                    {terms.map(term => (
+                                        <option key={term.id} value={term.id}>{term.name}</option>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    select
+                                    label="Transfer Term Id"
+                                    name="transfer_term_id"
+                                    value={formData.transfer_term_id}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    SelectProps={{
+                                        native: true,
+                                    }}
+                                >
+                                    <option value=""></option>
+                                    {terms.map(term => (
+                                        <option key={term.id} value={term.id}>{term.name}</option>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    select
+                                    label="Branch"
+                                    name="branch_id"
+                                    value={formData.branch_id}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    SelectProps={{
+                                        native: true,
+                                    }}
+                                >
+                                    <option value=""></option>
+                                    {branches.map(branch => (
+                                        <option key={branch.id} value={branch.id}>{branch.branch_name}</option>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    select
+                                    label="Teacher Student"
+                                    name="teacher_student"
+                                    value={formData.teachers_student}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={'0'}>Yes</MenuItem>
+                                    <MenuItem value={'1'}>No</MenuItem>
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    select
+                                    label="Deactivated"
+                                    name="deactivated"
+                                    value={formData.deactivated}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={'0'}>Yes</MenuItem>
+                                    <MenuItem value={'1'}>No</MenuItem>
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Deactivated Reason"
+                                    name="deactivate_reason"
+                                    value={formData.deactivate_reason}
+                                    onChange={handleChange}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    select
+                                    label="Is Active"
+                                    name="is_active"
+                                    value={formData.is_active}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={'0'}>Active</MenuItem>
+                                    <MenuItem value={'1'}>Inactive</MenuItem>
+                                </TextField>
+                            </Grid>
+                        </Grid>
+                    </AccordionDetails>
+                </Accordion>
+                <Grid container spacing={3} sx={{ mt: 2 }}>
                     <Grid item xs={12}>
                         <Button type="submit" variant="contained" color="primary">
                             Add Pupil
                         </Button>
-                        <Button variant="contained" color="secondary" component={Link} to="/registration/student-information" sx={{ ml: 2 }}>Cancel</Button>
+                        <Button variant="contained" color="secondary" component={Link} to="/registration/student-information" sx={{ ml: 2 }}>
+                            Cancel
+                        </Button>
                     </Grid>
                     {successMessage && (
                         <Grid item xs={12}>

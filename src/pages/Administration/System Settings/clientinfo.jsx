@@ -6,25 +6,19 @@ import React, { useState, useEffect } from "react";
 import Account from "../../../services/account";
 
 function Clientinfo() {
-    const [clientInfo, setClientInfo] = useState({
-        name: '',
-        email: '',
-        mobile: '',
-        showCompanyLogo: 0,
-        website: '',
-        companyFacebook: '',
-        companyTwitter: '',
-        companyYoutube: '',
-        companyLocation: '',
-    });
-
+    const [clientInfo, setClientInfo] = useState([]);
     const [changedFields, setChangedFields] = useState({});
     const [tableId, setTableId] = useState("");
+
     const fetchClientInfo = async () => {
         try {
             const response = await Account.getClientInfo();
-            setClientInfo(response.data);
-            setTableId(response.data.id)
+            console.log(response.data);
+            if (response.data && response.data.length > 0) {
+                const clientData = response.data[0]; // Assuming you want the first element
+                setClientInfo(clientData);
+                setTableId(clientData.id);
+            }
         } catch (error) {
             console.error('Error fetching client info:', error);
         }
@@ -38,8 +32,7 @@ function Clientinfo() {
         event.preventDefault();
         const id = sessionStorage.getItem("id");
         try {
-            const response =
-                await Account.updateClientInfo(id, {tableId,changedFields});
+            const response = await Account.updateClientInfo(id, { tableId, changedFields });
             if (response) {
                 console.log('Success:', response.data);
                 fetchClientInfo();
@@ -73,7 +66,7 @@ function Clientinfo() {
                     label="Company Name"
                     variant="outlined"
                     name="name"
-                    value={clientInfo.name}
+                    value={clientInfo.name || ""}
                     onChange={handleClientInfoChange}
                     sx={{ mb: 2 }}
                 />
@@ -83,7 +76,7 @@ function Clientinfo() {
                     variant="outlined"
                     name="email"
                     type="email"
-                    value={clientInfo.email}
+                    value={clientInfo.email || ""}
                     onChange={handleClientInfoChange}
                     sx={{ mb: 2 }}
                 />
@@ -93,7 +86,7 @@ function Clientinfo() {
                     variant="outlined"
                     name="mobile"
                     type="tel"
-                    value={clientInfo.mobile}
+                    value={clientInfo.mobile || ""}
                     onChange={handleClientInfoChange}
                     sx={{ mb: 2 }}
                 />
@@ -103,7 +96,7 @@ function Clientinfo() {
                     variant="outlined"
                     name="website"
                     type="text"
-                    value={clientInfo.website}
+                    value={clientInfo.website || ""}
                     onChange={handleClientInfoChange}
                     sx={{ mb: 2 }}
                 />
@@ -113,7 +106,7 @@ function Clientinfo() {
                     variant="outlined"
                     name="companyFacebook"
                     type="url"
-                    value={clientInfo.companyFacebook}
+                    value={clientInfo.companyFacebook || ""}
                     onChange={handleClientInfoChange}
                     sx={{ mb: 2 }}
                 />
@@ -123,7 +116,7 @@ function Clientinfo() {
                     variant="outlined"
                     name="companyTwitter"
                     type="url"
-                    value={clientInfo.companyTwitter}
+                    value={clientInfo.companyTwitter || ""}
                     onChange={handleClientInfoChange}
                     sx={{ mb: 2 }}
                 />
@@ -133,7 +126,7 @@ function Clientinfo() {
                     variant="outlined"
                     name="companyYoutube"
                     type="url"
-                    value={clientInfo.companyYoutube}
+                    value={clientInfo.companyYoutube || ""}
                     onChange={handleClientInfoChange}
                     sx={{ mb: 2 }}
                 />
@@ -142,7 +135,7 @@ function Clientinfo() {
                     label="Company Location"
                     variant="outlined"
                     name="companyLocation"
-                    value={clientInfo.companyLocation}
+                    value={clientInfo.companyLocation || ""}
                     onChange={handleClientInfoChange}
                     sx={{ mb: 2 }}
                 />

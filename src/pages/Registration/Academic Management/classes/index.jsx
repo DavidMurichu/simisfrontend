@@ -19,33 +19,37 @@ import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 import MainCard from 'components/MainCard';
 import { Link } from 'react-router-dom';
-import Account from "../../../services/account";
+import ClassesService from "../../../../services/classesService";
 
-export default function UserManagement() {
-    const [users, setUsers] = useState([]);
+export default function Classes() {
+    const [classes, setClasses] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [searchQuery, setSearchQuery] = useState('');
     const [showFilters, setShowFilters] = useState(false);
-    const [deleteUserId, setDeleteUserId] = useState(null);
+    const [deleteClassId, setDeleteClassId] = useState(null);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const fetchUsers = async () => {
+    const fetchClasses = async () => {
         try {
-            const response = await Account.getAllUsers();
-            setUsers(response.data);
+            const response = await ClassesService.getAllClasses();
+            console.log("Fetched classes data:", response.data);
+            setClasses(response.data);
             setLoading(false);
         } catch (error) {
-            console.error('Error fetching users:', error);
+            console.error('Error fetching classes:', error);
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchUsers();
-        console.log("Filtered users ", filteredUsers)
+        fetchClasses();
     }, []);
+
+    useEffect(() => {
+        console.log("Classes state:", classes);
+    }, [classes]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -60,18 +64,18 @@ export default function UserManagement() {
         setSearchQuery(event.target.value);
     };
 
-    const handleDeleteUser = (userId) => {
-        setDeleteUserId(userId);
+    const handleDeleteClass = (classId) => {
+        setDeleteClassId(classId);
         setOpenDeleteDialog(true);
     };
 
     const handleConfirmDelete = async () => {
         try {
             // Call your delete API here
-            setUsers(users.filter(user => user.id !== deleteUserId));
+            setClasses(classes.filter(classItem => classItem.id !== deleteClassId));
             setOpenDeleteDialog(false);
         } catch (error) {
-            console.error('Error deleting user:', error);
+            console.error('Error deleting class:', error);
         }
     };
 
@@ -79,13 +83,14 @@ export default function UserManagement() {
         setOpenDeleteDialog(false);
     };
 
-    const filteredUsers = users.filter((user) =>
-        user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredClasses = classes.filter((classItem) =>
+        classItem.name && classItem.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
-        <MainCard title="User Management">
+        <MainCard title="Class Management">
             <Typography variant="body1" gutterBottom>
-                Welcome to the User Management page. Here you can manage system users and their permissions.
+                Welcome to the Class Management page. Here you can manage school classes and their details.
             </Typography>
 
             <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
@@ -115,19 +120,10 @@ export default function UserManagement() {
                 variant="contained"
                 color="primary"
                 component={Link}
-                to="/user-management/add-user"
+                to="/classes/add-class"
                 sx={{ mb: 2 }}
             >
-                Add New User
-            </Button>
-            <Button
-                variant="contained"
-                color="primary"
-                component={Link}
-                to="/user-management/auth-branches"
-                sx={{ mb: 2 }}
-            >
-                Role/Branch
+                Add New Class
             </Button>
 
             {loading ? (
@@ -137,27 +133,33 @@ export default function UserManagement() {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Username</TableCell>
-                                <TableCell>Email</TableCell>
-                                <TableCell>View All</TableCell>
-                                <TableCell>Branch ID</TableCell>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Description</TableCell>
+                                <TableCell>Created On</TableCell>
+                                <TableCell>Created By</TableCell>
+                                <TableCell>Last Edited On</TableCell>
+                                <TableCell>Last Edited By</TableCell>
+                                <TableCell>IP Address</TableCell>
                                 <TableCell>Status</TableCell>
                                 <TableCell>Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredUsers
+                            {filteredClasses
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((user) => (
-                                    <TableRow key={user.id}>
-                                        <TableCell>{user.username}</TableCell>
-                                        <TableCell>{user.email}</TableCell>
-                                        <TableCell>{user.view_all}</TableCell>
-                                        <TableCell>{user.branch_id}</TableCell>
+                                .map((classItem) => (
+                                    <TableRow key={classItem.id}>
+                                        <TableCell>{classItem.name}</TableCell>
+                                        <TableCell>{classItem.description}</TableCell>
+                                        <TableCell>{classItem.createdon}</TableCell>
+                                        <TableCell>{classItem.createdby}</TableCell>
+                                        <TableCell>{classItem.lasteditedon}</TableCell>
+                                        <TableCell>{classItem.lasteditedby}</TableCell>
+                                        <TableCell>{classItem.ipaddress}</TableCell>
                                         <TableCell>
                                             <Box
                                                 sx={{
-                                                    backgroundColor: user.active === 1 ? 'green' : 'red',
+                                                    backgroundColor: classItem.is_active === '1' ? 'green' : 'red',
                                                     color: 'white',
                                                     padding: '4px 8px',
                                                     borderRadius: '4px',
@@ -165,7 +167,7 @@ export default function UserManagement() {
                                                 }}
                                             >
                                                 <Typography variant="body2">
-                                                    {user.active === 1 ? "Active" : "Inactive"}
+                                                    {classItem.is_active === '1' ? "Active" : "Inactive"}
                                                 </Typography>
                                             </Box>
                                         </TableCell>
@@ -174,7 +176,7 @@ export default function UserManagement() {
                                                 variant="outlined"
                                                 color="primary"
                                                 component={Link}
-                                                to={`/user-management/edit-role/${user.id}`}
+                                                to={`/class-management/edit-class/${classItem.id}`}
                                                 sx={{ mr: 1 }}
                                             >
                                                 Edit
@@ -182,7 +184,7 @@ export default function UserManagement() {
                                             <Button
                                                 variant="outlined"
                                                 color="secondary"
-                                                onClick={() => handleDeleteUser(user.id)}
+                                                onClick={() => handleDeleteClass(classItem.id)}
                                             >
                                                 Delete
                                             </Button>
@@ -197,16 +199,16 @@ export default function UserManagement() {
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={filteredUsers.length}
+                count={filteredClasses.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
             <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
-                <DialogTitle>Delete User</DialogTitle>
+                <DialogTitle>Delete Class</DialogTitle>
                 <DialogContent>
-                    Are you sure you want to delete this user?
+                    Are you sure you want to delete this class?
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog}>Cancel</Button>

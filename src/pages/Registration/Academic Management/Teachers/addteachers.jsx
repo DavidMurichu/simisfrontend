@@ -46,7 +46,7 @@ function AddPerson() {
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
-                <Typography variant="h3">Create Person</Typography>
+                <Typography variant="h3">Create New Teacher</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
                 <TextField
@@ -123,32 +123,7 @@ function AddPerson() {
                     onChange={handleChange}
                 />
             </Grid>
-            <Grid item xs={12} sm={6}>
-                <TextField
-                    fullWidth
-                    label="Created On"
-                    name="createdon"
-                    value={personData.createdon}
-                    onChange={handleChange}
-                    type="date"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <TextField
-                    fullWidth
-                    select
-                    label="Is Active"
-                    name="isActive"
-                    value={personData.isActive}
-                    onChange={handleChange}
-                >
-                    <MenuItem value={true}>Active</MenuItem>
-                    <MenuItem value={false}>Inactive</MenuItem>
-                </TextField>
-            </Grid>
+
             <Grid item xs={12}>
                 <Button variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
                 <Button variant="contained" color="secondary" component={Link} to="/teachers" sx={{ ml: 2 }}>Cancel</Button>

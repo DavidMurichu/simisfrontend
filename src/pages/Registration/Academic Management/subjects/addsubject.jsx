@@ -71,32 +71,7 @@ function AddSubject() {
                     onChange={handleChange}
                 />
             </Grid>
-            <Grid item xs={12}>
-                <TextField
-                    fullWidth
-                    label="Created On"
-                    name="createdOn"
-                    value={subjectData.createdOn}
-                    onChange={handleChange}
-                    type="date"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <TextField
-                    fullWidth
-                    select
-                    label="Is Active"
-                    name="isActive"
-                    value={subjectData.isActive}
-                    onChange={handleChange}
-                >
-                    <MenuItem value={true}>Active</MenuItem>
-                    <MenuItem value={false}>Inactive</MenuItem>
-                </TextField>
-            </Grid>
+
             <Grid item xs={12}>
                 <Button variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
                 <Button variant="contained" color="secondary" component={Link} to="/subjects" sx={{ ml: 2 }}>Cancel</Button>

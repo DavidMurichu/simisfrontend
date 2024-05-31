@@ -14,27 +14,11 @@ const invoicesModule = {
     type: 'group',
     children: [
         {
-            id: 'create-arrear',
-            title: 'Create Arrear',
+            id: 'arrears-management',
+            title: 'Arrears Management',
             type: 'item',
-            url: '/invoices/create-arrear',
-            icon: FileAddOutlined,
-            breadcrumbs: false
-        },
-        {
-            id: 'fee-structure-admin-charges',
-            title: 'Fee Structure Admin Charges',
-            type: 'item',
-            url: '/invoices/fee-structure-admin-charges',
-            icon: DollarOutlined,
-            breadcrumbs: false
-        },
-        {
-            id: 'pupil-fee-invoices',
-            title: 'Pupil Fee Invoices',
-            type: 'item',
-            url: '/invoices/pupil-fee-invoices',
-            icon: HistoryOutlined,
+            url: '/invoices/arrears-management',
+            icon: FileDoneOutlined,
             breadcrumbs: false
         },
         {
@@ -46,46 +30,29 @@ const invoicesModule = {
             breadcrumbs: false
         },
         {
-            id: 'pupil-arrears',
-            title: 'Pupil Arrears',
+            id: 'pupil-invoices',
+            title: 'Pupil Invoices',
             type: 'item',
-            url: '/invoices/pupil-arrears',
-            icon: FileDoneOutlined,
+            url: '/invoices/pupil-invoices',
+            icon: HistoryOutlined,
             breadcrumbs: false
         },
         {
-            id: 'pupil-services',
-            title: 'Pupil Services',
+            id: 'services',
+            title: 'Services',
             type: 'item',
-            url: '/invoices/pupil-services',
-            icon: ExceptionOutlined,
-            breadcrumbs: false
-        },
-        {
-            id: 'services-invoiced',
-            title: 'Services Invoiced',
-            type: 'item',
-            url: '/invoices/services-invoiced',
+            url: '/invoices/services',
             icon: FileOutlined,
             breadcrumbs: false
         },
         {
-            id: 'bulk-fee-reminder',
-            title: 'Bulk Fee Reminder',
+            id: 'notifications-reminders',
+            title: 'Notifications/Reminders',
             type: 'item',
-            url: '/invoices/bulk-fee-reminder',
+            url: '/invoices/notifications-reminders',
             icon: DollarOutlined,
             breadcrumbs: false
-        },
-        {
-            id: 'deleted-arrears',
-            title: 'Deleted Arrears',
-            type: 'item',
-            url: '/invoices/deleted-arrears',
-            icon: ExceptionOutlined,
-            breadcrumbs: false
-        },
-        // Add more items as needed
+        }
     ]
 };
 

@@ -18,28 +18,28 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import MainCard from 'components/MainCard';
 import { Link } from 'react-router-dom';
-import TermService from "../../../../services/termservice";
+import PupilsService from '../../../../services/pupilservice';
 
-function Terms() {
-    const [terms, setTerms] = useState([]);
+function PupilClassPromotion() {
+    const [pupils, setPupils] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [searchQuery, setSearchQuery] = useState('');
     const [showFilters, setShowFilters] = useState(false);
-    const [deleteTermId, setDeleteTermId] = useState(null);
+    const [deletePupilId, setDeletePupilId] = useState(null);
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-    const fetchTerms = async () => {
+    const fetchPupils = async () => {
         try {
-            const response = await TermService.getAllTerms();
-            setTerms(response.data.original.data);
+            const response = await PupilsService.getPromotedPupil();
+            setPupils(response.data);
         } catch (error) {
-            console.error('Error fetching terms:', error);
+            console.error('Error fetching pupils:', error);
         }
     };
 
     useEffect(() => {
-        fetchTerms();
+        fetchPupils();
     }, []);
 
     const handleChangePage = (event, newPage) => {
@@ -55,18 +55,20 @@ function Terms() {
         setSearchQuery(event.target.value);
     };
 
-    const handleDeleteTerm = (termId) => {
-        setDeleteTermId(termId);
+    const handleDeletePupil = (pupilId) => {
+        setDeletePupilId(pupilId);
         setOpenDeleteDialog(true);
     };
 
     const handleConfirmDelete = async () => {
         try {
-            // await axios.delete(`http://localhost:8080/terms/${deleteTermId}`);
-            setTerms(terms.filter(term => term.id !== deleteTermId));
+            // Implement logic to delete pupil from the service
+            // await PupilsService.deletePupil(deletePupilId);
+            // Update pupils state after deletion
+            // setPupils(pupils.filter(pupil => pupil.id !== deletePupilId));
             setOpenDeleteDialog(false);
         } catch (error) {
-            console.error('Error deleting term:', error);
+            console.error('Error deleting pupil:', error);
         }
     };
 
@@ -74,17 +76,16 @@ function Terms() {
         setOpenDeleteDialog(false);
     };
 
-    const filteredTerms = terms.filter((term) =>
-        term.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredPupils = pupils.filter((pupil) =>
+        pupil.class_name && pupil.class_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
-        <MainCard title="Term Management">
+        <MainCard title="Pupil Class Promotion">
             <Typography variant="body1" gutterBottom>
-                Manage terms here.
+                Welcome to the Pupil Class Promotion page. Here you can manage pupil promotions and their details.
             </Typography>
 
-            {/* Search and filter controls */}
             <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
                 <TextField
                     label="Search"
@@ -108,65 +109,54 @@ function Terms() {
                 </Box>
             </Collapse>
 
-            {/* Button to add new term */}
             <Button
                 variant="contained"
                 color="primary"
                 component={Link}
-                to="/term-management/add-term"
+                to="/promote-student"
                 sx={{ mb: 2 }}
             >
-                Add New Term
+                Promote Student
             </Button>
-            {/* Table showing terms */}
+
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Created On</TableCell>
-                            <TableCell>Is Active</TableCell>
+                            <TableCell>#</TableCell>
+                            <TableCell>Student ID</TableCell>
+                            <TableCell>Class</TableCell>
+                            <TableCell>Academic Year</TableCell>
+                            <TableCell>Promoted On</TableCell>
+                            <TableCell>Last Updated</TableCell>
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredTerms
+                        {filteredPupils
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((term) => (
-                                <TableRow key={term.id}>
-                                    <TableCell>{term.name}</TableCell>
-                                    <TableCell>{term.description}</TableCell>
-                                    <TableCell>{term.createdOn}</TableCell>
-                                    <TableCell>
-                                        <Box
-                                            sx={{
-                                                backgroundColor: term.isActive ? 'green' : 'red',
-                                                color: 'white',
-                                                padding: '4px 8px',
-                                                borderRadius: '4px',
-                                                display: 'inline-block'
-                                            }}
-                                        >
-                                            <Typography variant="body2">
-                                                {term.isActive ? "Active" : "Inactive"}
-                                            </Typography>
-                                        </Box>
-                                    </TableCell>
+                            .map((pupil, index) => (
+                                <TableRow key={pupil.id}>
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{pupil.studentid}</TableCell>
+                                    <TableCell>{pupil.class_name}</TableCell>
+                                    <TableCell>{pupil.academicyear}</TableCell>
+                                    <TableCell>{pupil.promotedon || 'N/A'}</TableCell>
+                                    <TableCell>{pupil.updated_at}</TableCell>
                                     <TableCell>
                                         <Button
                                             variant="outlined"
                                             color="primary"
                                             component={Link}
-                                            to={`/term-management/edit/${term.id}`}
+                                            to={`/registration/view-pupil/${pupil.id}`}
                                             sx={{ mr: 1 }}
                                         >
-                                            Edit
+                                            View Pupil
                                         </Button>
                                         <Button
                                             variant="outlined"
                                             color="secondary"
-                                            onClick={() => handleDeleteTerm(term.id)}
+                                            onClick={() => handleDeletePupil(pupil.id)}
                                         >
                                             Delete
                                         </Button>
@@ -177,22 +167,20 @@ function Terms() {
                 </Table>
             </TableContainer>
 
-            {/* Pagination for terms */}
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={filteredTerms.length}
+                count={filteredPupils.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
 
-            {/* Delete confirmation dialog */}
             <Dialog open={openDeleteDialog} onClose={handleCloseDialog}>
-                <DialogTitle>Delete Term</DialogTitle>
+                <DialogTitle>Delete Pupil</DialogTitle>
                 <DialogContent>
-                    Are you sure you want to delete this term?
+                    Are you sure you want to delete this pupil?
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog}>Cancel</Button>
@@ -203,4 +191,4 @@ function Terms() {
     );
 }
 
-export default Terms;
+export default PupilClassPromotion;

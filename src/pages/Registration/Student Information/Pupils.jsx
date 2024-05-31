@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TableContainer from '@mui/material/TableContainer';
@@ -15,23 +15,32 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import { ButtonGroup } from '@mui/material';
-const fetchRecentPupils = () => {
-    // Mock data
-    const recentPupils = [
-        { id: 1, name: 'John Doe', gender: 'Male' },
-        { id: 2, name: 'Jane Smith', gender: 'Female' },
-    ];
-
-    return recentPupils;
-};
+import AddIcon from '@mui/icons-material/Add';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import PupilService from "../../../services/pupilservice";
 
 export default function StudentInformation() {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [recentPupils, setRecentPupils] = useState(fetchRecentPupils());
+    const [recentPupils, setRecentPupils] = useState([]);
     const [filterGender, setFilterGender] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [showFilters, setShowFilters] = useState(false);
+
+    useEffect(() => {
+        fetchRecentPupils();
+    }, []);
+
+    const fetchRecentPupils = async () => {
+        try {
+            const response = await PupilService.getAllPupils();
+            if (response && response.data) {
+                setRecentPupils(response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching recent pupils:', error);
+        }
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -51,10 +60,10 @@ export default function StudentInformation() {
         setSearchQuery(event.target.value);
     };
 
-    const filteredPupils = recentPupils.filter((pupil) =>
+    const filteredPupils = recentPupils?.filter((pupil) =>
         pupil.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
         (filterGender === 'All' || pupil.gender === filterGender)
-    );
+    ) || [];
 
     return (
         <MainCard title="Student Information">
@@ -65,18 +74,25 @@ export default function StudentInformation() {
             {/* Search and filter controls */}
             <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
                 <Box display="flex" alignItems="center">
-                    <Button variant="contained" color="primary" component={Link} to="/registration/add-pupil" sx={{ mr: 1 }}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        component={Link}
+                        to="/registration/add-pupil"
+                        sx={{ mr: 1 }}
+                    >
+                        <AddIcon sx={{ mr: 1 }} />
                         Add Pupil
                     </Button>
                     <Button
                         variant="contained"
                         color="secondary"
+                        sx={{ mr: 1 }}
+                        startIcon={<AutoFixHighIcon />}
                         component={Link}
                         to="/registration/automation"
-                        sx={{ mr: 1, backgroundColor: '#3f51b5', color: 'white' }}
-                        startIcon={<SmartToyIcon />}
                     >
-                        Registration Automation
+                        Auto Registration
                     </Button>
                     <TextField
                         label="Search"
@@ -87,13 +103,15 @@ export default function StudentInformation() {
                         sx={{ mr: 1 }}
                     />
                 </Box>
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => setShowFilters(!showFilters)}
-                >
-                    {showFilters ? 'Hide Filters' : 'Show Filters'}
-                </Button>
+                <Box display="flex" alignItems="center">
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => setShowFilters(!showFilters)}
+                    >
+                        {showFilters ? 'Hide Filters' : 'Show Filters'}
+                    </Button>
+                </Box>
             </Box>
 
             <Collapse in={showFilters}>
@@ -119,7 +137,8 @@ export default function StudentInformation() {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell>Gender</TableCell>
-                            <TableCell>View Details</TableCell>
+                            <TableCell>Current Class</TableCell>
+                            <TableCell>Current Term</TableCell>
                             <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
@@ -128,9 +147,8 @@ export default function StudentInformation() {
                             <TableRow key={pupil.id}>
                                 <TableCell>{pupil.name}</TableCell>
                                 <TableCell>{pupil.gender}</TableCell>
-                                <TableCell>
-                                    <Link to={`/registration/view-pupil/${pupil.id}`}>View Details</Link>
-                                </TableCell>
+                                <TableCell>{pupil.current_class_id}</TableCell>
+                                <TableCell>{pupil.current_term_id}</TableCell>
                                 <TableCell>
                                     <Button
                                         variant="outlined"

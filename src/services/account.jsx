@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://c7f3-102-219-210-246.ngrok-free.app';
+const BASE_URL = 'https://ca92-102-219-210-246.ngrok-free.app';
 class Account {
     static async login(email, password) {
         try {
@@ -20,8 +20,12 @@ class Account {
                 sessionStorage.setItem("active", decodedToken.active);
                 sessionStorage.setItem("id", decodedToken.user_id);
                 sessionStorage.setItem("username", decodedToken.username);
+                const expiration = decodedToken.exp * 1000;
+                const logoutTimeout = Math.min(expiration - Date.now(), 30 * 60 * 1000);
+                setTimeout(logout, logoutTimeout);
+                console.log(response.data.token);
             }
-            console.log(response.data.token);
+
             return response.data;
         } catch (error) {
             throw new Error(`Authentication failed: ${error.message}`);
@@ -40,11 +44,13 @@ class Account {
             console.log(response)
             const decodedToken = parseJwt(response.data.token);
             sessionStorage.setItem("token", response.data.token);
-            sessionStorage.setItem("role", decodedToken.role);
+            sessionStorage.setItem("role", decodedToken.branch_name);
             sessionStorage.setItem("active", decodedToken.active);
             sessionStorage.setItem("id", decodedToken.user_id);
             sessionStorage.setItem("username", decodedToken.username);
-            console.log("done decoding jwt");
+            const expiration = decodedToken.exp * 1000;
+            const logoutTimeout = Math.min(expiration - Date.now(), 30 * 60 * 1000);
+            setTimeout(logout, logoutTimeout);
             return response.data;
         } catch (error) {
             console.error('2FA verification failed:', error);
@@ -61,12 +67,12 @@ class Account {
     //             }
     //         });
     // }
-    static async addUserByAdminId(admin_id, userData) {
+    static async addUserByAdminId(userData) {
         try {
             const endpoint = 'auth/register';
-            console.log(admin_id,userData);
+            console.log(userData);
             const response = await axios.post(`${BASE_URL}/${endpoint}`,
-                { admin_id: admin_id, user:userData}, {
+                userData, {
                     headers: {
                         'ngrok-skip-browser-warning': true,
                     }
@@ -79,7 +85,7 @@ class Account {
     }
     static async getAllUsers(){
         try {
-            const endpoint = "auth/data/users";
+            const endpoint = "home/get_data/users";
             const token = sessionStorage.getItem("token");
             const response = await axios.get(`${BASE_URL}/${endpoint}`,
                 {
@@ -94,10 +100,9 @@ class Account {
             throw err;
         }
     }
-
     static async getClientInfo() {
         try {
-            const endpoint = "auth/clients";
+            const endpoint = "home/get_data/clients";
             const token = sessionStorage.getItem("token");
             const response = await axios.get(`${BASE_URL}/${endpoint}`,
                 {
@@ -106,6 +111,7 @@ class Account {
                         'ngrok-skip-browser-warning': true,
                     },
                 });
+            console.log(response)
             return response;
         }catch (e) {
             console.log("error getting client info" + e)
@@ -127,10 +133,9 @@ class Account {
             console.log("error updating client info: " + err);
         }
     }
-
     static async getAllAudits() {
         try {
-            const endpoint = `auth/data/audits`;
+            const endpoint = `home/get_data/audits`;
             const token = sessionStorage.getItem("token");
             const response  = await axios.get(`${BASE_URL}/${endpoint}`,{
                 headers: {
@@ -143,6 +148,48 @@ class Account {
         }catch (err) {
             console.log("Error fetching audits ", err);
         }
+    }
+
+    static async getAllBranches() {
+        try {
+            const endpoint = 'home/get_data/auth_branches'
+            const token  = sessionStorage.getItem("token");
+            const response = await axios.get(`${BASE_URL}/${endpoint}`, {
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                    'ngrok-skip-browser-warning': true,
+                }
+            })
+            console.log(response.data)
+            return response;
+        }catch (err){
+            console.log("Error fetching branches, ",err);
+        }
+    }
+
+    static async addRoleByAdminId(roleData) {
+        try {
+            const endpoint = 'home/add_data/auth_branches';
+            const token = sessionStorage.getItem("token");
+            const response = await axios.post(`${BASE_URL}/${endpoint}`,roleData,{
+                headers:{
+                    'ngrok-skip-browser-warning': true,
+                }
+            });
+         console.log(response.data);
+         return response;
+        }catch (err){
+            console.log("Error adding role, ", err);
+        }
+
+    }
+
+    static async getRoleById(roleId) {
+        
+    }
+
+    static async updateRoleByAdminId(createdBy, roleId, roleData) {
+        
     }
 }
 export const logout = async () => {
