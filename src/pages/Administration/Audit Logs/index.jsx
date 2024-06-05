@@ -60,8 +60,9 @@ export default function AuditLogs() {
                                 <TableRow>
                                     <TableCell>User Name</TableCell>
                                     <TableCell>Action</TableCell>
-                                    <TableCell>Timestamp</TableCell>
                                     <TableCell>Ip Address</TableCell>
+                                    <TableCell>Creation Time</TableCell>
+                                    <TableCell>Updated</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -71,8 +72,9 @@ export default function AuditLogs() {
                                         <TableRow key={log.id}>
                                             <TableCell>{log.user_name}</TableCell>
                                             <TableCell>{log.activity_type}</TableCell>
-                                            <TableCell>{log.activity_time}</TableCell>
-                                            <TableCell>{log.ip_address}</TableCell>
+                                            <TableCell>{log.ipaddress}</TableCell>
+                                            <TableCell>{log.created_at}</TableCell>
+                                            <TableCell>{log.updated_at}</TableCell>
                                         </TableRow>
                                     ))}
                             </TableBody>

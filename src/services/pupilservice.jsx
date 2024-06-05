@@ -1,7 +1,26 @@
 import axios from "axios";
-
-const BASE_URL = 'https://ca92-102-219-210-246.ngrok-free.app';
+import BaseLink from "./baselink";
+const BASE_URL = BaseLink.getBaseLink();
 class Pupilservice {
+    static async getAllSystemGenders() {
+        try {
+            const endpoint = 'home/get_data/sys_genders';
+            const token = sessionStorage.getItem("token");
+            const response = await axios.get(`${BASE_URL}/${endpoint}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'ngrok-skip-browser-warning': true,
+                    },
+                })
+            console.log("response ", response);
+            return response;
+        }catch (err){
+            console.log("Error fetching the genders" +
+                "")
+        }
+    }
+
     static async getAllGenders() {
         try {
             const endpoint = 'home/get_data/sch_student_genders';
@@ -58,7 +77,7 @@ class Pupilservice {
 
     static async getAllPupils() {
         try {
-            const endpoint = 'home/get_data/sch_students '
+            const endpoint = 'home/get_data/sch_students'
             const token = sessionStorage.getItem("token");
             const response = await axios.get(`${BASE_URL}/${endpoint}`, {
                 headers: {
@@ -107,5 +126,31 @@ class Pupilservice {
             console.log("Error promoting pupil", err);
         }
     }
+
+    static async deleteGender(id) {
+        
+    }
+
+    static async deletePupil(id) {
+        
+    }
+
+    static async getPupilById(id) {
+        try {
+            const endpoint = `home/get_data/sch_students/${id}`
+            const token = sessionStorage.getItem("token");
+            const response = await axios.get(`${BASE_URL}/${endpoint}`,{
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'ngrok-skip-browser-warning': true,
+                },
+            });
+            console.log(response)
+            return response;
+        }catch (err){
+            console.log("Error adding pupil to database")
+        }
+    }
+
 }
 export default Pupilservice

@@ -16,7 +16,6 @@ import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import { ButtonGroup } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import PupilService from "../../../services/pupilservice";
 
 export default function StudentInformation() {
@@ -37,6 +36,7 @@ export default function StudentInformation() {
             if (response && response.data) {
                 setRecentPupils(response.data);
             }
+            console.log(recentPupils);
         } catch (error) {
             console.error('Error fetching recent pupils:', error);
         }
@@ -62,7 +62,7 @@ export default function StudentInformation() {
 
     const filteredPupils = recentPupils?.filter((pupil) =>
         pupil.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (filterGender === 'All' || pupil.gender === filterGender)
+        (filterGender === 'All' || pupil.genderid === filterGender)
     ) || [];
 
     return (
@@ -83,16 +83,6 @@ export default function StudentInformation() {
                     >
                         <AddIcon sx={{ mr: 1 }} />
                         Add Pupil
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        sx={{ mr: 1 }}
-                        startIcon={<AutoFixHighIcon />}
-                        component={Link}
-                        to="/registration/automation"
-                    >
-                        Auto Registration
                     </Button>
                     <TextField
                         label="Search"
@@ -146,10 +136,19 @@ export default function StudentInformation() {
                         {filteredPupils.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((pupil) => (
                             <TableRow key={pupil.id}>
                                 <TableCell>{pupil.name}</TableCell>
-                                <TableCell>{pupil.gender}</TableCell>
+                                <TableCell>{pupil.genderid}</TableCell>
                                 <TableCell>{pupil.current_class_id}</TableCell>
                                 <TableCell>{pupil.current_term_id}</TableCell>
                                 <TableCell>
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        component={Link}
+                                        to={`/registration/view-pupil/${pupil.id}`}
+                                        sx={{ mr: 1 }}
+                                    >
+                                        View Details
+                                    </Button>
                                     <Button
                                         variant="outlined"
                                         color="primary"

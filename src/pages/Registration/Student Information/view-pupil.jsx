@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -11,23 +11,30 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Divider from '@mui/material/Divider';
+import PupilService from "../../../services/pupilservice";
 
 function ViewPupil() {
-    const pupil = {
-        id: 1,
-        name: 'John Doe',
-        gender: 'Male',
-        dateOfBirth: '1995-08-15',
-        admissionClass: 'Class 10',
-        parentName: 'Jane Doe',
-        mobile: '123-456-7890',
-        secondaryMobile: '987-654-3210',
-        city: 'New York',
-        town: 'Manhattan',
-        address: '123 Main St',
-        admissionYear: '2010',
-        currentAcademicYear: '2024-2025'
-    };
+    const { id } = useParams();
+    const [pupil, setPupil] = useState(null);
+
+    useEffect(() => {
+        const fetchPupil = async () => {
+            try {
+                const response = await PupilService.getPupilById(id);
+                if (response && response.data) {
+                    setPupil(response.data);
+                }
+            } catch (error) {
+                console.error('Error fetching pupil:', error);
+            }
+        };
+
+        fetchPupil();
+    }, [id]);
+
+    if (!pupil) {
+        return <Typography>Loading...</Typography>;
+    }
 
     const handleDelete = () => {
         // Implement delete logic here

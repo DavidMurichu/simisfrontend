@@ -95,7 +95,7 @@ function AuthBranches() {
                                         <TableCell>{branch.remarks}</TableCell>
                                         <TableCell>{branch.createdby}</TableCell>
                                         <TableCell>{branch.lasteditedby}</TableCell>
-                                        <TableCell>{branch.lasteditedon}</TableCell>
+                                        <TableCell>{branch.updated_at}</TableCell>
                                         <TableCell>{branch.ipaddress}</TableCell>
                                         <TableCell>
                                             <Box

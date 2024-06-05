@@ -65,6 +65,7 @@ function AddPupil() {
     const [genders, setGenders] = useState([]);
     const [terms, setTerms] = useState([]);
     const [classes, setClasses] = useState([]);
+    const [years, setYears] = useState([]);
     const [branchName, setBranchName] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -75,21 +76,11 @@ function AddPupil() {
         fetchGenders();
         fetchTerms();
         fetchClasses();
+        fetchYears();
         const branchName = sessionStorage.getItem("role");
         setBranchName(branchName);
     }, []);
 
-    useEffect(() => {
-        if (branches.length > 0 && branchName) {
-            const branch = branches.find(branch => branch.name === branchName);
-            if (branch) {
-                setFormData(prevData => ({
-                    ...prevData,
-                    branch_id: branch.id
-                }));
-            }
-        }
-    }, [branches, branchName]);
 
     const fetchBranches = async () => {
         try {
@@ -120,6 +111,14 @@ function AddPupil() {
             console.error('Error fetching terms:', error);
         }
     };
+    const fetchYears = async () => {
+        try {
+            const response = await AcademicYearService.getAllAcademicYears();
+            setYears(response.data);
+        } catch (error) {
+            console.error('Error fetching terms:', error);
+        }
+    };
 
     const fetchClasses = async () => {
         try {
@@ -142,20 +141,8 @@ function AddPupil() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.name.trim() || !formData.genderid.trim()) {
-            setError('Name and Gender are required.');
-            return;
-        }
         try {
-            const response = await PupilService.addPupil({
-                ...formData,
-                genderid: parseInt(formData.genderid, 10),
-                branch_id: parseInt(formData.branch_id, 10),
-                prev_class_id: parseInt(formData.prev_class_id, 10),
-                current_class_id: parseInt(formData.current_class_id, 10),
-                current_term_id: parseInt(formData.current_term_id, 10),
-                transfer_term_id: parseInt(formData.transfer_term_id, 10)
-            });
+            const response = await PupilService.addPupil(formData);
             if (response) {
                 toast.success("Successfully added user to database");
                 navigate("/registration/student-information");
@@ -228,6 +215,7 @@ function AddPupil() {
                                     fullWidth
                                     error={!!error && !formData.name.trim()}
                                     helperText={!!error && !formData.name.trim() ? 'Name is required.' : ''}
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -241,10 +229,11 @@ function AddPupil() {
                                     SelectProps={{
                                         native: true,
                                     }}
+                                    required
                                 >
                                     <option value=""></option>
                                     {genders.map(gender => (
-                                        <option key={gender.id} value={gender.id}>{gender.name}</option>
+                                        <option key={gender.id} value={gender.name}>{gender.name}</option>
                                     ))}
                                 </TextField>
                             </Grid>
@@ -259,6 +248,7 @@ function AddPupil() {
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -268,6 +258,7 @@ function AddPupil() {
                                     value={formData.city}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -277,6 +268,7 @@ function AddPupil() {
                                     value={formData.town}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -286,6 +278,7 @@ function AddPupil() {
                                     value={formData.streetaddress}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                         </Grid>
@@ -304,6 +297,7 @@ function AddPupil() {
                                     value={formData.mobile}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -314,6 +308,7 @@ function AddPupil() {
                                     value={formData.email}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -323,6 +318,7 @@ function AddPupil() {
                                     value={formData.parent_mobile}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -350,6 +346,7 @@ function AddPupil() {
                                     value={formData.fathers_name}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -359,6 +356,7 @@ function AddPupil() {
                                     value={formData.fathers_phone}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -368,6 +366,7 @@ function AddPupil() {
                                     value={formData.mothers_name}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -377,6 +376,7 @@ function AddPupil() {
                                     value={formData.mothers_phone}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -413,6 +413,7 @@ function AddPupil() {
                                     value={formData.admission_no}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -422,6 +423,7 @@ function AddPupil() {
                                     value={formData.nemis_number}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -431,6 +433,7 @@ function AddPupil() {
                                     value={formData.assessment_number}
                                     onChange={handleChange}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -444,10 +447,11 @@ function AddPupil() {
                                     SelectProps={{
                                         native: true,
                                     }}
+                                    required
                                 >
                                     <option value=""></option>
                                     {classes.map(cls => (
-                                        <option key={cls.id} value={cls.id}>{cls.name}</option>
+                                        <option key={cls.id} value={cls.name}>{cls.name}</option>
                                     ))}
                                 </TextField>
                             </Grid>
@@ -462,10 +466,11 @@ function AddPupil() {
                                     SelectProps={{
                                         native: true,
                                     }}
+                                    required
                                 >
                                     <option value=""></option>
                                     {classes.map(cls => (
-                                        <option key={cls.id} value={cls.id}>{cls.name}</option>
+                                        <option key={cls.id} value={cls.name}>{cls.name}</option>
                                     ))}
                                 </TextField>
                             </Grid>
@@ -480,10 +485,11 @@ function AddPupil() {
                                     SelectProps={{
                                         native: true,
                                     }}
+                                    required
                                 >
                                     <option value=""></option>
                                     {terms.map(term => (
-                                        <option key={term.id} value={term.id}>{term.name}</option>
+                                        <option key={term.id} value={term.name}>{term.name}</option>
                                     ))}
                                 </TextField>
                             </Grid>
@@ -498,10 +504,30 @@ function AddPupil() {
                                     SelectProps={{
                                         native: true,
                                     }}
+                                    required
                                 >
                                     <option value=""></option>
                                     {terms.map(term => (
-                                        <option key={term.id} value={term.id}>{term.name}</option>
+                                        <option key={term.id} value={term.name}>{term.name}</option>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    select
+                                    label="Academic Year"
+                                    name="academicyearid"
+                                    value={formData.academicyearid}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    SelectProps={{
+                                        native: true,
+                                    }}
+                                    required
+                                >
+                                    <option value=""></option>
+                                    {years.map(year => (
+                                        <option key={year.id} value={year.name}>{year.name}</option>
                                     ))}
                                 </TextField>
                             </Grid>
@@ -516,10 +542,11 @@ function AddPupil() {
                                     SelectProps={{
                                         native: true,
                                     }}
+                                    required
                                 >
                                     <option value=""></option>
                                     {branches.map(branch => (
-                                        <option key={branch.id} value={branch.id}>{branch.branch_name}</option>
+                                        <option key={branch.id} value={branch.branch_name}>{branch.branch_name}</option>
                                     ))}
                                 </TextField>
                             </Grid>
@@ -544,6 +571,7 @@ function AddPupil() {
                                     name="deactivated"
                                     value={formData.deactivated}
                                     onChange={handleChange}
+                                    required
                                 >
                                     <MenuItem value={'0'}>Yes</MenuItem>
                                     <MenuItem value={'1'}>No</MenuItem>
@@ -556,6 +584,7 @@ function AddPupil() {
                                     value={formData.deactivate_reason}
                                     onChange={handleChange}
                                     fullWidth
+
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -566,6 +595,7 @@ function AddPupil() {
                                     name="is_active"
                                     value={formData.is_active}
                                     onChange={handleChange}
+                                    required
                                 >
                                     <MenuItem value={'0'}>Active</MenuItem>
                                     <MenuItem value={'1'}>Inactive</MenuItem>

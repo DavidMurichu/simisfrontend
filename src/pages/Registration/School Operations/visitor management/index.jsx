@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 import TableTemplate from '../../../HOC/tabletemplate';
 import MainCard from 'components/MainCard';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import SubjectsService from "../../../../services/SubjectService";
+import VisitorService from '../../../../services/visitortypeservice';
 import Box from "@mui/material/Box";
 
 const columns = [
-    { field: 'id', headerName: 'ID' },
     { field: 'name', headerName: 'Name' },
-    { field: 'subject_code', headerName: 'Subject Code' },
-    { field: 'description', headerName: 'Description' },
+    { field: 'mobile', headerName: 'Mobile' },
+    { field: 'date_visited', headerName: 'Date Visited' },
+    { field: 'classid', headerName: 'Class ID' },
+    { field: 'visiting_reason', headerName: 'Visiting Reason' },
+    { field: 'sms', headerName: 'SMS' },
     { field: 'createdby', headerName: 'Created By' },
     { field: 'lasteditedby', headerName: 'Last Edited By' },
     { field: 'ipaddress', headerName: 'IP Address' },
@@ -31,44 +33,45 @@ const columns = [
                 </Typography>
             </Box>
         )},
-    { field: 'created_at', headerName: 'Created At' },
-    { field: 'updated_at', headerName: 'Updated At' },
 ];
 
-function Subjects() {
-    const endpoint = 'home/get_data/sch_subjects'; // Replace 'your-api-endpoint' with your actual API endpoint
+function VisitorManagement() {
+    const endpoint = 'home/get_data/sch_visitor_registers';
 
     const handleDelete = async (id) => {
         try {
-            await SubjectsService.deleteSubject(id);
-            // Update state or perform any necessary action after deletion
-            toast.success("Deleted subject successfully");
+            const response = await VisitorService.deleteVisitor(id);
+            if (response.status === 200) {
+                toast.success('Deleted visitor successfully');
+            } else {
+                toast.warning('Error deleting visitor. Please try again.');
+            }
         } catch (error) {
-            console.error('Error deleting subject:', error);
-            toast.error("Error deleting subject. Please try again.");
+            console.error('Error deleting visitor:', error);
+            toast.error('Error deleting visitor. Please try again.');
         }
     };
 
     const handleEdit = (id) => {
         // Implement your edit logic here
-        console.log('Edit subject with id:', id);
+        console.log('Edit visitor with id:', id);
     };
 
     return (
-        <MainCard title="Subject Management">
+        <MainCard title="Visitor Management">
             <Typography variant="body1" gutterBottom>
-                Welcome to the Subject Management page. Here you can manage subjects and their details.
+                Welcome to the Visitor Management page. Here you can manage visitor details and their actions.
             </Typography>
 
-            {/* Button to add new subject */}
+            {/* Button to add new visitor */}
             <Button
                 variant="contained"
                 color="primary"
                 component={Link}
-                to="/subject-management/add-subject"
+                to="/visitor/add-visitor"
                 sx={{ mb: 2 }}
             >
-                Add New Subject
+                Add New Visitor
             </Button>
 
             {/* Render the table using TableTemplate */}
@@ -82,4 +85,4 @@ function Subjects() {
     );
 }
 
-export default Subjects;
+export default VisitorManagement;

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import BaseLink from "./baselink";
 
-const BASE_URL = 'https://ca92-102-219-210-246.ngrok-free.app';
+const BASE_URL = BaseLink.getBaseLink();
 class Account {
     static async login(email, password) {
         try {
@@ -9,7 +10,6 @@ class Account {
                 await axios.post(`${BASE_URL}/${endpoint}`, {email:email, password:password},{
                 headers: {
                     'ngrok-skip-browser-warning': true,
-                    // 'X-CSRF-Token': csrfToken
                 }
             });
             let decodedToken;

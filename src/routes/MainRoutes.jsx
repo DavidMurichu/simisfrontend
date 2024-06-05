@@ -36,7 +36,6 @@ import AddRole from "../pages/Administration/User Management/Auth Branches/addro
 import EditRole from "../pages/Administration/User Management/Auth Branches/editrole";
 import AuthBranches from "../pages/Administration/User Management/Auth Branches";
 import AddYear from "../pages/Registration/Academic Management/Academic calendar/Years/addyear";
-import AddEvent from "../pages/Registration/Academic Management/Academic calendar/Event/addEvent";
 import AddAcademicYear from "../pages/Registration/Academic Management/Academic calendar/Years/addyear";
 import Term from "../pages/Registration/Academic Management/Academic calendar/Term";
 import Gender from "../pages/Registration/Academic Management/Gender";
@@ -44,6 +43,23 @@ import AddGender from "../pages/Registration/Academic Management/Gender/addGende
 import AddCalendarYear from "../pages/Registration/Academic Management/Academic calendar/Years/calendar/addcalendaryear";
 import Addacademicyearterm from "../pages/Registration/Academic Management/Academic calendar/Years/term/addacademicyearterm";
 import Promotionterm from "../pages/Registration/Academic Management/pupil class promotion/promotionterm";
+import StudentClassTerm from "../pages/Registration/Academic Management/Academic calendar/student class term";
+import AddStudentClassTerm
+  from "../pages/Registration/Academic Management/Academic calendar/student class term/addclassterm";
+import InventoryManagement from "../pages/Registration/School Operations/inventory management";
+import SchoolServiceDuration
+  from "../pages/Registration/School Operations/school service/school service duration/schoolserviceduration";
+import Addschoolserviceduration
+  from "../pages/Registration/School Operations/school service/school service duration/addschoolserviceduration";
+import TeachersOnDuty from "../pages/Registration/Academic Management/Teachers/teachers on duty";
+import Addteachersonduty from "../pages/Registration/Academic Management/Teachers/teachers on duty/addteachersonduty";
+import VisitorManagement from "../pages/Registration/School Operations/visitor management";
+import VisitorType from "../pages/Registration/School Operations/visitor management/visitor type";
+import AddVisitorType from "../pages/Registration/School Operations/visitor management/visitor type/addVisitorType";
+import Addvisitor from "../pages/Registration/School Operations/visitor management/addvisitor";
+import ClassDailyRecordings from "../pages/Registration/School Operations/class daily recordings";
+import AddClassDailyRecordings
+  from "../pages/Registration/School Operations/class daily recordings/addclassdailyrecordings";
 
 
 
@@ -52,8 +68,6 @@ const Color = Loadable(lazy(() => import('pages/component-overview/color')));
 const Typography = Loadable(lazy(() => import('pages/component-overview/typography')));
 const Shadow = Loadable(lazy(() => import('pages/component-overview/shadows')));
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard/index')));
-
-// render - sample page
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/sample-page')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -114,19 +128,31 @@ const MainRoutes = {
     {path: 'teachers', element: <Teachers /> },
     {path: '/add-teacher', element: <AddTeachers /> },
     {path: '/edit-teacher/:id', element: <EditTeachers />},
+    {path: 'student-class-term', element: <StudentClassTerm />},
+    {path: '/academic-years/add-student-class-term', element: <AddStudentClassTerm/>},
     {path: 'classes', element: <Classes />},
     {path: 'classes/add-class', element: <AddClasses />},
     {path: 'classes/edit-class/:id', element: <Editclasses />},
     {path: 'calendar', element: <AcademicCalendar />},
     {path: 'pupil-class-promotion', element: <PupilClassPromotion />},
     {path: 'promote-student', element: <Promotionterm />},
-    {path: 'academic-years/add-term', element: <AddTerm />},
-    {path: 'academic-years/add-academic-year', element: <AddAcademicYear/>},
-    {path: 'academic-years/add-calendar-year', element: <AddCalendarYear/>},
-    {path: 'academic-years/add-event', element: <AddEvent/>},
-    {path: 'academic-years/add-academic-year-term', element: <Addacademicyearterm/>},
+    {path: 'academic-years/add-terms', element: <AddTerm />},
+    {path: '/academic-years/add-academic-years', element: <AddAcademicYear/>},
+    {path: '/academic-years/add-calendar-years', element: <AddCalendarYear/>},
+    {path: '/academic-years/add-academic-year-term', element: <Addacademicyearterm/>},
     {path: 'gender', element: <Gender/>},
-    {path: 'add-gender', element: <AddGender/>}
+    {path: 'add-gender', element: <AddGender/>},
+    {path: 'inventory', element: <InventoryManagement/>},
+    {path: 'school-services-durations', element: <SchoolServiceDuration/>},
+    {path: 'school-services-durations/add', element: <Addschoolserviceduration/>},
+    {path: 'teacher-on-duty', element: <TeachersOnDuty/>},
+    {path: 'teacher-on-duty/add', element: <Addteachersonduty/>},
+    {path: 'visitor', element: <VisitorManagement/>},
+    {path: 'visitor/add-visitor', element: <Addvisitor/>},
+    {path: 'visitor-type', element: <VisitorType/>},
+    {path: 'visitor-type/add', element: <AddVisitorType/>},
+    {path: 'class-daily-recording', element: <ClassDailyRecordings/>},
+    {path: 'class-daily-recording/add', element: <AddClassDailyRecordings/>},
   ]
 };
 

@@ -4,81 +4,74 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
-import SubjectsService from "../../../../services/SubjectService";
+import { toast } from 'react-toastify';
+import VisitorTypeService from '../../../../../services/visitortypeservice';
 
-function AddSubject() {
+function AddVisitorType() {
     const navigate = useNavigate();
-    const [subjectData, setSubjectData] = useState({
+    const [visitorTypeData, setVisitorTypeData] = useState({
         name: '',
-        subject_code: '',
         description: '',
-        createdby: sessionStorage.getItem("id"),
-        lasteditedby: sessionStorage.getItem("id"),
-        createdOn: '',
+        createdby: sessionStorage.getItem('id'),
+        lasteditedby: sessionStorage.getItem('id'),
+        ipaddress: '',
         is_active: true,
+
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setSubjectData({ ...subjectData, [name]: value });
+        setVisitorTypeData({ ...visitorTypeData, [name]: value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await SubjectsService.addSubject(subjectData);
+            const response = await VisitorTypeService.addVisitorType(visitorTypeData);
             if (response.status === 201) {
-                toast.success("Added subject successfully");
-                navigate("/subjects")
+                toast.success('Added visitor type successfully');
+                navigate('/visitor-type');
             } else {
-                toast.warning("Error, Try again");
+                toast.warning('Error, Try again');
             }
         } catch (error) {
-            console.log("Error adding new subject", error);
+            console.error('Error adding new visitor type', error);
         }
     };
 
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
-                <Typography variant="h3">Create Subject</Typography>
+                <Typography variant="h3">Add Visitor Type</Typography>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
                 <TextField
                     fullWidth
-                    label="Subject Name"
+                    label="Name"
                     name="name"
-                    value={subjectData.name}
+                    value={visitorTypeData.name}
                     onChange={handleChange}
                     required
-                />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <TextField
-                    fullWidth
-                    label="Subject Code"
-                    name="subject_code"
-                    value={subjectData.subject_code}
-                    onChange={handleChange}
                 />
             </Grid>
             <Grid item xs={12}>
                 <TextField
                     fullWidth
+                    multiline
+                    rows={4}
                     label="Description"
                     name="description"
-                    value={subjectData.description}
+                    value={visitorTypeData.description}
                     onChange={handleChange}
                 />
             </Grid>
 
             <Grid item xs={12}>
                 <Button variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
-                <Button variant="contained" color="secondary" component={Link} to="/subjects" sx={{ ml: 2 }}>Cancel</Button>
+                <Button variant="contained" color="secondary" component={Link} to="/visitor-type" sx={{ ml: 2 }}>Cancel</Button>
             </Grid>
         </Grid>
     );
 }
 
-export default AddSubject;
+export default AddVisitorType;

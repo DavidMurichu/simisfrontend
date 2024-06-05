@@ -1,7 +1,6 @@
 import axios from "axios";
-
-const BASE_URL = 'https://ca92-102-219-210-246.ngrok-free.app';
-
+import BaseLink from "./baselink";
+const BASE_URL = BaseLink.getBaseLink();
 class CalendarService {
 
     static async getAllAcademicYears() {
@@ -144,6 +143,61 @@ class CalendarService {
             console.log("Error adding academic year term ", err)
         }
 
+    }
+
+    static async getClassTerms() {
+        try {
+            const endpoint = 'home/get_data/sch_student_class_terms';
+            const token = sessionStorage.getItem("token");
+            const response = await axios.get(`${BASE_URL}/${endpoint}`,{
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'ngrok-skip-browser-warning': true,
+                },
+            })
+            console.log(response)
+            return response;
+        }catch (err){
+            console.log("Error adding academic year term ", err)
+        }
+    }
+
+    static async addClassTerm(newTerm) {
+
+        try {
+            const endpoint = 'home/add_data/sch_student_class_terms';
+            const token = sessionStorage.getItem("token");
+            const response = await axios.post(`${BASE_URL}/${endpoint}`,newTerm,{
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'ngrok-skip-browser-warning': true,
+                },
+            })
+            console.log(response)
+            return response;
+        }catch (err){
+            console.log("Error adding academic year term ", err)
+        }
+    }
+
+    static async deleteAcademicYearTerm(id) {
+
+    }
+
+    static async deleteAcademicYear(id) {
+        
+    }
+
+    static async deleteClassTerm(id) {
+
+    }
+
+    static async deleteCalendarYear(id) {
+
+    }
+
+    static async deleteTerm(id) {
+        
     }
 }
 export default CalendarService;

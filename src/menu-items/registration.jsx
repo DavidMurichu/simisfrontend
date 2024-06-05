@@ -49,14 +49,6 @@ const registrationModule = {
     type: 'group',
     children: [
         {
-            id: 'student-information',
-            title: 'Student Information',
-            type: 'item',
-            url: '/registration/student-information',
-            icon: icons.IdcardOutlined,
-            breadcrumbs: false
-        },
-        {
             id: 'academic-management',
             title: 'Academic Management',
             type: 'item',
@@ -71,7 +63,16 @@ const registrationModule = {
             url: '/registration/school-operations',
             icon: icons.BankOutlined,
             breadcrumbs: false
-        }
+        },
+        {
+            id: 'student-information',
+            title: 'Student Information',
+            type: 'item',
+            url: '/registration/student-information',
+            icon: icons.IdcardOutlined,
+            breadcrumbs: false
+        },
+
     ]
 };
 

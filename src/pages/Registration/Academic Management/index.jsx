@@ -94,7 +94,16 @@ function AcademicManagementPanel() {
                       Manage Gender
                         <br />
                         <Button component={Link} to="/gender" variant="contained" color="primary" sx={{ mt: 2 }}>
-                            Manage Teachers
+                            Manage Gender
+                        </Button>
+                    </Typography>
+                );case 'Teachers On Duty':
+                return (
+                    <Typography variant="body1">
+                        Manage Teachers on duty for this week
+                        <br />
+                        <Button component={Link} to="/teacher-on-duty" variant="contained" color="primary" sx={{ mt: 2 }}>
+                            Manage teachers on duty
                         </Button>
                     </Typography>
                 );
@@ -107,6 +116,7 @@ function AcademicManagementPanel() {
         { label: 'Classes', description: 'Manage classes and sections', icon: <School /> },
         { label: 'Subjects', description: 'Manage subjects offered in classes', icon: <Subject /> },
         { label: 'Teachers', description: 'Manage teachers or instructors', icon: <PeopleAlt /> },
+        { label: 'Teachers On Duty', description: 'Manage teachers on duty', icon: <PeopleAlt /> },
         { label: 'Pupil Class Promotion', description: 'Manage promotions of pupils', icon: <PeopleAlt /> },
         { label: 'Academic Calendar', description: 'Manage academic years', icon: <EventNote /> },
         { label: 'Gender', description: 'Manage Students Gender', icon: <PeopleAlt /> },

@@ -44,7 +44,6 @@ export default function UserManagement() {
 
     useEffect(() => {
         fetchUsers();
-        console.log("Filtered users ", filteredUsers)
     }, []);
 
     const handleChangePage = (event, newPage) => {
@@ -141,6 +140,8 @@ export default function UserManagement() {
                                 <TableCell>Email</TableCell>
                                 <TableCell>View All</TableCell>
                                 <TableCell>Branch ID</TableCell>
+                                <TableCell>Created At</TableCell>
+                                <TableCell>Updated At</TableCell>
                                 <TableCell>Status</TableCell>
                                 <TableCell>Actions</TableCell>
                             </TableRow>
@@ -154,6 +155,8 @@ export default function UserManagement() {
                                         <TableCell>{user.email}</TableCell>
                                         <TableCell>{user.view_all}</TableCell>
                                         <TableCell>{user.branch_id}</TableCell>
+                                        <TableCell>{user.created_at}</TableCell>
+                                        <TableCell>{user.updated_at}</TableCell>
                                         <TableCell>
                                             <Box
                                                 sx={{

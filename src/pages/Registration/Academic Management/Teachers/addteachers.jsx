@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
+import Checkbox from '@mui/material/Checkbox';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import TeacherService from "../../../../services/TeacherService";
@@ -20,21 +20,22 @@ function AddPerson() {
         email: '',
         physicaladdress: '',
         createdon: '',
-        isActive: true,
+        is_active: true,
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setPersonData({ ...personData, [name]: value });
+        const { name, value, checked, type } = e.target;
+        const newValue = type === 'checkbox' ? checked : value;
+        setPersonData({ ...personData, [name]: newValue });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await TeacherService.addPerson(personData);
-            if (response.status === 200) {
+            if (response.status === 201) {
                 toast.success("Added person successfully");
-                navigate("/person-management")
+                navigate("/teachers")
             } else {
                 toast.warning("Error, Try again");
             }
@@ -123,7 +124,15 @@ function AddPerson() {
                     onChange={handleChange}
                 />
             </Grid>
-
+            <Grid item xs={12}>
+                <Checkbox
+                    checked={personData.is_active}
+                    onChange={handleChange}
+                    name="is_active"
+                    color="primary"
+                />
+                <Typography variant="body1">Active</Typography>
+            </Grid>
             <Grid item xs={12}>
                 <Button variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
                 <Button variant="contained" color="secondary" component={Link} to="/teachers" sx={{ ml: 2 }}>Cancel</Button>

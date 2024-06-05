@@ -83,7 +83,7 @@ function SchoolOperationsPanel() {
                     <Typography variant="body1">
                         Manage types of visitors. This section enables you to define different types of visitors and their permissions/access levels.
                         <br />
-                        <Button component={Link} to="/visitor-types" variant="contained" color="primary" sx={{ mt: 2 }}>
+                        <Button component={Link} to="/visitor-type" variant="contained" color="primary" sx={{ mt: 2 }}>
                             Manage Visitor Types
                         </Button>
                     </Typography>
@@ -118,6 +118,16 @@ function SchoolOperationsPanel() {
                         </Button>
                     </Typography>
                 );
+            case 'Class Daily recording':
+                return (
+                    <Typography variant="body1">
+                        Record daily activities for classes. This section allows teachers or administrators to record daily activities and events for each class.
+                        <br />
+                        <Button component={Link} to="/class-daily-recording" variant="contained" color="primary" sx={{ mt: 2 }}>
+                            E-Learning Management
+                        </Button>
+                    </Typography>
+                );
             default:
                 return null;
         }
@@ -130,6 +140,7 @@ function SchoolOperationsPanel() {
         { label: 'School Services', description: 'Manage school services', icon: <LocalOffer /> },
         { label: 'School Services Durations', description: 'Manage durations for school services', icon: <Today /> },
         { label: 'Visitor management', description: 'Manage visitor registrations', icon: <Group /> },
+        { label: 'Visitor Types', description: 'Manage visitor types', icon: <Group /> },
         { label: 'Class Daily Recording', description: 'Record daily activities for classes', icon: <LibraryBooks /> },
 
     ];

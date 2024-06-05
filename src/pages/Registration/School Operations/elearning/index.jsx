@@ -1,8 +1,11 @@
-function Event() {
+function Elearning() {
     return (
         <div>
+
+
+
 
         </div>
     )
 }
-export default Event;
+export default Elearning;
