@@ -30,7 +30,7 @@ function AcademicManagementPanel() {
         switch (selectedSection) {
             case 'Academic Calendar':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Manage the academic calendar such as semesters, trimesters, or quarters. You can define the duration of each term and assign them to specific academic years. This also provides an overview of each academic year and the corresponding pages.
                         <br />
                         <Button component={Link} to="/calendar" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -40,7 +40,7 @@ function AcademicManagementPanel() {
                 );
             case 'Classes':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Manage classes or sections for different courses or subjects. Here, you can add new classes, assign teachers, and enroll students. You can also view and edit class details such as schedules, capacity, and associated subjects.
                         <br />
                         <Button component={Link} to="/classes" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -48,19 +48,10 @@ function AcademicManagementPanel() {
                         </Button>
                     </Typography>
                 );
-            case 'Pupil Class Promotion':
-                return (
-                    <Typography variant="body1">
-                        Manage promotions of pupils from one class to another. This section allows you to promote pupils to higher classes, manage their academic progress, and track promotion history.
-                        <br />
-                        <Button component={Link} to="/pupil-class-promotion" variant="contained" color="primary" sx={{ mt: 2 }}>
-                            Manage Pupil Class Promotion
-                        </Button>
-                    </Typography>
-                );
+
             case 'Pupils Class Terms':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Manage terms for classes and their durations. This section enables you to define terms for classes, set their start and end dates, and manage their durations.
                         <br />
                         <Button component={Link} to="/pupils-class-terms" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -70,7 +61,7 @@ function AcademicManagementPanel() {
                 );
             case 'Subjects':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Manage subjects offered in classes or academic programs. This section allows you to add, edit, and delete subjects, assign them to classes, and manage subject curriculum.
                         <br />
                         <Button component={Link} to="/subjects" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -80,7 +71,7 @@ function AcademicManagementPanel() {
                 );
             case 'Teachers':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Manage teachers or instructors associated with classes. This section enables you to add, edit, and delete teachers, assign them to classes, and manage teacher assignments.
                         <br />
                         <Button component={Link} to="/teachers" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -90,7 +81,7 @@ function AcademicManagementPanel() {
                 );
             case 'Gender':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                       Manage Gender
                         <br />
                         <Button component={Link} to="/gender" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -99,7 +90,7 @@ function AcademicManagementPanel() {
                     </Typography>
                 );case 'Teachers On Duty':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Manage Teachers on duty for this week
                         <br />
                         <Button component={Link} to="/teacher-on-duty" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -117,17 +108,16 @@ function AcademicManagementPanel() {
         { label: 'Subjects', description: 'Manage subjects offered in classes', icon: <Subject /> },
         { label: 'Teachers', description: 'Manage teachers or instructors', icon: <PeopleAlt /> },
         { label: 'Teachers On Duty', description: 'Manage teachers on duty', icon: <PeopleAlt /> },
-        { label: 'Pupil Class Promotion', description: 'Manage promotions of pupils', icon: <PeopleAlt /> },
         { label: 'Academic Calendar', description: 'Manage academic years', icon: <EventNote /> },
         { label: 'Gender', description: 'Manage Students Gender', icon: <PeopleAlt /> },
     ];
 
     return (
-        <MainCard title="Academic Management Panel" boxShadow={3} sx={{ p: 2 }}>
+        <MainCard title="Academic Management Panel" boxShadow={3} sx={{ p: 2 }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Welcome to the Academic Management Panel. This panel provides tools and features to manage various aspects of academic administration within the institution.
             </Typography>
-            <List>
+            <List style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                 {sections.map((section, index) => (
                     <ListItem
                         button

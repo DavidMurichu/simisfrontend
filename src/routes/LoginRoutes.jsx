@@ -16,23 +16,23 @@ const AuthRegister = Loadable(lazy(() => import('pages/authentication/register')
 
 const LoginRoutes = {
   path: '/',
-  element: <MinimalLayout />,
+  element: <MinimalLayout style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />,
   children: [
     {
       path: '/login',
-      element: <AuthLogin />
+      element: <AuthLogin style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
     },
     {
       path: '/2FA',
-      element: <TwoFactorAuth />
+      element: <TwoFactorAuth style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
     },
     {
       path: '/forgot-password',
-      element: <ForgotPassword/>
+      element: <ForgotPassword style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
     },
     {
       path: '/register',
-      element: <AuthRegister />
+      element: <AuthRegister style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
     },
 
   ]

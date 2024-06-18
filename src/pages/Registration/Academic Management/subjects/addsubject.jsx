@@ -34,13 +34,21 @@ function AddSubject() {
             } else {
                 toast.warning("Error, Try again");
             }
-        } catch (error) {
-            console.log("Error adding new subject", error);
+        } catch (err) {
+            if (err.data) {
+                const errorMessage = err.data[0].message;
+                console.log("Error from response", err.data, errorMessage);
+                toast.warning("Try again: " + errorMessage);
+            } else if (err.message) {
+                toast.error(err.message);
+            } else {
+                toast.error("An unexpected error occurred. Please try again.");
+            }
         }
     };
 
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Grid item xs={12}>
                 <Typography variant="h3">Create Subject</Typography>
             </Grid>

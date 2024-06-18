@@ -5,7 +5,10 @@ import {
     AuditOutlined,
     FileDoneOutlined,
     ExceptionOutlined,
-    FileOutlined
+    FileOutlined,
+    BellOutlined,
+    DeleteOutlined,
+    AppstoreOutlined
 } from '@ant-design/icons';
 
 const invoicesModule = {
@@ -14,11 +17,11 @@ const invoicesModule = {
     type: 'group',
     children: [
         {
-            id: 'arrears-management',
-            title: 'Arrears Management',
+            id: 'invoice-creation-and-management',
+            title: 'Invoice Creation and Management',
             type: 'item',
-            url: '/invoices/arrears-management',
-            icon: FileDoneOutlined,
+            url: '/invoices/invoice-creation-and-management',
+            icon: FileAddOutlined,
             breadcrumbs: false
         },
         {
@@ -26,31 +29,31 @@ const invoicesModule = {
             title: 'Administrative Charges',
             type: 'item',
             url: '/invoices/administrative-charges',
-            icon: AuditOutlined,
+            icon: DollarOutlined,
             breadcrumbs: false
         },
         {
-            id: 'pupil-invoices',
-            title: 'Pupil Invoices',
+            id: 'pupil-financials',
+            title: 'Pupil Financials',
             type: 'item',
-            url: '/invoices/pupil-invoices',
+            url: '/invoices/pupil-financials',
             icon: HistoryOutlined,
             breadcrumbs: false
         },
         {
-            id: 'services',
-            title: 'Services',
+            id: 'notifications-and-reminders',
+            title: 'Notifications and Reminders',
             type: 'item',
-            url: '/invoices/services',
-            icon: FileOutlined,
+            url: '/invoices/notifications-and-reminders',
+            icon: BellOutlined,
             breadcrumbs: false
         },
         {
-            id: 'notifications-reminders',
-            title: 'Notifications/Reminders',
+            id: 'deleted-items',
+            title: 'Deleted Items',
             type: 'item',
-            url: '/invoices/notifications-reminders',
-            icon: DollarOutlined,
+            url: '/invoices/deleted-items',
+            icon: DeleteOutlined,
             breadcrumbs: false
         }
     ]

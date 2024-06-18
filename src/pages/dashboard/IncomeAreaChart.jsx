@@ -41,7 +41,7 @@ export default function IncomeAreaChart({ slot }) {
   useEffect(() => {
     setOptions((prevState) => ({
       ...prevState,
-      colors: [theme.palette.primary.main, theme.palette.primary[700]],
+      colors: ['#FF5733', '#800000'],
       xaxis: {
         categories:
           slot === 'month'
@@ -108,7 +108,7 @@ export default function IncomeAreaChart({ slot }) {
     ]);
   }, [slot]);
 
-  return <ReactApexChart options={options} series={series} type="area" height={450} />;
+  return <ReactApexChart options={options} series={series} type="area" height={250} />;
 }
 
 IncomeAreaChart.propTypes = { slot: PropTypes.string };

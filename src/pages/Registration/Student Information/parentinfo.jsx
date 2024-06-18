@@ -45,7 +45,7 @@ function ParentInfo() {
     };
 
     return (
-        <MainCard title="Parent Information">
+        <MainCard title="Parent Information" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>

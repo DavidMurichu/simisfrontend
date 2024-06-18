@@ -35,5 +35,5 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 
 
-root.render(<App />);
+root.render(<App style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}  />);
 

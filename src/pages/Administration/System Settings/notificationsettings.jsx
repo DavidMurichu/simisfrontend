@@ -17,7 +17,7 @@ function Notificationsettings() {
     ]);
     return(
         <>
-            <Box mt={3}>
+            <Box mt={3} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                 <Typography variant="h6" gutterBottom>
                     Notification Settings
                 </Typography>

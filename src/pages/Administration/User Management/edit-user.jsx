@@ -26,7 +26,7 @@ function EditUser() {
     };
 
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Grid item xs={12}>
                 <Typography variant="h3">Edit User</Typography>
             </Grid>

@@ -24,7 +24,7 @@ const QuoteCard = () => {
   };
 
   return (
-      <Card sx={{ bgcolor: 'grey.100' }}>
+      <Card sx={{ bgcolor: 'grey.100' }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} >
         <CardContent>
           <Box textAlign="center">
             <Typography variant="h6" color="secondary" gutterBottom>

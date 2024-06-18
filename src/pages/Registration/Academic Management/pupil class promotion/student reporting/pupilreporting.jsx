@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button, TableContainer, Paper, Table, TableHead, TableBody, TableRow, TableCell, TablePagination, Checkbox, Select, MenuItem, FormControl, InputLabel, Grid, Box, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PupilService from '../../../../services/pupilservice';
+import PupilService from '../../../../../services/pupilservice';
 import MainCard from 'components/MainCard';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
+import CalendarService from "../../../../../services/calendarService";
 
 function PromotionTerm() {
     const navigate = useNavigate();
@@ -15,19 +16,48 @@ function PromotionTerm() {
     const [selectedGender, setSelectedGender] = useState('');
     const [selectedYear, setSelectedYear] = useState('');
     const [selectedPupils, setSelectedPupils] = useState(new Set());
-    const [newClass, setNewClass] = useState('');
+    const [newTerm, setNewTerm] = useState('');
     const [newYear, setNewYear] = useState('');
+    const [termOptions, setTermOptions] = useState([]);
+    const [yearOptions, setYearOptions] = useState([]);
 
     useEffect(() => {
         fetchAllPupils();
+        fetchTermAndYearOptions();
     }, []);
 
     const fetchAllPupils = async () => {
         try {
-            const response = await PupilService.getAllPupils();
+            const response = await PupilService.getPromotedForReporting();
+            console.log("pupils", response.data)
             setPupils(response.data);
-        } catch (error) {
-            console.error('Error fetching pupils:', error);
+        } catch (err) {
+            handleFetchError(err);
+        }
+    };
+
+    const fetchTermAndYearOptions = async () => {
+        try {
+            const termsResponse = await CalendarService.getAllTerms();
+            const yearsResponse = await CalendarService.getAllAcademicYearTerms();
+            console.log("term response", termsResponse)
+            console.log("year response", yearsResponse)
+            setTermOptions(termsResponse.data);
+            setYearOptions(yearsResponse.data);
+        } catch (err) {
+            handleFetchError(err);
+        }
+    };
+
+    const handleFetchError = (err) => {
+        if (err.data) {
+            const errorMessage = err.data[0].message;
+            console.log("Error from response", err.data, errorMessage);
+            toast.warning("Try again: " + errorMessage);
+        } else if (err.message) {
+            toast.error(err.message);
+        } else {
+            toast.error("An unexpected error occurred. Please try again.");
         }
     };
 
@@ -44,9 +74,10 @@ function PromotionTerm() {
         const selectedPupilData = Array.from(selectedPupils).map(id => {
             const pupil = pupils.find(p => p.id === id);
             return {
-                studentid: pupil.id,
-                class_name: newClass,
-                academicyear: newYear,
+                studentclasspromotionid: pupil.promotion_id,
+                term: newTerm,
+                classterm: newYear,
+                reportingdate: new Date().toISOString(),
                 createdby: sessionStorage.getItem("id"),
                 lasteditedby: sessionStorage.getItem("id"),
                 is_active: true
@@ -54,24 +85,21 @@ function PromotionTerm() {
         });
 
         try {
-            const response = await PupilService.promotePupil(selectedPupilData);
-            if (response.status ===201) {
+            const response = await PupilService.reportPupil(selectedPupilData);
+            if (response.status === 201) {
                 toast.success("Successfully promoted students");
-                navigate("/pupil-class-promotion")
-            }else{
-                toast.warning("Check if student is already promoted")
+                navigate("/pupil-class-reporting");
             }
-
-        } catch (error) {
-            console.error('Error promoting students:', error);
+        } catch (err) {
+            console.error("Error promoting students:", err);
+            toast.error("An unexpected error occurred while promoting students. Please try again.");
         }
     };
 
     const handlePromoteAll = () => {
         const filteredPupils = pupils
-            .filter(pupil => (!selectedClass || pupil.current_class_id === selectedClass) &&
-                (!selectedGender || pupil.genderid === selectedGender) &&
-                (!selectedYear || pupil.academicyearid === selectedYear))
+            .filter(pupil => (!selectedClass || pupil.class_name === selectedClass) &&
+                (!selectedYear || pupil.academicyear === selectedYear))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
         const allSelected = filteredPupils.every(pupil => selectedPupils.has(pupil.id));
@@ -97,14 +125,12 @@ function PromotionTerm() {
         });
     };
 
-    const uniqueClasses = [...new Set(pupils.map(pupil => pupil.current_class_id))];
-    const uniqueGenders = [...new Set(pupils.map(pupil => pupil.genderid))];
-    const uniqueYears = [...new Set(pupils.map(pupil => pupil.academicyearid))];
+    const uniqueClasses = [...new Set(pupils.map(pupil => pupil.class_name))];
+    const uniqueYears = [...new Set(pupils.map(pupil => pupil.academicyear))];
 
     const filteredPupils = pupils
-        .filter(pupil => (!selectedClass || pupil.current_class_id === selectedClass) &&
-            (!selectedGender || pupil.genderid === selectedGender) &&
-            (!selectedYear || pupil.academicyearid === selectedYear))
+        .filter(pupil => (!selectedClass || pupil.class_name === selectedClass) &&
+            (!selectedYear || pupil.academicyear === selectedYear))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     const selectedCount = filteredPupils.filter(pupil => selectedPupils.has(pupil.id)).length;
@@ -112,7 +138,8 @@ function PromotionTerm() {
     const unselectedCount = totalInView - selectedCount;
 
     return (
-        <MainCard title="Promotion Page">
+        <MainCard title="Student Reporting page " style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
+            <ToastContainer/>
             <Box sx={{ mb: 2 }}>
                 <Accordion>
                     <AccordionSummary
@@ -141,21 +168,6 @@ function PromotionTerm() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <FormControl fullWidth>
-                                    <InputLabel>Gender</InputLabel>
-                                    <Select
-                                        value={selectedGender}
-                                        onChange={(e) => setSelectedGender(e.target.value)}
-                                        label="Gender"
-                                    >
-                                        <MenuItem value="">All Genders</MenuItem>
-                                        {uniqueGenders.map((gender, index) => (
-                                            <MenuItem key={index} value={gender}>{gender}</MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <FormControl fullWidth>
                                     <InputLabel>Academic Year</InputLabel>
                                     <Select
                                         value={selectedYear}
@@ -178,33 +190,34 @@ function PromotionTerm() {
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} sm={6}>
                     <FormControl fullWidth>
-                        <InputLabel>New Class</InputLabel>
+                        <InputLabel>New Term</InputLabel>
                         <Select
-                            value={newClass}
-                            onChange={(e) => setNewClass(e.target.value)}
-                            label="New Class"
+                            value={newTerm}
+                            onChange={(e) => setNewTerm(e.target.value)}
+                            label="New Term"
                         >
-                            {uniqueClasses.map((classId, index) => (
-                                <MenuItem key={index} value={classId}>{classId}</MenuItem>
+                            {termOptions.map((term, index) => (
+                                <MenuItem key={term.id} value={term.name}>{term.name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormControl fullWidth>
-                        <InputLabel>New Academic Year</InputLabel>
+                        <InputLabel>New Academic Year term</InputLabel>
                         <Select
                             value={newYear}
                             onChange={(e) => setNewYear(e.target.value)}
-                            label="New Academic Year"
+                            label="New Academic Year term"
                         >
-                            {uniqueYears.map((year, index) => (
-                                <MenuItem key={index} value={year}>{year}</MenuItem>
+                            {yearOptions.map((year, index) => (
+                                <MenuItem key={year.id} value={year.name}>{year.name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </Grid>
             </Grid>
+
 
             <Box sx={{ mt: 2 }}>
                 <Typography variant="subtitle1" display="inline" mr={3}>
@@ -222,12 +235,6 @@ function PromotionTerm() {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Class</TableCell>
-                            <TableCell>Gender</TableCell>
-                            <TableCell>Academic Year</TableCell>
-                            <TableCell>Details</TableCell>
                             <TableCell>
                                 <Checkbox
                                     indeterminate={selectedPupils.size > 0 && selectedPupils.size < pupils.length}
@@ -235,15 +242,26 @@ function PromotionTerm() {
                                     onChange={handlePromoteAll}
                                 />
                             </TableCell>
+                            <TableCell>Admission No</TableCell>
+                            <TableCell>Student name</TableCell>
+                            <TableCell>Class</TableCell>
+                            <TableCell>Academic Year</TableCell>
+                            <TableCell>Details</TableCell>
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {filteredPupils.map((pupil) => (
                             <TableRow key={pupil.id}>
-                                <TableCell>{pupil.id}</TableCell>
+                                <TableCell>
+                                    <Checkbox
+                                        checked={selectedPupils.has(pupil.id)}
+                                        onChange={() => handleCheckboxChange(pupil.id)}
+                                    />
+                                </TableCell>
+                                <TableCell>{pupil.admission_no}</TableCell>
                                 <TableCell>{pupil.name}</TableCell>
                                 <TableCell>{pupil.current_class_id}</TableCell>
-                                <TableCell>{pupil.genderid}</TableCell>
                                 <TableCell>{pupil.academicyearid}</TableCell>
                                 <TableCell>
                                     <Button
@@ -256,12 +274,7 @@ function PromotionTerm() {
                                         View Details
                                     </Button>
                                 </TableCell>
-                                <TableCell>
-                                    <Checkbox
-                                        checked={selectedPupils.has(pupil.id)}
-                                        onChange={() => handleCheckboxChange(pupil.id)}
-                                    />
-                                </TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>
@@ -284,16 +297,14 @@ function PromotionTerm() {
                 onClick={handlePromoteStudents}
                 sx={{ mt: 2, mr: 2 }}
             >
-                Promote Students
+                Report Students
             </Button>
 
-            <Button variant="contained" color="secondary" component={Link} to="/pupil-class-promotion" sx={{ mt: 2 }}>
+            <Button variant="contained" color="secondary" component={Link} to="/pupil-class-reporting" sx={{ mt: 2 }}>
                 Cancel
             </Button>
         </MainCard>
-
     );
 }
 
 export default PromotionTerm;
-

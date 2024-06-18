@@ -29,7 +29,7 @@ function ViewUser() {
     };
 
     return (
-        <MainCard title={`User Profile: ${user.fullname}`}>
+        <MainCard title={`User Profile: ${user.fullname}`} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Grid container spacing={3} justifyContent="center">
                 <Grid item xs={12} md={4} alignItems="center">
                     <Avatar sx={{ width: 120, height: 120, mx: 'auto' }}>

@@ -13,6 +13,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TextField from '@mui/material/TextField';
 import BaseLink from "../../services/baselink";
 import axios from "axios";
+import ApiService from "../../services/apiservice";
 
 const TableTemplate = ({ columns, endpoint, handleDelete = () => {}, handleEdit = () => {} }) => {
     const [data, setData] = useState([]);
@@ -24,12 +25,8 @@ const TableTemplate = ({ columns, endpoint, handleDelete = () => {}, handleEdit 
     const fetchData = async () => {
         try {
             const token = sessionStorage.getItem("token")
-            const response = await axios.get(`${BASE_URL}/${endpoint}`,{
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'ngrok-skip-browser-warning': true,
-                }
-            });
+            const response = await ApiService.get(`${endpoint}`,{},true)
+                console.log(response.data)
             const result = await response.data;
             setData(Array.isArray(result) ? result : []);
         } catch (error) {

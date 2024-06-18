@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import TableTemplate from '../../../HOC/tabletemplate';
-import MainCard from 'components/MainCard';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import PupilsService from '../../../../services/pupilservice';
+import PupilsService from "../../../../../services/pupilservice";
+import {toast} from "react-toastify";
+import MainCard from "../../../../../components/MainCard";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import {Link} from "react-router-dom";
+import TableTemplate from "../../../../HOC/tabletemplate";
+import React from "react";
 
 const columns = [
-    { field: 'studentid', headerName: 'Student ID' },
-    { field: 'class_name', headerName: 'Class' },
+    { field: 'studentclasstermid', headerName: 'Student ID' },
+    { field: 'current_class_id', headerName: 'Class' },
     { field: 'academicyear', headerName: 'Academic Year' },
-    { field: 'promotedon', headerName: 'Promoted On', renderCell: (row) => (row.promotedon || 'N/A') },
-    { field: 'updated_at', headerName: 'Last Updated' },
+    { field: 'current_term_id', headerName: 'Current term', renderCell: (row) => (row.promotedon || 'N/A') },
+    {field: 'datedemoted', headerName:'Date Demoted'},
 ];
 
-function PupilClassPromotion() {
-    const endpoint = 'home/get_data/sch_student_class_promotions';
+function Demoteview() {
+    const endpoint = 'home/get_data/sch_demoted_students';
     const handleDelete = async (id) => {
         try {
             await PupilsService.deletePupil(id);
@@ -28,7 +28,7 @@ function PupilClassPromotion() {
     };
 
     return (
-        <MainCard title="Pupil Class Promotion">
+        <MainCard title="Pupil Class Promotion" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Welcome to the Pupil Class Promotion page. Here you can manage pupil promotions and their details.
             </Typography>
@@ -37,10 +37,10 @@ function PupilClassPromotion() {
                 variant="contained"
                 color="primary"
                 component={Link}
-                to="/promote-student"
+                to="/demote-student"
                 sx={{ mb: 2 }}
             >
-                Promote Student
+                Demote Students
             </Button>
 
             <TableTemplate
@@ -52,4 +52,4 @@ function PupilClassPromotion() {
     );
 }
 
-export default PupilClassPromotion;
+export default Demoteview;

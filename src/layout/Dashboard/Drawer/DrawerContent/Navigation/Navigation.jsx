@@ -13,7 +13,7 @@ export default function Navigation() {
             default:
 
                 return (
-                    <Typography key={item.id} variant="h6" color="error">
+                    <Typography key={item.id} variant="h6" color="error" >
                         Navigation Error: Unexpected item type
                     </Typography>
                 );

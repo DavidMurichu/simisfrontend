@@ -7,6 +7,7 @@ import LoginButton from './LoginButton';
 import {useAuth} from "../../../../contexts/AuthContext";
 import Profile from "./Profile";
 import MobileSection from "./MobileSection";
+import Darkmodetoggle from "../../../../utils/dark mode/darkmodetoggle";
 
 export default function HeaderContent() {
     const downLG = useMediaQuery((theme) => theme.breakpoints.down('lg'));
@@ -23,15 +24,16 @@ export default function HeaderContent() {
     }, [setIsLoggedIn, setUserName]);
     return (
         <>
-            {!downLG && <Search />}
+            {!downLG && <Search style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}/>}
             {downLG && <Box sx={{ width: '100%', ml: 1 }} />}
+            <Darkmodetoggle/>
             {isLoggedIn ? (
-                <>  <Notification />
-                    {!downLG && <Profile />}
-                    {downLG && <MobileSection />}
+                <>  <Notification style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}/>
+                    {!downLG && <Profile style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}/>}
+                    {downLG && <MobileSection style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}/>}
                 </>
             ) : (
-                <LoginButton />
+                <LoginButton style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
             )}
         </>
     );

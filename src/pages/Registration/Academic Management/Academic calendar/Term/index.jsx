@@ -65,6 +65,7 @@ function Term() {
             endpoint={endpoint}
             handleDelete={handleDelete}
             handleEdit={handleEdit}
+            style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}
         />
     );
 }

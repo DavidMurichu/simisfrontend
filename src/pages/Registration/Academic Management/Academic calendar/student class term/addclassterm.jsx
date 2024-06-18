@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import MainCard from 'components/MainCard';
 import TermsService from '../../../../../services/calendarService';
 import {Link, useNavigate} from "react-router-dom";
+import {toast, ToastContainer} from "react-toastify";
 
 function AddStudentClassTerm() {
     const [studentClassPromotionId, setStudentClassPromotionId] = useState('');
@@ -26,13 +27,23 @@ function AddStudentClassTerm() {
         try {
             await TermsService.addClassTerm(newTerm);
             navigate("/calendar")
-        } catch (error) {
-            console.error('Error adding term:', error);
+        } catch (err) {
+            if (err.data) {
+                // Accessing the array of errors and getting the first error message
+                const errorMessage = err.data[0].message;
+                console.log("Error from response", err.data, errorMessage);
+                toast.warning("Try again: " + errorMessage);
+            } else if (err.message) {
+                toast.error(err.message);
+            } else {
+                toast.error("An unexpected error occurred. Please try again.");
+            }
         }
     };
 
     return (
         <MainCard title="Add Student Class Term">
+            <ToastContainer/>
             <Typography variant="body1" gutterBottom>
                 Fill in the details to add a new student class term.
             </Typography>

@@ -26,16 +26,16 @@ export default function DashboardLayout() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [downXL]);
 
-  if (menuMasterLoading) return <Loader />;
+  if (menuMasterLoading) return <Loader style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}  />;
 
   return (
-    <Box sx={{ display: 'flex', width: '100%' }}>
-      <Header />
-      <Drawer />
-      <Box component="main" sx={{ width: 'calc(100% - 260px)', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
-        <Toolbar />
-        <Breadcrumbs navigation={navigation} title />
-        <Outlet />
+    <Box sx={{ display: 'flex', width: '100%' }} >
+      <Header style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
+      <Drawer style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
+      <Box component="main" sx={{ width: 'calc(100% - 260px)', flexGrow: 1, p: { xs: 2, sm: 3 } }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} >
+        <Toolbar style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
+        <Breadcrumbs navigation={navigation} title style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}  />
+        <Outlet style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}  />
       </Box>
     </Box>
   );

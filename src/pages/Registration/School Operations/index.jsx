@@ -37,19 +37,9 @@ function SchoolOperationsPanel() {
 
     const renderDescription = () => {
         switch (selectedSection) {
-            case 'Bank Accounts':
-                return (
-                    <Typography variant="body1">
-                        Manage bank accounts associated with the institution. This section allows you to add, edit, and delete bank accounts, as well as view account details.
-                        <br />
-                        <Button component={Link} to="/bank-accounts" variant="contained" color="primary" sx={{ mt: 2 }}>
-                            Manage Bank Accounts
-                        </Button>
-                    </Typography>
-                );
             case 'School Services':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Manage various services offered by the school. This section allows you to add, edit, and delete school services, as well as view service details and availability.
                         <br />
                         <Button component={Link} to="/school-services" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -59,7 +49,7 @@ function SchoolOperationsPanel() {
                 );
             case 'School Services Durations':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Manage durations for school services. This section enables you to set durations for different services offered by the school.
                         <br />
                         <Button component={Link} to="/school-services-durations" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -70,7 +60,7 @@ function SchoolOperationsPanel() {
 
             case 'Visitor management':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Manage visitor registrations. This section allows you to record and manage visitors to the school premises.
                         <br />
                         <Button component={Link} to="/visitor" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -80,7 +70,7 @@ function SchoolOperationsPanel() {
                 );
             case 'Visitor Types':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Manage types of visitors. This section enables you to define different types of visitors and their permissions/access levels.
                         <br />
                         <Button component={Link} to="/visitor-type" variant="contained" color="primary" sx={{ mt: 2 }}>
@@ -90,41 +80,11 @@ function SchoolOperationsPanel() {
                 );
             case 'Class Daily Recording':
                 return (
-                    <Typography variant="body1">
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Record daily activities for classes. This section allows teachers or administrators to record daily activities and events for each class.
                         <br />
                         <Button component={Link} to="/class-daily-recording" variant="contained" color="primary" sx={{ mt: 2 }}>
                             Record Daily Activities
-                        </Button>
-                    </Typography>
-                );
-            case 'Inventory Management':
-                return (
-                    <Typography variant="body1">
-                        Record daily activities for classes. This section allows teachers or administrators to record daily activities and events for each class.
-                        <br />
-                        <Button component={Link} to="/inventory" variant="contained" color="primary" sx={{ mt: 2 }}>
-                            Inventrory Management
-                        </Button>
-                    </Typography>
-                );
-            case 'E-Learning Platform':
-                return (
-                    <Typography variant="body1">
-                        Record daily activities for classes. This section allows teachers or administrators to record daily activities and events for each class.
-                        <br />
-                        <Button component={Link} to="/inventory" variant="contained" color="primary" sx={{ mt: 2 }}>
-                            E-Learning Management
-                        </Button>
-                    </Typography>
-                );
-            case 'Class Daily recording':
-                return (
-                    <Typography variant="body1">
-                        Record daily activities for classes. This section allows teachers or administrators to record daily activities and events for each class.
-                        <br />
-                        <Button component={Link} to="/class-daily-recording" variant="contained" color="primary" sx={{ mt: 2 }}>
-                            E-Learning Management
                         </Button>
                     </Typography>
                 );
@@ -134,9 +94,6 @@ function SchoolOperationsPanel() {
     };
 
     const sections = [
-        { label: 'Inventory Management', description: 'Manage Inventory Around the school', icon: <LibraryBooks /> },
-        { label: 'E-Learning Platform', description: 'Manage the elearning mechanism', icon: <LibraryBooks /> },
-        { label: 'Bank Accounts', description: 'Manage bank accounts', icon: <AccountBalance /> },
         { label: 'School Services', description: 'Manage school services', icon: <LocalOffer /> },
         { label: 'School Services Durations', description: 'Manage durations for school services', icon: <Today /> },
         { label: 'Visitor management', description: 'Manage visitor registrations', icon: <Group /> },
@@ -146,7 +103,7 @@ function SchoolOperationsPanel() {
     ];
 
     return (
-        <MainCard title="School Operations Panel" boxShadow={3} sx={{ p: 2 }}>
+        <MainCard title="School Operations Panel" boxShadow={3} sx={{ p: 2 }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Welcome to the School Operations Panel. This panel provides tools and features to manage various aspects of school operations within the institution.
             </Typography>

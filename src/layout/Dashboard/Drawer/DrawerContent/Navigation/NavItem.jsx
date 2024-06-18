@@ -79,7 +79,7 @@ export default function NavItem({ item, level }) {
               }
             })
           }}
-      >
+          style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} >
         {itemIcon && (
             <ListItemIcon
                 sx={{
@@ -103,18 +103,18 @@ export default function NavItem({ item, level }) {
                         }
                       })
                 }}
-            >
+                style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} >
               {itemIcon}
             </ListItemIcon>
         )}
         {(drawerOpen || (!drawerOpen && level !== 1)) && (
             <ListItemText
                 primary={
-                  <Typography variant="h6" sx={{ color: isSelected ? iconSelectedColor : textColor }}>
+                  <Typography variant="h6" sx={{ color: isSelected ? iconSelectedColor : textColor }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} >
                     {item.title}
                   </Typography>
                 }
-            />
+                style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
         )}
         {(drawerOpen || (!drawerOpen && level !== 1)) && item.chip && (
             <Chip
@@ -123,7 +123,7 @@ export default function NavItem({ item, level }) {
                 size={item.chip.size}
                 label={item.chip.label}
                 avatar={item.chip.avatar && <Avatar>{item.chip.avatar}</Avatar>}
-            />
+                style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
         )}
       </ListItemButton>
   );

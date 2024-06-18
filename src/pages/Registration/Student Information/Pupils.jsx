@@ -17,6 +17,7 @@ import Collapse from '@mui/material/Collapse';
 import { ButtonGroup } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import PupilService from "../../../services/pupilservice";
+import {toast} from "react-toastify";
 
 export default function StudentInformation() {
     const [page, setPage] = useState(0);
@@ -37,11 +38,18 @@ export default function StudentInformation() {
                 setRecentPupils(response.data);
             }
             console.log(recentPupils);
-        } catch (error) {
-            console.error('Error fetching recent pupils:', error);
+        } catch (err) {
+            if (err.data) {
+                const errorMessage = err.data[0].message;
+                console.log("Error from response", err.data, errorMessage);
+                toast.warning("Try again: " + errorMessage);
+            } else if (err.message) {
+                toast.error(err.message);
+            } else {
+                toast.error("An unexpected error occurred. Please try again.");
+            }
         }
     };
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -66,7 +74,7 @@ export default function StudentInformation() {
     ) || [];
 
     return (
-        <MainCard title="Student Information">
+        <MainCard title="Student Information" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Welcome to the Student Information page. Here you can manage pupils/students and view their statistics.
             </Typography>
@@ -83,6 +91,33 @@ export default function StudentInformation() {
                     >
                         <AddIcon sx={{ mr: 1 }} />
                         Add Pupil
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        component={Link}
+                        to="/pupil-class-promotion"
+                        sx={{ mr: 1 }}
+                    >
+                        Promote Students
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        component={Link}
+                        to="/pupil-class-reporting"
+                        sx={{ mr: 1 }}
+                    >
+                        Students Reporting
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        component={Link}
+                        to="/pupil-class-demotion"
+                        sx={{ mr: 1 }}
+                    >
+                        Demote Students
                     </Button>
                     <TextField
                         label="Search"

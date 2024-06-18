@@ -39,7 +39,7 @@ function Teachers() {
     };
 
     return (
-        <MainCard title="Teacher Management">
+        <MainCard title="Teacher Management" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Welcome to the Teacher Management page. Here you can manage teacher details and their actions.
             </Typography>

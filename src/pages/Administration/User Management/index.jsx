@@ -82,7 +82,7 @@ export default function UserManagement() {
         user.email && user.email.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return (
-        <MainCard title="User Management">
+        <MainCard title="User Management" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Welcome to the User Management page. Here you can manage system users and their permissions.
             </Typography>

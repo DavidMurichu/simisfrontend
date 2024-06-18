@@ -55,7 +55,7 @@ function Subjects() {
     };
 
     return (
-        <MainCard title="Subject Management">
+        <MainCard title="Subject Management" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Welcome to the Subject Management page. Here you can manage subjects and their details.
             </Typography>

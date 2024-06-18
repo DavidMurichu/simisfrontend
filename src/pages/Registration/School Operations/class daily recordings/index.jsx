@@ -33,7 +33,7 @@ function ClassDailyRecordings() {
     };
 
     return (
-        <MainCard title="Class Daily Recordings">
+        <MainCard title="Class Daily Recordings" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Manage daily recordings for classes.
             </Typography>

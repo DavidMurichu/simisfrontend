@@ -18,7 +18,7 @@ export default function SettingTab() {
   };
 
   return (
-    <List component="nav" sx={{ p: 0, '& .MuiListItemIcon-root': { minWidth: 32 } }}>
+    <List component="nav" sx={{ p: 0, '& .MuiListItemIcon-root': { minWidth: 32 } }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
       <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0)}>
         <ListItemIcon>
           <QuestionCircleOutlined />

@@ -5,41 +5,134 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="addbcba2-3af3-4df1-8d92-a3f434e60c83" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/pages/ErrorPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/filter/filterhandler.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/handlers/propshandler.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/readme.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/services/apiservice.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/services/urlservice.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/services/validationservice.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/templates/formtemplate.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/templates/pagetemplate.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/templates/tabletemplate.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/templates/viewtemplate.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/GodMode/validator/formvalidator.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/student class term/addclassterm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/student class term/index.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/godmoderoutes.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/godmodeservice.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/menu-items/elearning.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/menu-items/inventory.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/menu-items/reports.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/menu-items/sms.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/Deleted Items/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/Notifications and reminder/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/Pupil Financial/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/administrative charges/addAdministrativeCharge.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/administrative charges/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/invoice management panel/Pupil Service/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/invoice management panel/Student Invoiced/addIndexed.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/invoice management panel/Student Invoiced/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/invoice management panel/create arrear/addarrear.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/invoice management panel/create arrear/createarrear.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Invoice/invoice management panel/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Payment/transactions list/addExpense.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Payment/transactions list/addIncome.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Payment/transactions list/transactionList.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/pupil class promotion/demotion/demotepromote.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/pupil class promotion/demotion/demoteview.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/pupil class promotion/student reporting/pupilreporting.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/pupil class promotion/student reporting/reportedpupils.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Registration/School Operations/school service/addSchoolService.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/dashboard/arrearspaidchart.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/dashboard/info.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/dashboard/studentpopulationpiechart.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/apiservice.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/dark mode/darkmodehook.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/dark mode/darkmodetoggle.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/dark mode/index.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/dark mode/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/cards/statistics/AnalyticEcommerce.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cards/statistics/AnalyticEcommerce.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/NavCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/NavCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/Navigation/NavGroup.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/Navigation/NavGroup.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/Navigation/NavItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/Navigation/NavItem.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/Navigation/Navigation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/Navigation/Navigation.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/Navigation/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/Navigation/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerContent/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerHeader/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/DrawerHeader/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Drawer/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Header/HeaderContent/Profile/ProfileTab.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Header/HeaderContent/Profile/ProfileTab.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Header/HeaderContent/Profile/SettingTab.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Header/HeaderContent/Profile/SettingTab.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Header/HeaderContent/Profile/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Header/HeaderContent/Profile/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Header/HeaderContent/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Header/HeaderContent/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/Header/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/Header/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/Dashboard/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Dashboard/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layout/MinimalLayout/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/MinimalLayout/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/menu-items/finance.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu-items/finance.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/menu-items/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu-items/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/menu-items/invoice.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu-items/invoice.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/menu-items/payment.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu-items/payment.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/menu-items/schoolservice.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Administration/Audit Logs/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Administration/Audit Logs/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Administration/System Settings/clientinfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Administration/System Settings/clientinfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Administration/System Settings/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Administration/System Settings/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Administration/System Settings/notificationsettings.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Administration/System Settings/notificationsettings.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Administration/User Management/add-user.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Administration/User Management/add-user.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Administration/User Management/edit-user.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Administration/User Management/edit-user.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Administration/User Management/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Administration/User Management/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Administration/User Management/view-user.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Administration/User Management/view-user.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/ErrorPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ErrorPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/HOC/formtemplate.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/HOC/formtemplate.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/HOC/tabletemplate.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/HOC/tabletemplate.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Term/addterm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Term/addterm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Term/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Term/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/academicyear.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/academicyear.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/addyear.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/addyear.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/calendar/addcalendaryear.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/calendar/addcalendaryear.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/calendar/calendaryear.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/calendar/calendaryear.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/term/academictermyear.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/term/academictermyear.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/term/addacademicyearterm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/Years/term/addacademicyearterm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/student class term/addclassterm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/student class term/addclassterm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/student class term/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Academic calendar/student class term/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Gender/addGender.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Gender/addGender.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Gender/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Gender/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Teachers/addteachers.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Teachers/addteachers.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Teachers/editteachers.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Teachers/editteachers.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Teachers/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Teachers/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Teachers/teachers on duty/addteachersonduty.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Teachers/teachers on duty/addteachersonduty.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Teachers/teachers on duty/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/Teachers/teachers on duty/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/classes/addclasses.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/classes/addclasses.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/classes/editclasses.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/classes/editclasses.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/classes/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/classes/index.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/pupil class promotion/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/pupil class promotion/promotion/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/pupil class promotion/promotionterm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/pupil class promotion/promotion/promotionterm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/subjects/addsubject.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/subjects/addsubject.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/subjects/editsubject.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/subjects/editsubject.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Academic Management/subjects/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Academic Management/subjects/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/School Operations/class daily recordings/addclassdailyrecordings.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/School Operations/class daily recordings/addclassdailyrecordings.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/School Operations/class daily recordings/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/School Operations/class daily recordings/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/School Operations/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/School Operations/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/School Operations/school service/school service duration/addschoolserviceduration.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/School Operations/school service/school service duration/addschoolserviceduration.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/School Operations/school service/school service duration/schoolserviceduration.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/School Operations/school service/school service duration/schoolserviceduration.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/School Operations/school service/schoolservice.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/School Operations/school service/schoolservice.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Student Information/Pupils.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Student Information/Pupils.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Student Information/add-pupil.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Student Information/add-pupil.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Student Information/edit-pupil.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Student Information/edit-pupil.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Student Information/parentinfo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Student Information/parentinfo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Student Information/pupilclass.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Student Information/pupilclass.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Student Information/registrationauto.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Student Information/registrationauto.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Registration/Student Information/view-pupil.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Registration/Student Information/view-pupil.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/IncomeAreaChart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/IncomeAreaChart.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/UniqueVisitorCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/UniqueVisitorCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/LoginRoutes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/LoginRoutes.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/MainRoutes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/MainRoutes.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/account.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/account.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/calendarService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/calendarService.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/classesService.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/classesService.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/baselink.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/baselink.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/pupilservice.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/pupilservice.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/schoolservice.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/schoolservice.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -66,7 +159,8 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Paul/Documents/projects/java projects/Ecomerce-Project&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Paul/.Ld9VirtualBox/Downloads/hotel-mgmt-system-master/hotel-mgmt-system-master&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -80,12 +174,16 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Paul\Documents\simisfront\simisfront\src\pages\Registration\Academic Management\pupil class promotion\promotion" />
       <recent name="C:\Users\Paul\Documents\simisfront\simisfront\src\assets\images\users" />
       <recent name="C:\Users\Paul\Documents\simisfront\simisfront" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Paul\Documents\simisfront\simisfront\src\pages\Registration\Academic Management\Academic calendar" />
-      <recent name="C:\Users\Paul\Documents\simisfront\simisfront\src\pages\core" />
+      <recent name="C:\Users\Paul\Documents\simisfront\simisfront\src\pages\Payment\transactions list" />
+      <recent name="C:\Users\Paul\Documents\simisfront\simisfront\src\pages\Invoice\invoice management panel\create arrear" />
+      <recent name="C:\Users\Paul\Documents\simisfront\simisfront\src\pages\Invoice\invoice management panel" />
+      <recent name="C:\Users\Paul\Documents\simisfront\simisfront\src\pages\Registration\Academic Management\pupil class promotion\student reporting" />
+      <recent name="C:\Users\Paul\Documents\simisfront\simisfront\src\pages\Registration\Academic Management\pupil class promotion\demotion" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -120,6 +218,15 @@
       <workItem from="1716964389265" duration="28143000" />
       <workItem from="1717141496823" duration="15564000" />
       <workItem from="1717345142669" duration="1805000" />
+      <workItem from="1717656676468" duration="17555000" />
+      <workItem from="1717749011357" duration="21490000" />
+      <workItem from="1717943550608" duration="20008000" />
+      <workItem from="1718096268557" duration="5650000" />
+      <workItem from="1718110587038" duration="4730000" />
+      <workItem from="1718177316590" duration="3093000" />
+      <workItem from="1718235121585" duration="20327000" />
+      <workItem from="1718358413974" duration="14798000" />
+      <workItem from="1718480084747" duration="1800000" />
     </task>
     <servers />
   </component>

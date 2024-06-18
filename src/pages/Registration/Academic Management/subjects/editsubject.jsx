@@ -53,7 +53,7 @@ function EditSubject() {
     };
 
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Grid item xs={12}>
                 <Typography variant="h3">Edit Subject</Typography>
             </Grid>

@@ -35,7 +35,7 @@ function Gender() {
     };
 
     return (
-        <MainCard title="Gender Management">
+        <MainCard title="Gender Management" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Welcome to the Gender Management page. Here you can manage gender details and their actions.
             </Typography>

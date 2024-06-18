@@ -7,11 +7,11 @@ const router = createBrowserRouter(
     [
         {
             ...MainRoutes,
-            errorElement: <ErrorPage />,
+            errorElement: <ErrorPage style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />,
         },
         {
             ...LoginRoutes,
-            errorElement: <ErrorPage />,
+            errorElement: <ErrorPage style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />,
         },
 
     ],

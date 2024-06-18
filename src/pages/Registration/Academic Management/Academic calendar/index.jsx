@@ -41,7 +41,7 @@ const AcademicYears = () => {
     };
 
     return (
-        <MainCard title="Academic Year Management">
+        <MainCard title="Academic Year Management" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Welcome to the Academic Year Management page. Here you can manage academic years, terms, events, and calendar years.
             </Typography>

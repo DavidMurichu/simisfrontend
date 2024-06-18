@@ -1,4 +1,3 @@
-// assets
 import BankOutlined from '@ant-design/icons/BankOutlined';
 import TeamOutlined from '@ant-design/icons/TeamOutlined';
 import StarOutlined from '@ant-design/icons/StarOutlined';
@@ -48,29 +47,30 @@ const financeModule = {
     type: 'group',
     children: [
         {
-            id: 'income-management',
-            title: 'Income Management',
+            id: 'reports-and-statements',
+            title: 'Reports and Statements',
             type: 'item',
-            url: '/finance/income-management',
-            icon: icons.DollarOutlined,
-            breadcrumbs: false
-        },
-        {
-            id: 'expense-management',
-            title: 'Expense Management',
-            type: 'item',
-            url: '/finance/expense-management',
-            icon: icons.HistoryOutlined,
-            breadcrumbs: false
-        },
-        {
-            id: 'financial-reports',
-            title: 'Financial Reports',
-            type: 'item',
-            url: '/finance/financial-reports',
+            url: '/finance/reports-and-statements',
             icon: icons.FileDoneOutlined,
+            breadcrumbs: false
+        },
+        {
+            id: 'accounts-management',
+            title: 'Accounts Management',
+            type: 'item',
+            url: '/finance/accounts-management',
+            icon: icons.AuditOutlined,
+            breadcrumbs: false
+        },
+        {
+            id: 'transaction-management',
+            title: 'Transaction Management',
+            type: 'item',
+            url: '/finance/transaction-management',
+            icon: icons.ContainerOutlined,
             breadcrumbs: false
         }
     ]
 };
+
 export default financeModule;

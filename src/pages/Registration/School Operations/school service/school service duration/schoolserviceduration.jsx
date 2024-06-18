@@ -32,7 +32,7 @@ function SchoolServiceDuration() {
     };
 
     return (
-        <MainCard title="School Service Duration">
+        <MainCard title="School Service Duration" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Welcome to the School Service Duration page. Here you can manage the duration of school services.
             </Typography>

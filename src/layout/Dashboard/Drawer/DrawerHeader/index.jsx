@@ -13,7 +13,7 @@ export default function DrawerHeader({ open }) {
   const theme = useTheme();
 
   return (
-    <DrawerHeaderStyled theme={theme} open={!!open}>
+    <DrawerHeaderStyled theme={theme} open={!!open} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
       <Logo isIcon={!open} sx={{ width: open ? 'auto' : 40, height: 35, }} />
     </DrawerHeaderStyled>
   );

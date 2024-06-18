@@ -37,7 +37,7 @@ function TeachersOnDuty() {
 
     return (
         <div>
-            <MainCard title="Teacher on Duty Management">
+            <MainCard title="Teacher on Duty Management" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                 <Typography variant="body1" gutterBottom>
                     Welcome to the Teacher on Duty management page. Here you can manage teacher details and their actions.
                 </Typography>

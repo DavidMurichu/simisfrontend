@@ -34,7 +34,7 @@ export default function Header() {
 
   // common header
   const mainHeader = (
-    <Toolbar>
+    <Toolbar style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
       <IconButton
         disableRipple
         aria-label="open drawer"

@@ -27,7 +27,7 @@ const Classes = () => {
     };
 
     return (
-        <div>
+        <div style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="h5" gutterBottom>
                 Class Management
             </Typography>

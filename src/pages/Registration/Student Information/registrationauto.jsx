@@ -44,7 +44,7 @@ function RegistrationAuto() {
     };
 
     return (
-        <Box>
+        <Box style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} >
             <Typography variant="h4" gutterBottom>
                 Registration Process
             </Typography>

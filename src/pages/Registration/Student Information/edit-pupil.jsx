@@ -68,7 +68,7 @@ function EditPupil() {
     };
 
     return (
-        <MainCard title="Edit Pupil">
+        <MainCard title="Edit Pupil" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>

@@ -12,6 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import Divider from '@mui/material/Divider';
 import PupilService from "../../../services/pupilservice";
+import {toast} from "react-toastify";
 
 function ViewPupil() {
     const { id } = useParams();
@@ -24,8 +25,16 @@ function ViewPupil() {
                 if (response && response.data) {
                     setPupil(response.data);
                 }
-            } catch (error) {
-                console.error('Error fetching pupil:', error);
+            } catch (err) {
+                if (err.data) {
+                    const errorMessage = err.data[0].message;
+                    console.log("Error from response", err.data, errorMessage);
+                    toast.warning("Try again: " + errorMessage);
+                } else if (err.message) {
+                    toast.error(err.message);
+                } else {
+                    toast.error("An unexpected error occurred. Please try again.");
+                }
             }
         };
 
@@ -42,7 +51,7 @@ function ViewPupil() {
     };
 
     return (
-        <MainCard title={`Pupil Profile: ${pupil.name}`}>
+        <MainCard title={`Pupil Profile: ${pupil.name}`} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Grid container spacing={3} justifyContent="center">
                 <Grid item xs={12} md={4} alignItems="center">
                     <Avatar sx={{ width: 120, height: 120, mx: 'auto' }}>

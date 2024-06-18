@@ -45,7 +45,7 @@ export default function AuditLogs() {
     };
 
     return (
-        <MainCard title="Audit Logs">
+        <MainCard title="Audit Logs" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 View audit logs of system activities.
             </Typography>

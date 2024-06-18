@@ -39,7 +39,7 @@ function Addschoolserviceduration() {
     };
 
     return (
-        <div>
+        <div style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="h1">Add School Service</Typography>
             <Grid container spacing={2}>
                 <Grid item xs={12}>

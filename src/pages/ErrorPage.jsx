@@ -53,7 +53,7 @@ const ErrorPage = () => {
     }, [location.state]);
 
     return (
-        <StyledContainer maxWidth="sm">
+        <StyledContainer maxWidth="sm" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <ErrorIcon />
             <Typography variant="h2" color="error" gutterBottom>
                 Oops!

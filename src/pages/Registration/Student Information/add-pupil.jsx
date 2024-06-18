@@ -12,7 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Account from '../../../services/account';
 import GenderService from '../../../services/pupilservice';
 import AcademicYearService from '../../../services/calendarService';
-import { toast } from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import PupilService from '../../../services/pupilservice';
 import ClassesService from '../../../services/classesService';
 import MenuItem from "@mui/material/MenuItem";
@@ -87,9 +87,17 @@ function AddPupil() {
             const response = await Account.getAllBranches();
             setBranches(response.data);
             setLoading(false);
-        } catch (error) {
-            console.error('Error fetching branches:', error);
-            setLoading(false);
+        } catch (err) {
+            if (err.data) {
+                // Accessing the array of errors and getting the first error message
+                const errorMessage = err.data[0].message;
+                console.log("Error from response", err.data, errorMessage);
+                toast.warning("Try again: " + errorMessage);
+            } else if (err.message) {
+                toast.error(err.message);
+            } else {
+                toast.error("An unexpected error occurred. Please try again.");
+            }
         }
     };
 
@@ -97,9 +105,16 @@ function AddPupil() {
         try {
             const response = await GenderService.getAllGenders();
             setGenders(response.data);
-        } catch (error) {
-            console.error('Error fetching genders:', error);
-            toast.error('Error fetching genders. Please try again.');
+        } catch (err) {
+            if (err.data) {
+                const errorMessage = err.data[0].message;
+                console.log("Error from response", err.data, errorMessage);
+                toast.warning("Try again: " + errorMessage);
+            } else if (err.message) {
+                toast.error(err.message);
+            } else {
+                toast.error("An unexpected error occurred. Please try again.");
+            }
         }
     };
 
@@ -107,16 +122,31 @@ function AddPupil() {
         try {
             const response = await AcademicYearService.getAllTerms();
             setTerms(response.data);
-        } catch (error) {
-            console.error('Error fetching terms:', error);
+        } catch (err) {
+            if (err.data) {
+                const errorMessage = err.data[0].message;
+                toast.warning("Try again: " + errorMessage);
+            } else if (err.message) {
+                toast.error(err.message);
+            } else {
+                toast.error("An unexpected error occurred. Please try again.");
+            }
         }
     };
     const fetchYears = async () => {
         try {
             const response = await AcademicYearService.getAllAcademicYears();
             setYears(response.data);
-        } catch (error) {
-            console.error('Error fetching terms:', error);
+        } catch (err) {
+            if (err.data) {
+                const errorMessage = err.data[0].message;
+                console.log("Error from response", err.data, errorMessage);
+                toast.warning("Try again: " + errorMessage);
+            } else if (err.message) {
+                toast.error(err.message);
+            } else {
+                toast.error("An unexpected error occurred. Please try again.");
+            }
         }
     };
 
@@ -125,9 +155,15 @@ function AddPupil() {
             const response = await ClassesService.getAllClasses();
             setClasses(response.data);
             setLoading(false);
-        } catch (error) {
-            console.error('Error fetching classes:', error);
-            setLoading(false);
+        } catch (err) {
+            if (err.data) {
+                const errorMessage = err.data[0].message;
+                toast.warning("Try again: " + errorMessage);
+            } else if (err.message) {
+                toast.error(err.message);
+            } else {
+                toast.error("An unexpected error occurred. Please try again.");
+            }
         }
     };
 
@@ -143,15 +179,28 @@ function AddPupil() {
         e.preventDefault();
         try {
             const response = await PupilService.addPupil(formData);
-            if (response) {
+            console.log("response", response.data);
+            if (response.status === 201) {
                 toast.success("Successfully added user to database");
                 navigate("/registration/student-information");
+            } else if (response.status === 401) {
+                const errorMessage = response.data[0]?.message || "Unauthorized. Please try again.";
+                toast.warning("Try again: " + errorMessage);
             }
         } catch (err) {
-            console.log("Error adding a new student", err);
-            toast.warning("Could not add pupil, try again");
+            if (err.data) {
+                // Accessing the array of errors and getting the first error message
+                const errorMessage = err.data[0].message;
+                console.log("Error from response", err.data, errorMessage);
+                toast.warning("Try again: " + errorMessage);
+            } else if (err.message) {
+                toast.error(err.message);
+            } else {
+                toast.error("An unexpected error occurred. Please try again.");
+            }
         }
     };
+
 
     const clearForm = () => {
         setFormData({
@@ -198,7 +247,8 @@ function AddPupil() {
     };
 
     return (
-        <MainCard title="Add Pupil">
+        <MainCard title="Add Pupil" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
+            <ToastContainer/>
             <form onSubmit={handleSubmit}>
                 <Accordion defaultExpanded>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>

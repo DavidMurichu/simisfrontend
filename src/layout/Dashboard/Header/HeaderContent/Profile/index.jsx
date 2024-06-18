@@ -39,7 +39,7 @@ import {useNavigate} from "react-router-dom";
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
     return (
-        <div role="tabpanel" hidden={value !== index} id={`profile-tabpanel-${index}`} aria-labelledby={`profile-tab-${index}`} {...other}>
+        <div role="tabpanel" hidden={value !== index} id={`profile-tabpanel-${index}`} aria-labelledby={`profile-tab-${index}`} {...other} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             {value === index && children}
         </div>
     );

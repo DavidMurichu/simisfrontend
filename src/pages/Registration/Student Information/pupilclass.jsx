@@ -40,7 +40,7 @@ function PupilClass() {
     };
 
     return (
-        <MainCard title="Pupil Class" sx={{ p: 3 }}>
+        <MainCard title="Pupil Class" sx={{ p: 3 }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Grid container spacing={3}>
                 <Grid item xs={12} md={3}>
                     <Paper elevation={3} sx={{ p: 2, height: '100%' }}>

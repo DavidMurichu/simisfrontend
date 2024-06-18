@@ -46,7 +46,7 @@ export default function ProfileTab({ handleLogout }) {
     };
 
     return (
-        <List component="nav" sx={{ p: 0, '& .MuiListItemIcon-root': { minWidth: 32 } }}>
+        <List component="nav" sx={{ p: 0, '& .MuiListItemIcon-root': { minWidth: 32 } }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <ToastContainer />
             <ListItemButton selected={selectedIndex === 0} onClick={handleEditProfileClick}>
                 <ListItemIcon>

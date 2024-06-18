@@ -27,7 +27,7 @@ export default function SystemSettings() {
 
 
     return (
-        <MainCard title="System Settings">
+        <MainCard title="System Settings" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Manage system settings here.
             </Typography>
