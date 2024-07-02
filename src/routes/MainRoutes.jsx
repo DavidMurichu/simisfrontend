@@ -70,7 +70,7 @@ import InvoiceManagementPanel from "../pages/Invoice/invoice management panel";
 import ArrearManagement from "../pages/Invoice/invoice management panel/create arrear/createarrear";
 import AddArrear from "../pages/Invoice/invoice management panel/create arrear/addarrear";
 import AdministrativeCharges from "../pages/Invoice/administrative charges";
-import AddAdministrativeCharge from "../pages/Invoice/administrative charges/addAdministrativeCharge";
+import AddAdministrativeCharge from "../pages/Invoice/administrative charges/admincharges/addAdministrativeCharge";
 import SchoolServiceManagement from "../pages/Registration/School Operations/school service/schoolservice";
 import AddSchoolService from "../pages/Registration/School Operations/school service/addSchoolService";
 import PupilFinancial from "../pages/Invoice/Pupil Financial";

@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import TableTemplate from '../../../HOC/tabletemplate';
 import MainCard from 'components/MainCard';
 import { Link } from 'react-router-dom';
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import ArrearService from '../../../../services/apiservice';
 
 const columns = [
@@ -35,6 +35,7 @@ function ArrearManagement() {
     };
 
     return (
+        <>
         <MainCard title="Arrear Management">
             <Typography variant="body1" gutterBottom>
                 Welcome to the Arrear Management page. Here you can manage arrear details and their actions.
@@ -56,6 +57,9 @@ function ArrearManagement() {
                 handleDelete={handleDelete}
             />
         </MainCard>
+        <ToastContainer></ToastContainer>
+        </>
+        
     );
 }
 

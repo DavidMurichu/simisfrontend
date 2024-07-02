@@ -1,27 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, TextField, Button, Grid, MenuItem, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import MainCard from "../../components/MainCard";
 
-const GenericForm = ({ formData, title, fields, onSubmit, onCancel, navigateTo }) => {
+const GenericForm = ({ formData, title, fields, onSubmit, onCancel, navigateTo, setFormData = null }) => {
     const [formState, setFormState] = useState(formData);
+    const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        setFormState(formData);
+    }, [formData]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormState({
-            ...formState,
-            [name]: type === 'checkbox' ? checked : value,
+        const updatedValue = type === 'checkbox' ? checked : value;
+
+        if (setFormData) {
+            setFormData({
+                ...formData,
+                [name]: updatedValue,
+            });
+        } else {
+            setFormState({
+                ...formState,
+                [name]: updatedValue,
+            });
+        }
+    };
+
+    const validate = () => {
+        let tempErrors = {};
+        fields.forEach(field => {
+            if (field.required && !formState[field.name]) {
+                tempErrors[field.name] = `${field.label} is required`;
+            }
         });
+        setErrors(tempErrors);
+        return Object.keys(tempErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            await onSubmit(formState);
-        } catch (error) {
-            console.error(`Error adding ${title.toLowerCase()}:`, error);
-            toast.error(`Failed to add ${title.toLowerCase()}`);
+        if (validate()) {
+            try {
+                await onSubmit(formState);
+            } catch (error) {
+                console.error(`Error adding ${title.toLowerCase()}:`, error);
+                toast.error(`Failed to add ${title.toLowerCase()}`);
+            }
+        } else {
+            toast.error("Please fill in all required fields");
         }
     };
 
@@ -43,6 +72,8 @@ const GenericForm = ({ formData, title, fields, onSubmit, onCancel, navigateTo }
                                     value={formState[field.name] || ''}
                                     onChange={handleChange}
                                     required={field.required || false}
+                                    error={!!errors[field.name]}
+                                    helperText={errors[field.name]}
                                 >
                                     {field.options.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
@@ -62,6 +93,8 @@ const GenericForm = ({ formData, title, fields, onSubmit, onCancel, navigateTo }
                                     InputLabelProps={field.type === 'date' ? { shrink: true } : {}}
                                     multiline={field.multiline || false}
                                     rows={field.rows || 1}
+                                    error={!!errors[field.name]}
+                                    helperText={errors[field.name]}
                                 />
                             )}
                         </Grid>

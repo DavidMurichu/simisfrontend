@@ -77,7 +77,7 @@ function InvoiceManagementPanel() {
             <List>
                 {sections.map((section, index) => (
                     <ListItem
-                        button
+                        
                         key={index}
                         onClick={() => handleSectionClick(section.label)}
                         sx={{

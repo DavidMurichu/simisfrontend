@@ -57,5 +57,79 @@ function AdministrativeCharges() {
     );
 }
 
+
+
+
+
+const AdminChargesPanel=()=>{
+
+const [selectedSection, setSelectedSection] = useState(null);
+const [open, setOpen] = useState(false);
+
+const sections = [
+    { label: 'Create Admin Charge', description: 'Create Admin Charges for School', icon: <FileAddOutlined /> },
+];
+
+const handleSectionClick = (section) => {
+    setSelectedSection(section);
+    setOpen(true);
+};
+
+const handleClose = () => {
+    setOpen(false);
+};
+
+const renderDescription = () => {
+    switch (selectedSection) {
+        case 'Admin Charges':
+            return (
+                <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
+                    Create arrears for students. This section allows you to add new arrears, specify the amount, and assign them to specific students.
+                    <br />
+                    <Button component={Link} to="/invoices/administrative-charges" variant="contained" color="primary" sx={{ mt: 2 }}>
+                        Create Arrear
+                    </Button>
+                </Typography>
+            );
+        default:
+            return null;
+    }
+};
+
+    return (
+        <MainCard title="Admin Charges Management Panel" boxShadow={3} sx={{ p: 2 }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
+            <Typography variant="body1" gutterBottom>
+                Welcome to the Charges Management Panel. This panel provides tools and features to manage various aspects of charges creation and management within the institution.
+            </Typography>
+            <List>
+                {sections.map((section, index) => (
+                    <ListItem
+                        
+                        key={index}
+                        onClick={() => handleSectionClick(section.label)}
+                        sx={{
+                            py: 2,
+                            backgroundColor: 'background.paper',
+                            '&:hover': {
+                                backgroundColor: 'primary.light',
+                                color: 'white'
+                            }
+                        }}
+                    >
+                        <ListItemIcon sx={{ color: 'primary.main' }}>{section.icon}</ListItemIcon>
+                        <ListItemText primary={section.label} secondary={section.description} />
+                    </ListItem>
+                ))}
+            </List>
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+                <DialogTitle align="center">{selectedSection}</DialogTitle>
+                <DialogContent dividers>
+                    {renderDescription()}
+                </DialogContent>
+            </Dialog>
+        </MainCard>
+    );
+}
+
 export default AdministrativeCharges;
 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import GenericForm from '../../../HOC/formtemplate';
-import AdministrativeChargeService from '../../../../services/apiservice';
+import GenericForm from '../../HOC/formtemplate';
+import AdministrativeChargeService from '../../../services/apiservice';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
-import BaseLink from '../../../../services/baselink';
-import ApiService from '../../../../services/apiservice';
-import Account from "../../../../services/account";
+import BaseLink from '../../../services/baselink';
+import ApiService from '../../../services/apiservice';
+import Account from "../../../services/account";
 
 const AddAdministrativeCharge = () => {
     const navigate = useNavigate();

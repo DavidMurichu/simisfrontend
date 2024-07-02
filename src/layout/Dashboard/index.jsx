@@ -14,6 +14,7 @@ import Loader from 'components/Loader';
 import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
+import { ToastContainer } from 'react-toastify';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -37,6 +38,7 @@ export default function DashboardLayout() {
         <Breadcrumbs navigation={navigation} title style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}  />
         <Outlet style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}  />
       </Box>
+      <ToastContainer></ToastContainer>
     </Box>
   );
 }
