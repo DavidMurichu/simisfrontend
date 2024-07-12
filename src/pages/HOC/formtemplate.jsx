@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, TextField, Button, Grid, MenuItem, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Typography, TextField, Button, Grid, MenuItem, Box, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MainCard from "../../components/MainCard";
 
-const GenericForm = ({ formData, title, fields, onSubmit, onCancel, navigateTo, setFormData = null }) => {
+const GenericForm = ({ formData, title, fields, onSubmit, setFormData = null, isCombo=false }) => {
     const [formState, setFormState] = useState(formData);
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         setFormState(formData);
@@ -54,8 +56,23 @@ const GenericForm = ({ formData, title, fields, onSubmit, onCancel, navigateTo, 
         }
     };
 
+  
     return (
         <MainCard title={title} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+
+                
+                {
+                    isCombo?null:
+                <IconButton onClick={() => navigate(-1)} color="primary">
+                    <ArrowBackIcon />
+                </IconButton>
+                }
+                
+                <Typography variant="h5" component="div">
+                    {title}
+                </Typography>
+            </Box>
             <Typography variant="body1" gutterBottom>
                 Fill in the details to {title}.
             </Typography>
@@ -100,18 +117,14 @@ const GenericForm = ({ formData, title, fields, onSubmit, onCancel, navigateTo, 
                         </Grid>
                     ))}
                     <Grid item xs={12}>
-                        <Button variant="contained" color="primary" type="submit">
-                            Submit
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            component={Link}
-                            to={onCancel}
-                            sx={{ ml: 2 }}
-                        >
-                            Cancel
-                        </Button>
+                        {
+                            isCombo?null:(
+                                <Button variant="contained" color="primary" type="submit">
+                                Submit
+                            </Button>
+                            )
+                        }
+                       
                     </Grid>
                 </Grid>
             </Box>

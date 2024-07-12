@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import GenericForm from '../../../HOC/formtemplate';
 import ApiService from '../../../../services/apiservice';
 
@@ -10,10 +11,10 @@ const AddArrear = () => {
     const lasteditedby = sessionStorage.getItem('id');
 
     const [formData, setFormData] = useState({
-        incomeid:'',
-        academicyearid:'',
-        classid:'',
-        termid:'',
+       
+        academicyearid: '',
+        classid: '',
+        termid: '',
         studentid: '',
         paymenttermid: '',
         studentclasspromotiontermid: '',
@@ -27,25 +28,29 @@ const AddArrear = () => {
     });
 
     const [students, setStudents] = useState([]);
-    const [paymentTerms, setPaymentTerms] = useState([]);
-    const [incomes, setIncomes] = useState([]);
+    const [paymentterms, setPaymentTerms] = useState([]);
+
+    const fetchData = async (url, setState) => {
+        try {
+            
+            const response = await ApiService.get(url);
+            if (response.data) {
+                if (response.data.error) {
+                    toast.error(`Error: ${response.data.error}`);
+                    console.error(`Error fetching data from ${url}: ${response.data.error}`);
+                } else if (Array.isArray(response.data)) {
+                    setState(response.data);
+                }
+            }
+        } catch (error) {
+            toast.error(`Failed to fetch data from ${url}`);
+            console.error(`Error fetching data from ${url}:`, error);
+        }
+    };
 
     useEffect(() => {
-        const fetchDropdowns = async () => {
-            try {
-                const incomes= await ApiService.get("home/get_data/incomes");
-                setIncomes(incomes.data);
-                const studentsResponse = await ApiService.get("home/promoted/students/sch_student_class_terms");
-                setStudents(studentsResponse.data);
-                const paymentTermResponse = await ApiService.get("home/get_data/sch_payment_terms");
-                setPaymentTerms(paymentTermResponse.data);
-            } catch (error) {
-                toast.error('Failed to fetch dropdown options');
-                console.error('Error fetching dropdown options:', error);
-            }
-        };
-
-        fetchDropdowns();
+        fetchData("home/get_data/sch_payment_terms", setPaymentTerms);
+        fetchData("home/promoted/students/sch_student_class_terms", setStudents);
     }, []);
 
     useEffect(() => {
@@ -62,14 +67,22 @@ const AddArrear = () => {
             }
         }
     }, [formData.studentid, students]);
-    
+
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
     const handleFormSubmit = async (formData) => {
         try {
-
+            console.log('datad', formData);
             const submitData = {
-                studentarears: [
-                    {
+                        commondata:{
+                            createdby:1,
+                            laseditedby:1,
+                            branchid:"School",
+                            incomeName:formData.incomeno
+                            },
+                        studentarears:[{
+                        paymenttermid:formData.paymenttermid,
+                        remarks:formData.remarks,
                         classid: formData.classid,
                         termid: formData.termid,
                         academicyearid: formData.academicyearid,
@@ -78,9 +91,8 @@ const AddArrear = () => {
                         is_active: formData.is_active,
                         createdby: formData.createdby,
                         lasteditedby: formData.lasteditedby,
-                        studentclasspromotiontermid: formData.studentclasspromotiontermid,
-                    }
-                ]
+                        studentclasspromotiontermid: formData.studentclasspromotiontermid
+                        }],
             };
             const response = await ApiService.post("home/create_arear", submitData, true);
             if (response.status === 201) {
@@ -102,25 +114,17 @@ const AddArrear = () => {
             label: 'Student',
             type: 'select',
             options: students.map(student => ({ value: student.id, label: student.name })),
-            // required: true
+            required: true
         },
         {
             name: 'paymenttermid',
-            label: 'Payment Term',
+            label: 'PaymentTerms',
             type: 'select',
-            options: paymentTerms.map(paymentTerm => ({ value: paymentTerm.id, label: paymentTerm.name })),
-            // required: true
+            options: paymentterms.map(paymentterm => ({ value: paymentterm.id, label: paymentterm.name })),
+            required: true
         },
-        {
-            name: 'incomeid',
-            label: 'Incomes',
-            type: 'select',
-            options: incomes.map(income => ({ value: income.id, label: income.name })),
-            // required: true
-        },
-        
         { name: 'amount', label: 'Amount', type: 'number', required: true },
-        { name: 'remarks', label: 'Remarks', type: 'text', multiline: true, rows: 4 },
+        { name: 'remarks', label: 'Remarks', type: 'text', multiline: true, rows: 4 , required: true},
         {
             name: 'is_active',
             label: 'Is Active',
@@ -129,22 +133,22 @@ const AddArrear = () => {
                 { value: '0', label: 'No' },
                 { value: '1', label: 'Yes' }
             ],
-            // required: true
+            required: true
         }
     ];
 
     return (
         <>
-        <GenericForm
-            setFormData={setFormData}
-            formData={formData}
-            title="Add Arrear"
-            fields={arrearFields}
-            onSubmit={handleFormSubmit}
-            onCancel="/invoices/create-arrear"
-        />
+            <GenericForm
+                setFormData={setFormData}
+                formData={formData}
+                title="Add Arrear"
+                fields={arrearFields}
+                onSubmit={handleFormSubmit}
+                onCancel="/invoices/create-arrear"
+            />
+            <ToastContainer />
         </>
-        
     );
 };
 

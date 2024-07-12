@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import TableTemplate from '../../HOC/tabletemplate';
 import MainCard from 'components/MainCard';
 import axios from 'axios';
+import DoubleGenericTable from 'pages/HOC/doubleGenericTemplate';
 
 const columns = [
     { field: 'pupils', headerName: 'Pupils', width: 200 },
@@ -45,7 +46,11 @@ const PupilFinancial = () => {
     const [tabValue, setTabValue] = useState(0);
 
     useEffect(() => {
+   
+
+
         const fetchDropdownData = async () => {
+
             try {
                 const classResponse = await axios.get('/api/classes');
                 const yearResponse = await axios.get('/api/academic-years');
@@ -84,21 +89,10 @@ const PupilFinancial = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        try {
-            // Assuming there's an endpoint to delete financial records
-            // const response = await axios.delete(`/api/pupil-financials/${id}`);
-            // if (response.status === 200) {
-            //     toast.success("Deleted record successfully");
-            //     handleSearch(); // Refresh data after deletion
-            // } else {
-            //     toast.warning("Error deleting record, please try again");
-            // }
-        } catch (error) {
-            console.error('Error deleting record:', error);
-            toast.error("Error deleting record. Please try again.");
-        }
-    };
+    const handleSelect=()=>{
+
+    }
+    
 
     const handleReverse = async (id) => {
         try {
@@ -120,111 +114,67 @@ const PupilFinancial = () => {
         setTabValue(newValue);
     };
 
+    const endpoint = 'home/get_data/member_payable_arears';
+    const handleEdit=()=>{
+
+    }
+    const handleDelete=()=>{
+        
+    }
+    const buttons = [
+        { label: 'Edit', color: 'primary', handleFunction: handleEdit },
+        { label: 'Delete', color: 'error', handleFunction: handleDelete },
+        { label: 'Reverse', color: 'secondary', handleFunction: handleReverse },
+    ];
+   
+    const columns = [
+        {
+            field: 'studentid',
+            headerName: 'Pupil',
+            foreign: 'student', 
+            foreignField: 'name'
+        },
+        { field: 'amount', headerName: 'Amount' },
+        { field: 'created_at', headerName: 'Created On' },
+        { field: 'is_active', headerName: 'Is Active' }
+    ];
     return (
         <MainCard title="Pupil Financial" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
                 Use the filters below to search for pupil financial records.
             </Typography>
-            <Box sx={{ mb: 2 }}>
-                <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12} md={3}>
-                        <TextField
-                            select
-                            label="Select Class"
-                            fullWidth
-                            value={selectedClass}
-                            onChange={(e) => setSelectedClass(e.target.value)}
-                        >
-                            {classes.map((cls) => (
-                                <MenuItem key={cls.id} value={cls.id}>
-                                    {cls.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                        <TextField
-                            select
-                            label="Academic Year"
-                            fullWidth
-                            value={selectedYear}
-                            onChange={(e) => setSelectedYear(e.target.value)}
-                        >
-                            {academicYears.map((year) => (
-                                <MenuItem key={year.id} value={year.id}>
-                                    {year.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                        <TextField
-                            select
-                            label="Academic Year Term"
-                            fullWidth
-                            value={selectedTerm}
-                            onChange={(e) => setSelectedTerm(e.target.value)}
-                        >
-                            {terms.map((term) => (
-                                <MenuItem key={term.id} value={term.id}>
-                                    {term.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                        <TextField
-                            label="Date From"
-                            type="date"
-                            fullWidth
-                            InputLabelProps={{ shrink: true }}
-                            value={dateFrom}
-                            onChange={(e) => setDateFrom(e.target.value)}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                        <TextField
-                            label="Date To"
-                            type="date"
-                            fullWidth
-                            InputLabelProps={{ shrink: true }}
-                            value={dateTo}
-                            onChange={(e) => setDateTo(e.target.value)}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleSearch}
-                            fullWidth
-                            disabled={loading}
-                        >
-                            Search
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Box>
-            <Tabs value={tabValue} onChange={handleTabChange} aria-label="Pupil Financial Tabs">
-                <Tab label="Pupils Fee Invoice" />
-                <Tab label="Bulk Invoice Reversal" />
-            </Tabs>
+            
+            <Button
+                variant="contained"
+                color="primary"
+                component={Link}
+                to="/school-fee-invoice"
+                sx={{ mr: 1 }}
+            >
+               Reverse Invoicesu
+            </Button>
             {tabValue === 0 && (
                 <TableTemplate
-                    columns={columns}
-                    data={tableData}
-                    loading={loading}
-                    handleDelete={handleDelete}
-                />
+                buttons={buttons}
+                columns={columns}
+                endpoint={endpoint}
+            />
             )}
+
             {tabValue === 1 && (
                     <TableTemplate
-                        columns={bulkReversalColumns}
-                        data={tableData}
-                        loading={loading}
-                        handleDelete={handleDelete}
-                    />
+                    checkboxes={[
+                        {
+                            handleSelect: handleSelect,
+                        }
+                    ]}
+                    buttons={buttons}
+                    columns={columns}
+                    endpoint={endpoint}
+                />
+            
             )}
+          
         </MainCard>
     );
 };

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TableContainer from '@mui/material/TableContainer';
@@ -10,25 +9,25 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TablePagination from '@mui/material/TablePagination';
-import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox'; // Import Checkbox from MUI
 import BaseLink from "../../services/baselink";
-import axios from "axios";
 import ApiService from "../../services/apiservice";
+import { ToastContainer } from 'react-toastify';
 
-const TableTemplate = ({ columns, endpoint, handleDelete = () => {}, handleEdit = () => {} }) => {
+const TableTemplate = ({ columns, endpoint, buttons = [], checkboxes = [] }) => {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectAll, setSelectAll] = useState(false); // State to manage Select All checkbox
     const BASE_URL = BaseLink.getBaseLink();
 
     const fetchData = async () => {
         try {
-            const token = sessionStorage.getItem("token")
-            const response = await ApiService.get(`${endpoint}`,{},true)
-                console.log(response.data)
-            const result = await response.data;
-            setData(Array.isArray(result) ? result : []);
+            const response = await ApiService.get(endpoint, {}, true);
+            const result = response.data;
+            // Add selected property to each data item
+            setData(Array.isArray(result) ? result.map(item => ({ ...item, selected: false })) : []);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -55,20 +54,53 @@ const TableTemplate = ({ columns, endpoint, handleDelete = () => {}, handleEdit 
         return isActive ? 'green' : 'red';
     };
 
+    const renderForeignKeyField = (row, foreignHolder, renderField) => {
+        if (row[foreignHolder] && row[foreignHolder][renderField]) {
+            return row[foreignHolder][renderField];
+        }
+        return 'N/A';
+    };
+
+    const handleSelectAll = (event) => {
+        const checked = event.target.checked;
+        setSelectAll(checked);
+        const updatedData = data.map(row => ({ ...row, selected: checked }));
+        setData(updatedData);
+    };
+
+    const handleSingleSelect = (id, checked) => {
+        const updatedData = data.map(row => {
+            if (row.id === id) {
+                return { ...row, selected: checked };
+            }
+            return row;
+        });
+        setData(updatedData);
+    };
+
+    const renderBooleanField = (value) => {
+        const boolValue = value === "1" || value === 1;
+        return (
+            <Typography variant="body1" style={{ color: getStatusColor(boolValue) }}>
+                {boolValue ? 'Yes' : 'No'}
+            </Typography>
+        );
+    };
+
     return (
         <div>
-            <TextField
-                label="Search"
-                variant="outlined"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                size="small"
-                sx={{ marginBottom: 2 }}
-            />
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
+                            {checkboxes.length > 0 && (
+                                <TableCell>
+                                    <Checkbox
+                                        checked={selectAll}
+                                        onChange={handleSelectAll}
+                                    />
+                                </TableCell>
+                            )}
                             {columns.map((column) => (
                                 <TableCell key={column.field}>{column.headerName}</TableCell>
                             ))}
@@ -85,33 +117,39 @@ const TableTemplate = ({ columns, endpoint, handleDelete = () => {}, handleEdit 
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => (
                                 <TableRow key={row.id}>
+                                    {checkboxes.length > 0 && (
+                                        <TableCell>
+                                            <Checkbox
+                                                checked={row.selected}
+                                                onChange={(e) => handleSingleSelect(row.id, e.target.checked)}
+                                            />
+                                        </TableCell>
+                                    )}
                                     {columns.map((column) => (
                                         <TableCell key={column.field}>
-                                            {column.field === 'is_active' ? (
-                                                <Typography variant="body1" style={{ color: getStatusColor(row[column.field]) }}>
-                                                    {row[column.field] ? 'Active' : 'Inactive'}
+                                            {column.foreign ? (
+                                                <Typography variant="body1">
+                                                    {renderForeignKeyField(row, column.foreign, column.foreignField)}
                                                 </Typography>
+                                            ) : column.field === 'is_active' || column.type === 'boolean' ? (
+                                                renderBooleanField(row[column.field])
                                             ) : (
                                                 row[column.field]
                                             )}
                                         </TableCell>
                                     ))}
                                     <TableCell>
-                                        <Button
-                                            variant="outlined"
-                                            color="primary"
-                                            onClick={() => handleEdit(row.id)}
-                                            sx={{ mr: 1 }}
-                                        >
-                                            Edit
-                                        </Button>
-                                        <Button
-                                            variant="outlined"
-                                            color="secondary"
-                                            onClick={() => handleDelete(row.id)}
-                                        >
-                                            Delete
-                                        </Button>
+                                        {buttons.map((button, index) => (
+                                            <Button
+                                                key={index}
+                                                variant="outlined"
+                                                color={button.color || 'primary'}
+                                                onClick={() => button.handleFunction(row.id)}
+                                                sx={{ mr: 1 }}
+                                            >
+                                                {button.label}
+                                            </Button>
+                                        ))}
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -127,6 +165,7 @@ const TableTemplate = ({ columns, endpoint, handleDelete = () => {}, handleEdit 
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
+            <ToastContainer />
         </div>
     );
 };

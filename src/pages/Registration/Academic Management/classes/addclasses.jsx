@@ -7,8 +7,9 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import ClassesService from "../../../../services/classesService";
+import ApiService from 'services/apiservice';
 
 function AddClasses() {
     const navigate = useNavigate();
@@ -37,7 +38,8 @@ function AddClasses() {
         };
 
         try {
-            const response = await ClassesService.addClass(dataToSubmit);
+            
+            const response = await ApiService.post('home/add_data/sch_classes',dataToSubmit, true);
             if (response.status === 201) {
                 toast.success("Added class successfully");
                 navigate("/classes");
@@ -91,6 +93,7 @@ function AddClasses() {
                 <Button variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
                 <Button variant="contained" color="secondary" onClick={() => navigate("/classes")} sx={{ ml: 2 }}>Cancel</Button>
             </Grid>
+            <ToastContainer />
         </Grid>
     );
 }

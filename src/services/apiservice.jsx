@@ -34,7 +34,9 @@ class ApiService {
                 const token = sessionStorage.getItem('token');
                 headers['Authorization'] = `Bearer ${token}`;
             }
-
+            // data.createdby=sessionStorage.getItem('id');
+            // data.createdby=1;
+            // data.lasteditedby=createdby;
             const response = await axios.post(`${BASE_URL}/${endpoint}`, data, {
                 headers,
             });
@@ -65,6 +67,25 @@ class ApiService {
         }
     }
 
+    static async delete(endpoint, data, requiresAuth = true){
+        try{
+            const headers = {
+                'ngrok-skip-browser-warning': true,
+            };
+            if (requiresAuth) {
+                const token = sessionStorage.getItem('token');
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            const response = await axios.post(`${BASE_URL}/${endpoint}`, data, {
+                headers,
+            });
+            return response;
+
+        }catch(error){
+            console.error(`Delete request failed: ${error.message}`);
+            throw error;
+        }
+    }
     static async postById(endpoint, id, data, requiresAuth = true) {
         try {
             const headers = {
@@ -80,6 +101,7 @@ class ApiService {
             });
             return response;
         } catch (error) {
+
             console.error(`POST by ID request failed: ${error.message}`);
             throw error;
         }

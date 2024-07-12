@@ -28,7 +28,7 @@ const invoicesModule = {
             id: 'administrative-charges',
             title: 'Administrative Charges',
             type: 'item',
-            url: '/invoices/administrative-charges',
+            url: '/invoices/administrative-charges-panel',
             icon: DollarOutlined,
             breadcrumbs: false
         },

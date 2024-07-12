@@ -7,31 +7,19 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const columns = [
-    { field: 'pupils', headerName: 'Pupils', width: 200 },
-    { field: 'admissionNo', headerName: 'Admission No', width: 200 },
-    { field: 'parentName', headerName: 'Parent Name', width: 200 },
-    { field: 'parentMobile', headerName: 'Parent Mobile', width: 200 },
-    { field: 'service', headerName: 'Service', width: 200 },
-    { field: 'amount', headerName: 'Amount', width: 200 },
-    { field: 'year', headerName: 'Year', width: 200 },
-    { field: 'class', headerName: 'Class', width: 200 },
-    { field: 'term', headerName: 'Term', width: 200 },
-    { field: 'createdon', headerName: 'Createdon', width: 200 },
-    { field: 'isActive', headerName: 'Is Active', width: 100 },
-    {
-        field: 'action',
-        headerName: 'Action',
-        width: 150,
-        renderCell: (params) => (
-            <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => handleDelete(params.row.id)}
-            >
-                Delete
-            </Button>
-        )
-    }
+    { field: 'studentid', headerName: 'Pupils', foreign: 'student', foreignField: 'name'  },
+    { field: 'admisionno', headerName: 'Admission No', foreign: 'student', foreignField: 'admission_no'  },
+    { field: 'parentname', headerName: 'Parant Name', foreign: 'student', foreignField: 'parentname'  },
+    { field: 'parent_mobile', headerName: 'Parant Mobile', foreign: 'student', foreignField: 'parent_mobile'  },
+    { field: 'serviceid', headerName: 'Service', foreign: 'service', foreignField: 'name'  },
+    { field: 'amount', headerName: 'Amount', foreign: 'service', foreignField: 'cost'  },
+    { field: 'classid', headerName: 'Class', foreign: 'promotion', foreignField: 'current_class_id'  },
+    { field: 'termid', headerName: 'Term', foreign: 'student', foreignField: 'current_term_id'  },
+    { field: 'academicyearid', headerName: 'Year', foreign: 'promotion', foreignField: 'academicyear'  },
+    { field: 'created_at', headerName: 'Createdon', width: 200 },
+    { field: 'is_active', headerName: 'Is Active', width: 100 },
+   
+    
 ];
 
 const PupilServiceManagement = () => {
@@ -188,6 +176,7 @@ const PupilServiceManagement = () => {
                 </Grid>
             </Box>
             <TableTemplate
+                endpoint={'home/get_data/sch_student_services'}
                 columns={columns}
                 data={tableData}
                 loading={loading}

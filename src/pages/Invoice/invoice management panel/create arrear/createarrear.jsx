@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import ArrearService from '../../../../services/apiservice';
 
 const columns = [
-    { field: 'studentid', headerName: 'Pupils' },
+    { field: 'studentid', headerName: 'Pupils', foreign: 'student', foreignField: 'name'  },
     { field: 'amount', headerName: 'Amount' },
     { field: 'amount', headerName: 'Amount' },
     { field: 'invoicedon', headerName: 'Invoice Date' },
@@ -47,17 +47,27 @@ function ArrearManagement() {
                 color="primary"
                 component={Link}
                 to="/add-arrear"
-                sx={{ mb: 2 }}
+                sx={{ mr: 1 }}
             >
                 Add New Arrear
             </Button>
+            <Button
+                variant="contained"
+                color="primary"
+                component={Link}
+                to="/bulk-arrear"
+                sx={{ mr: 1 }}
+            >
+                Bulk Arrear Processing
+            </Button>
+
             <TableTemplate
                 columns={columns}
                 endpoint={endpoint}
                 handleDelete={handleDelete}
             />
         </MainCard>
-        <ToastContainer></ToastContainer>
+        <ToastContainer />
         </>
         
     );

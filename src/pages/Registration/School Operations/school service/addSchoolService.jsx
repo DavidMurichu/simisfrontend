@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import GenericForm from '../../../HOC/formtemplate';
 import SchoolService from '../../../../services/schoolservice';
 import ApiService from "../../../../services/apiservice";
 import Account from "../../../../services/account";
+import { delay } from 'lodash';
+import { Delay } from 'pages/HOC/delay';
 
 const AddSchoolService = () => {
     const navigate = useNavigate();
@@ -23,16 +25,12 @@ const AddSchoolService = () => {
         branch_id: ''
     });
     const [serviceDurations, setServiceDurations] = useState([]);
-    const [paymentTerms, setPaymentTerms] = useState([]);
     const [branches, setBranches] = useState([]);
     useEffect(() => {
         const fetchDropdowns = async () => {
             try {
                 const serviceDurationResponse = await SchoolService.fetchServiceDurations();
                 setServiceDurations(serviceDurationResponse.data);
-                const paymentTermResponse = await ApiService.fetchPaymentTerm();
-                console.log("payment value",paymentTermResponse.data)
-                setPaymentTerms(paymentTermResponse.data);
                 const branchesResponse = await Account.getAllBranches();
 
                 setBranches(branchesResponse.data);
@@ -47,29 +45,45 @@ const AddSchoolService = () => {
     }, []);
     const handleFormSubmit = async (formData) => {
         try {
-            formData.createdby = createdby;
-            formData.lasteditedby = lasteditedby;
-            console.log(formData)
-            const response = await SchoolService.createSchoolService(formData);
-            if (response.status === 201) {
+
+            const payLoad={
+                service: {
+                 name: formData.name,
+                      cost: formData.cost,
+                      is_transport_route: formData.is_transport_route,
+                      invoiced_once:formData.invoiced_once,
+                      description: formData.description,
+                      is_active:formData.is_active
+                },
+                commondata: {
+                  createdby: 1,
+                  laseditedby: 1,
+                  branchid: formData.branch_id,
+                  remarks: formData.description
+                }
+              }
+            const response = await ApiService.post('home/services', payLoad, true);
+            console.log(response);
+
+            if (response.status === 200) {
                 toast.success('School service added successfully');
+                await Delay(900);
                 navigate("/school-services");
             } else {
                 toast.error('Failed to add school service');
             }
         } catch (error) {
-            console.error('Error adding school service:', error);
-            toast.error('Failed to add school service. Please try again.');
+
+            console.error('Error adding school service:', error.response.data.message);
+            {
+                (error.response.data.message)?(toast.error(error.response.data.message)):(toast.error('Failed to add school service. Please try again.'))
+            }
+           
+            
         }
     };
     const formFields = [
-        {
-            name: 'servicedurationid',
-            label: 'Service Duration',
-            type: 'select',
-            options: serviceDurations.map(duration => ({ value: duration.id, label: duration.name })),
-            required: true
-        },
+        
 
         {
             name: 'name',
@@ -78,16 +92,16 @@ const AddSchoolService = () => {
             required: true
         },
         {
-            name: 'cost',
-            label: 'Cost',
-            type: 'number',
+            name: 'servicedurationid',
+            label: 'Service Duration',
+            type: 'select',
+            options: serviceDurations.map(duration => ({ value: duration.id, label: duration.name })),
             required: true
         },
         {
-            name: 'paymenttermid',
-            label: 'Payment Term',
-            type: 'select',
-            options: paymentTerms.map(payment => ({ value: payment.id, label: payment.name })),
+            name: 'cost',
+            label: 'Cost',
+            type: 'number',
             required: true
         },
         {
@@ -131,7 +145,7 @@ const AddSchoolService = () => {
             name: 'branch_id',
             label: 'Branch',
             type: 'select',
-            options: branches.map(branch => ({ value: branch.id, label: branch.branch_name })),
+            options: branches.map(branch => ({ value: branch.branch_name, label: branch.branch_name })),
             required: true
         }
     ];
@@ -146,6 +160,7 @@ const AddSchoolService = () => {
                 onCancel={() => navigate("/school-services")}
                 style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}
             />
+            <ToastContainer/>
         </div>
     );
 };

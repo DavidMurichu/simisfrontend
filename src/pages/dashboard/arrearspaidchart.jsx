@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import ReactApexChart from 'react-apexcharts';
-import MainCard from 'components/MainCard';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import MainCard from 'components/MainCard';
 
 const ArrearsPaidPieChart = () => {
     const theme = useTheme();

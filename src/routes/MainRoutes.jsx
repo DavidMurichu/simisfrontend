@@ -70,18 +70,26 @@ import InvoiceManagementPanel from "../pages/Invoice/invoice management panel";
 import ArrearManagement from "../pages/Invoice/invoice management panel/create arrear/createarrear";
 import AddArrear from "../pages/Invoice/invoice management panel/create arrear/addarrear";
 import AdministrativeCharges from "../pages/Invoice/administrative charges";
-import AddAdministrativeCharge from "../pages/Invoice/administrative charges/admincharges/addAdministrativeCharge";
+import AddAdministrativeCharge from "../pages/Invoice/administrative charges/voteheads/addAdministrativeCharge";
 import SchoolServiceManagement from "../pages/Registration/School Operations/school service/schoolservice";
 import AddSchoolService from "../pages/Registration/School Operations/school service/addSchoolService";
 import PupilFinancial from "../pages/Invoice/Pupil Financial";
 import NotificationsAndReminder from "../pages/Invoice/Notifications and reminder";
 import PupilServiceManagement from "../pages/Invoice/invoice management panel/Pupil Service";
-import StudentInvoiced from "../pages/Invoice/invoice management panel/Student Invoiced";
-import AddIndexed from "../pages/Invoice/invoice management panel/Student Invoiced/addIndexed";
+import StudentInvoiced from "../pages/Invoice/invoice management panel/Service Invoiced";
+import AddIndexed from "../pages/Invoice/invoice management panel/Service Invoiced/addIndexed";
 import DeletedItems from "../pages/Invoice/Deleted Items";
 import Incomes from "../pages/Payment/transactions list/transactionList";
 import AddIncome from "../pages/Payment/transactions list/addIncome";
 import AddExpense from "../pages/Payment/transactions list/addExpense";
+import AdminChargesPanel from '../pages/Invoice/administrative charges';
+import BulkArearCreation from 'pages/Invoice/invoice management panel/create arrear/bulk_arear';
+import AddAdministrativeChargeValue from 'pages/Invoice/administrative charges/voteheadsvalues/addAdministrativeChargeValue';
+import AdministrativeChargesManagement from 'pages/Invoice/administrative charges/voteheads';
+import AdministrativeChargesValuesManagement from 'pages/Invoice/administrative charges/voteheadsvalues';
+import SchoolFeeManagement from 'pages/Invoice/administrative charges/process schoolfeeinvoice';
+import StudentInvoice from 'pages/Invoice/administrative charges/process schoolfeeinvoice/schoolfeeinvoce';
+import DemotePromoteTest from 'pages/Registration/Academic Management/pupil class promotion/demotion/text';
 
 
 
@@ -153,6 +161,7 @@ const MainRoutes = {
     {path: 'student-class-term', element: <StudentClassTerm style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />},
     {path: '/academic-years/add-student-class-term', element: <AddStudentClassTerm style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />},
     {path: 'classes', element: <Classes style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />},
+    {path: 'classes/add-class', element: <AddClasses style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />},
     {path: 'classes/edit-class/:id', element: <Editclasses style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />},
     {path: 'calendar', element: <AcademicCalendar style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />},
     {path: 'pupil-class-promotion', element: <PupilClassPromotion style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />},
@@ -184,9 +193,17 @@ const MainRoutes = {
     {path: 'invoices/invoice-creation-and-management', element: <InvoiceManagementPanel style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />},
     {path: 'invoices/create-arrear', element: <ArrearManagement/>},
     {path: 'add-arrear', element: <AddArrear/>},
-    {path: 'invoices/create-arrear', element: <ArrearManagement/>},
-    {path: 'invoices/administrative-charges', element: <AdministrativeCharges/>},
+    {path: 'bulk-arrear', element: <BulkArearCreation/>},
+
+    //admin charges routes
+    {path: 'invoices/administrative-charges-panel', element: <AdminChargesPanel/>},
+    {path: 'invoices/administrative-charge-management', element: <AdministrativeChargesManagement/>},
+    {path: 'invoices/administrative-charge-values-management', element: <AdministrativeChargesValuesManagement/>},
     {path: 'add-administrative-charge', element:<AddAdministrativeCharge/>},
+    {path: 'add-administrative-charge-value', element:<AddAdministrativeChargeValue/>},
+    {path: 'invoices/school-fee-management', element: <SchoolFeeManagement/>},
+    {path: 'school-fee-invoice', element: <StudentInvoice/>},
+
     {path: 'invoices/pupil-financials', element:<PupilFinancial/>},
     {path: 'invoices/notifications-and-reminders', element:<NotificationsAndReminder/>},
     {path: 'invoices/pupil-service', element:<PupilServiceManagement/>},
@@ -196,7 +213,8 @@ const MainRoutes = {
       // payment routes
     {path:'payment/transaction-lists', element:<Incomes/>},
     {path:'payment/add-income', element:<AddIncome/>},
-    {path:'payment/add-expense', element:<AddExpense/>}
+    {path:'payment/add-expense', element:<AddExpense/>},
+    {path:'test', element:<DemotePromoteTest/>}
   ]
 };
 

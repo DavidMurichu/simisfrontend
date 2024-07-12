@@ -38,7 +38,6 @@ export default function DashboardLayout() {
         <Breadcrumbs navigation={navigation} title style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}  />
         <Outlet style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}  />
       </Box>
-      <ToastContainer></ToastContainer>
     </Box>
   );
 }

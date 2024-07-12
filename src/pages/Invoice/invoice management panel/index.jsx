@@ -41,10 +41,10 @@ function InvoiceManagementPanel() {
             case 'Pupil Service Management':
                 return (
                     <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
-                        View and manage pupil fee invoices. You can review invoice details, track payments, and manage outstanding fees.
+                        View and manage pupil services. You can review service details and manage services .
                         <br />
                         <Button component={Link} to="/invoices/pupil-service" variant="contained" color="primary" sx={{ mt: 2 }}>
-                            Manage Pupil Fee Invoices
+                            Manage Pupil Services
                         </Button>
                     </Typography>
                 );
@@ -100,6 +100,7 @@ function InvoiceManagementPanel() {
                     {renderDescription()}
                 </DialogContent>
             </Dialog>
+        
         </MainCard>
     );
 }
