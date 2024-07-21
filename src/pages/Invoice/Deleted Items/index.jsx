@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import TableTemplate from '../../HOC/tabletemplate'; // Adjust the path as needed
 import MainCard from 'components/MainCard'; // Adjust the path as needed
+import FetchData from 'services/fetch';
 
 const DeletedItems = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -16,13 +17,10 @@ const DeletedItems = () => {
 
     const handleSearch = async () => {
         try {
-            setLoading(true);
+            await FetchData('home/get_data/deleted_member_payerables', setTableData)
             // Example API endpoint, adjust as per your backend setup
-            const response = await axios.get('/api/deleted-payables', {
-                params: {
-                    searchTerm
-                }
-            });
+            
+
             setTableData(response.data);
         } catch (error) {
             toast.error("Error fetching deleted payables data");

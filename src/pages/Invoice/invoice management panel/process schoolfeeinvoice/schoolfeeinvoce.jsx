@@ -4,13 +4,7 @@ import {
   Button,
   TableContainer,
   Paper,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  TablePagination,
-  Checkbox,
+  IconButton,
   Select,
   MenuItem,
   FormControl,
@@ -25,7 +19,7 @@ import {
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 
 import { ToastContainer, toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 import ApiService from 'services/apiservice';
 import DoubleGenericTable from 'pages/HOC/doubleGenericTemplate';
 import CombinedTable from 'pages/HOC/PupilServicesTemplate';
@@ -34,6 +28,8 @@ import FilterTemplate from 'pages/HOC/filter/FilterTemplate';
 import FetchData from 'services/fetch';
 import { isEmpty } from 'lodash';
 import MainCard from 'components/MainCard';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 const StudentInvoice = () => {
   const [students, setStudents] = useState([]);
@@ -100,9 +96,9 @@ const StudentInvoice = () => {
 
         // Map student services to match the desired format
         const services = student.services.map(service => ({
-          serviceid: service.serviceid,
+          serviceid: service.studentserviceid,
           amount: parseFloat(service.amount),
-          balance: 200 // Adjust balance as needed, since it wasn't clear where this value comes from
+          balance: service.amount 
         }));
 
         // Map voteheads to match the desired format
@@ -120,7 +116,7 @@ const StudentInvoice = () => {
             termid: student.current_term_id,
             academicyearid: student.academicyearid,
             amount: student.totalAmount,
-            balance: 200,
+            balance: student.totalAmount,
             studentclasstermsid: student.class_term,
             is_reversed: "0",
             is_active: "1"
@@ -143,16 +139,23 @@ const StudentInvoice = () => {
       // Handle success
       if (response.status === 200) {
         toast.success('Invoices generated successfully');
+        await Delay(1000);
+      navigate('/invoices/school-fee-management');
       } else {
         toast.error('Failed to generate invoices');
       }
-      await Delay(1000);
-      navigate('/invoices/school-fee-management');
+      
     } catch (error) {
       // Handle errors
+      if(error.response.data.error){
       console.error('Error submitting invoices:', error);
-      toast.error('An error occurred while submitting invoices');
-      window.location.reload();
+
+        toast.warning(error.response.data.error);
+      }else{
+        console.log('Error submitting invoices:', error)
+        toast.error('Error Creating invoice');
+      }
+     
     }
   };
 
@@ -350,15 +353,16 @@ const StudentInvoice = () => {
             </Box> */}
 
       <Grid item xs={12}>
-        <Typography variant="body1" gutterBottom>
-          Use the filters below to search for service invoices.
-        </Typography>
+      <IconButton onClick={() => navigate('/invoices/school-fee-management')} color="primary">
+        <ArrowBackIcon />
+      </IconButton> 
         <Paper elevation={3}>
           <Typography variant="h6" align="center" gutterBottom>
             Students Table
           </Typography>
           <CombinedTable
             title={''}
+            isCombo={true}
             students={students}
             voteHeadAmount={voteHeadAmount}
             setStudents={setStudents}
@@ -401,7 +405,7 @@ const StudentInvoice = () => {
         </Grid>
       </Slide> 
 
-      <ToastContainer />
+      <ToastContainer  />
     </Grid>
     </MainCard>
     

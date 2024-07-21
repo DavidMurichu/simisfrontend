@@ -20,7 +20,7 @@ class ApiService {
             });
             return response;
         } catch (error) {
-            console.error(`GET request failed: ${error.message}`);
+            console.error(`GET request failed: ${error}`);
             throw error;
         }
     }

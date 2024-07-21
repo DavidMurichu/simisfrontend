@@ -101,7 +101,7 @@ class Pupilservice {
 
     static async promotePupil(promotionData) {
         try {
-            const endpoint = 'home/promote/sch_student_class_promotions';
+            const endpoint = 'home/student_transition/sch_student_class_promotions';
             const token = sessionStorage.getItem("token");
             const response = await axios.post(`${BASE_URL}/${endpoint}`,promotionData,{
                 headers: {
@@ -112,7 +112,8 @@ class Pupilservice {
             console.log(response);
             return response;
         }catch (err){
-            console.log("Error promoting pupil", err);
+            console.log("Error promoting pupil work load", err);
+            return err
         }
 
     }
@@ -200,7 +201,7 @@ class Pupilservice {
 
     static async getPromotedForReporting() {
         try {
-            const endpoint = 'home/promoted/students';
+            const endpoint = 'home/get_non_reported_students';
             const token = sessionStorage.getItem("token");
             const response = await axios.get(`${BASE_URL}/${endpoint}`,{
                 headers: {

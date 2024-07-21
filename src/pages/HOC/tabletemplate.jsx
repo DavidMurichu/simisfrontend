@@ -14,29 +14,32 @@ import BaseLink from "../../services/baselink";
 import ApiService from "../../services/apiservice";
 import { ToastContainer } from 'react-toastify';
 
-const TableTemplate = ({ columns, endpoint, buttons = [], checkboxes = [] }) => {
+const TableTemplate = ({ columns, endpoint, buttons = [], checkboxes = [], refresh, endpointdata, addToast=true }) => {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectAll, setSelectAll] = useState(false); // State to manage Select All checkbox
     const BASE_URL = BaseLink.getBaseLink();
-
-    const fetchData = async () => {
-        try {
-            const response = await ApiService.get(endpoint, {}, true);
-            const result = response.data;
-            // Add selected property to each data item
-            setData(Array.isArray(result) ? result.map(item => ({ ...item, selected: false })) : []);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
     useEffect(() => {
-        fetchData();
-    }, [endpoint]);
+        if (endpointdata) {
+            setData(endpointdata);
+        } else {
+            const fetchData = async () => {
+                try {
+                    const response = await ApiService.get(endpoint, {}, true);
+                    const result = response.data;
+                    setData(Array.isArray(result) ? result.map(item => ({ ...item, selected: false })) : []);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            };
+            fetchData();
+        }
+    }, [endpoint, refresh, endpointdata]);
 
+    
+    
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -165,7 +168,10 @@ const TableTemplate = ({ columns, endpoint, buttons = [], checkboxes = [] }) => 
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-            <ToastContainer />
+            {addToast?(
+                <ToastContainer />
+            ):null}
+            
         </div>
     );
 };

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import MainCard from 'components/MainCard';
-import TableTemplate from '../../../HOC/tabletemplate';
+import TableTemplate from '../../HOC/tabletemplate';
 import FilterTemplate from 'pages/HOC/filter/FilterTemplate';
-import ApiService from "../../../../services/apiservice";
+import ApiService from "../../../services/apiservice";
 import useGenericFilter from 'pages/HOC/filter/filter';
 
 
@@ -64,6 +64,7 @@ const columns = [
     { field: 'studentserviceid', headerName: 'Pupils Service', width: 200 },
     { field: 'invoiceid', headerName: 'Invoice Id', width: 200 },
     { field: 'amount', headerName: 'Amount', width: 200 },
+    { field: 'balance', headerName: 'Balance', width: 200 },
     { field: 'created_at', headerName: 'Createdon', width: 200 },
     { field: 'is_active', headerName: 'Is Active', width: 100 },
 ];
@@ -74,18 +75,13 @@ const buttons = [
 ];
 
     return (
-        <MainCard title="Services INVOICED">
+        <MainCard title="Services Invoiced">
             <Typography variant="body1" gutterBottom>
-                Use the filters below to search for service invoices.
+                 service invoices
             </Typography>
-            <FilterTemplate
-                filters={filtersColumns}
-                filterValues={filters}
-                handleFilterChange={setFilter}
-                handleSearch={handleSearch} // Pass handleSearch function to FilterTemplate
-                loading={loading}
-            />
+          
             <TableTemplate
+                
                 buttons={buttons}
                 endpoint={'home/get_data/sch_student_service_invoices'}
                 columns={columns}

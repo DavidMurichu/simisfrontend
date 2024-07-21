@@ -75,9 +75,9 @@ import SchoolServiceManagement from "../pages/Registration/School Operations/sch
 import AddSchoolService from "../pages/Registration/School Operations/school service/addSchoolService";
 import PupilFinancial from "../pages/Invoice/Pupil Financial";
 import NotificationsAndReminder from "../pages/Invoice/Notifications and reminder";
-import PupilServiceManagement from "../pages/Invoice/invoice management panel/Pupil Service";
-import StudentInvoiced from "../pages/Invoice/invoice management panel/Service Invoiced";
-import AddIndexed from "../pages/Invoice/invoice management panel/Service Invoiced/addIndexed";
+import PupilServiceManagement from "../pages/services/Pupil Service";
+import StudentInvoiced from "../pages/services/Service Invoiced";
+import AddIndexed from "../pages/services/Service Invoiced/addIndexed";
 import DeletedItems from "../pages/Invoice/Deleted Items";
 import Incomes from "../pages/Payment/transactions list/transactionList";
 import AddIncome from "../pages/Payment/transactions list/addIncome";
@@ -87,9 +87,23 @@ import BulkArearCreation from 'pages/Invoice/invoice management panel/create arr
 import AddAdministrativeChargeValue from 'pages/Invoice/administrative charges/voteheadsvalues/addAdministrativeChargeValue';
 import AdministrativeChargesManagement from 'pages/Invoice/administrative charges/voteheads';
 import AdministrativeChargesValuesManagement from 'pages/Invoice/administrative charges/voteheadsvalues';
-import SchoolFeeManagement from 'pages/Invoice/administrative charges/process schoolfeeinvoice';
-import StudentInvoice from 'pages/Invoice/administrative charges/process schoolfeeinvoice/schoolfeeinvoce';
+import SchoolFeeManagement from 'pages/Invoice/invoice management panel/process schoolfeeinvoice';
+import StudentInvoice from 'pages/Invoice/invoice management panel/process schoolfeeinvoice/schoolfeeinvoce';
 import DemotePromoteTest from 'pages/Registration/Academic Management/pupil class promotion/demotion/text';
+import StudentServiceManagemant from '../pages/services/Pupil Service';
+import AddStudentService from 'pages/services/Pupil Service/addService';
+import ServicesManagementPanel from 'pages/services';
+import BaseTablePanel from 'pages/Payment/base';
+import PaymentAccountTypes from 'pages/Payment/base/AccountTypes';
+import PaymentSubAccountTypes from 'pages/Payment/base/SubAccountTypes';
+import AddSubAccountType from 'pages/Payment/base/SubAccountTypes/add';
+import AddAccountType from 'pages/Payment/base/AccountTypes/add';
+import PaymentPaymentMode from 'pages/Payment/base/paymentmodes';
+import AddPaymentMode from 'pages/Payment/base/paymentmodes/add';
+import AddFeePayment from 'pages/Payment/Payments/FeePayment/add';
+import FeePaymentsManagementPanel from 'pages/Payment/Payments/FeePayment';
+import BanksManagement from 'pages/Payment/base/bank';
+import AddBank from 'pages/Payment/base/bank/add';
 
 
 
@@ -195,6 +209,15 @@ const MainRoutes = {
     {path: 'add-arrear', element: <AddArrear/>},
     {path: 'bulk-arrear', element: <BulkArearCreation/>},
 
+    // services 
+    
+    {path: 'services/service-and-invoices', element: <ServicesManagementPanel/>},
+    {path: 'student-services', element: <StudentServiceManagemant/>},
+    {path: 'add-student-services', element: <AddStudentService/>},
+    {path: 'invoices/services-invoiced', element: <StudentInvoiced/>},
+
+
+    
     //admin charges routes
     {path: 'invoices/administrative-charges-panel', element: <AdminChargesPanel/>},
     {path: 'invoices/administrative-charge-management', element: <AdministrativeChargesManagement/>},
@@ -207,14 +230,32 @@ const MainRoutes = {
     {path: 'invoices/pupil-financials', element:<PupilFinancial/>},
     {path: 'invoices/notifications-and-reminders', element:<NotificationsAndReminder/>},
     {path: 'invoices/pupil-service', element:<PupilServiceManagement/>},
-    {path: 'invoices/services-invoiced', element: <StudentInvoiced/>},
     {path: 'create-student-invoiced', element: <AddIndexed/>},
     {path: 'invoices/deleted-items', element: <DeletedItems/>},
       // payment routes
     {path:'payment/transaction-lists', element:<Incomes/>},
     {path:'payment/add-income', element:<AddIncome/>},
     {path:'payment/add-expense', element:<AddExpense/>},
-    {path:'test', element:<DemotePromoteTest/>}
+    {path:'test', element:<DemotePromoteTest/>},
+
+    // payment base
+    
+    {path:'payment/base', element:<BaseTablePanel/>},
+    
+    {path:'payment/account-types', element:<PaymentAccountTypes/>},
+    {path:'payment/add-account-type', element:<AddAccountType/>},
+    {path:'/payment/sub-account-types', element:<PaymentSubAccountTypes/>},
+    {path:'/payment/add-sub-account-types', element:<AddSubAccountType/>},
+    {path:'payment/payment-modes', element:<PaymentPaymentMode/>},
+    {path:'payment/add-payment-mode', element:<AddPaymentMode/>},
+    //fee paymenr
+    {path:'/payment/add-fee-payment', element:<AddFeePayment/>},
+    {path:'payment/fee-payment', element:<FeePaymentsManagementPanel/>},
+
+    {path:'payment/banks', element:<BanksManagement/>},
+    {path:'payment/add-bank', element:<AddBank/>},
+    
+
   ]
 };
 

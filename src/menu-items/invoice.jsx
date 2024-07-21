@@ -8,7 +8,8 @@ import {
     FileOutlined,
     BellOutlined,
     DeleteOutlined,
-    AppstoreOutlined
+    AppstoreOutlined,
+    SolutionOutlined
 } from '@ant-design/icons';
 
 const invoicesModule = {
@@ -32,19 +33,20 @@ const invoicesModule = {
             icon: DollarOutlined,
             breadcrumbs: false
         },
+       
         {
-            id: 'pupil-financials',
-            title: 'Pupil Financials',
+            id: 'Services-management',
+            title: 'Services and Invoices',
             type: 'item',
-            url: '/invoices/pupil-financials',
-            icon: HistoryOutlined,
+            url: '/services/service-and-invoices',
+            icon: SolutionOutlined,
             breadcrumbs: false
         },
         {
-            id: 'notifications-and-reminders',
-            title: 'Notifications and Reminders',
+            id: 'Bulk-Fee-Reminder',
+            title: 'Bulk Fee Reminder',
             type: 'item',
-            url: '/invoices/notifications-and-reminders',
+            url: '',
             icon: BellOutlined,
             breadcrumbs: false
         },

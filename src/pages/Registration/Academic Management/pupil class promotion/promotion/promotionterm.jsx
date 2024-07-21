@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PupilService from '../../../../../services/pupilservice';
 import MainCard from 'components/MainCard';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 function PromotionTerm() {
     const navigate = useNavigate();
@@ -64,17 +64,19 @@ function PromotionTerm() {
         try {
             console.log("selected pupil to promote", selectedPupilData)
             const response = await PupilService.promotePupil(selectedPupilData);
-            if (response.status === 201) {
+            if (response.status === 200) {
+
                 toast.success("Successfully promoted students");
                 navigate("/pupil-class-promotion")
             } else {
-                toast.warning("Check if student is already promoted")
+                console.log('response', response.response.data.message);
+                toast.warning("Check if student is already promoted", response.data)
             }
 
         } catch (err) {
             if (err.data) {
                 const errorMessage = err.data[0].message;
-                console.log("Error from response", err.data, errorMessage);
+                console.log("Error from response", err.data);
                 toast.warning("Try again: " + errorMessage);
             } else if (err.message) {
                 toast.error(err.message);
@@ -305,6 +307,7 @@ function PromotionTerm() {
             <Button variant="contained" color="secondary" component={Link} to="/pupil-class-promotion" sx={{ mt: 2 }}>
                 Cancel
             </Button>
+            <ToastContainer />
         </MainCard>
     );
 }

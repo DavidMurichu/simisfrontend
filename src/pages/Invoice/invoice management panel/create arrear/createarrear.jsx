@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TableTemplate from '../../../HOC/tabletemplate';
@@ -6,6 +6,7 @@ import MainCard from 'components/MainCard';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import ArrearService from '../../../../services/apiservice';
+import ApiService from '../../../../services/apiservice';
 
 const columns = [
     { field: 'studentid', headerName: 'Pupils', foreign: 'student', foreignField: 'name'  },
@@ -19,20 +20,29 @@ const columns = [
 
 function ArrearManagement() {
     const endpoint = 'home/get_data/member_payable_arears';
+    const [refresh, setRefresh]=useState(false);
 
-    const handleDelete = async (id) => {
-        try {
-            // const response = await ArrearService.deleteArrear(id);
-            // if (response.status === 200) {
-            //     toast.success("Deleted arrear successfully");
-            // } else {
-            //     toast.warning("Error, try again");
-            // }
-        } catch (error) {
-            console.error('Error deleting arrear:', error);
-            toast.error("Error deleting arrear. Please try again.");
+
+    const handleEdit= async(id)=>{
+        
+
+    }
+    const handleDelete= async(id)=>{
+        try{
+            const response= await ApiService.post('home/delete_arear', {id});
+            if(response.status==200){
+                toast.success('Arear deleted successfully');
+                setRefresh(true);
+            }
+        }catch(error){
+            toast.error('Delete unsuccessful');
         }
-    };
+    }
+    const buttons = [
+        { label: 'Edit', color: 'primary', handleFunction: handleEdit },
+        { label: 'Delete', color: 'error', handleFunction: handleDelete },
+     
+    ];
 
     return (
         <>
@@ -62,6 +72,8 @@ function ArrearManagement() {
             </Button>
 
             <TableTemplate
+                refresh={refresh}
+                buttons={buttons}
                 columns={columns}
                 endpoint={endpoint}
                 handleDelete={handleDelete}

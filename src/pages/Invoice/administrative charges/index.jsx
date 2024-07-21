@@ -22,8 +22,8 @@ const [open, setOpen] = useState(false);
 
 const sections = [
     { label: 'Create Admin Charge', description: 'Create votehead', icon: <FileAddOutlined /> },
-    { label: 'Create Admin Charge value', description: 'Create Admin Charges Values ', icon: <FileAddOutlined /> },
-    { label: 'Process School Fee', description: 'Process Fee Invoice', icon: <FileAddOutlined /> },
+    { label: 'Assign Admin Charge value', description: 'Create Admin Charges Values ', icon: <FileAddOutlined /> },
+    
 ];
 
 
@@ -48,26 +48,16 @@ const renderDescription = () => {
                     </Button>
                 </Typography>
             );
-            case 'Create Admin Charge value':
+            case 'Assign Admin Charge value':
                 return (
                     <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
                         Create arrears for students. This section allows you to add new arrears, specify the amount, and assign them to specific students.
                         <br />
                         <Button component={Link} to="/invoices/administrative-charge-values-management" variant="contained" color="primary" sx={{ mt: 2 }}>
-                            Create VoteHead Values
+                            Add VoteHead Values
                         </Button>
                     </Typography>
                 );
-                case 'Process School Fee':
-                    return (
-                        <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
-                            Process School Fee for students. This section allows you to Process School Fee, specify the amount, to specific students.
-                            <br />
-                            <Button component={Link} to="/invoices/school-fee-management" variant="contained" color="primary" sx={{ mt: 2 }}>
-                               Process School Fee
-                            </Button>
-                        </Typography>
-                    );
         default:
             return null;
     }

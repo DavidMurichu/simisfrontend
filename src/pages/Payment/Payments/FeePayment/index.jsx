@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import TableTemplate from '../../../../HOC/tabletemplate';
 import MainCard from 'components/MainCard';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import PupilsService from '../../../../../services/pupilservice';
+import TableTemplate from 'pages/HOC/tabletemplate';
 import ApiService from 'services/apiservice';
 
 const columns = [
@@ -16,29 +15,44 @@ const columns = [
         foreignField: 'name'
     },
     {
-        field: 'admission_no',
-        headerName: 'Admission No',
+        field: 'admision_no',
+        headerName: 'Admision',
         foreign: 'student',
         foreignField: 'admission_no'
     },
-    { field: 'current_class_id', headerName: 'Class' },
-    { field: 'academicyear', headerName: 'Academic Year' },
-    { field: 'updated_at', headerName: 'Promoted At' },
+    { field: 'amountpaid', headerName: 'Paid Amount', sortable: true },
+    { field: 'paymentmodeid', headerName: 'Payment Mode', sortable: false },
+    {
+        field: 'paymentmodeid',
+        headerName: 'Payment Mode',
+        foreign: 'paymentmode',
+        foreignField: 'name'
+    },
+    {
+        field: 'bankid',
+        headerName: 'Bank',
+        foreign: 'bank',
+        foreignField: 'name'
+    },
+    { field: 'transactionno', headerName: 'Transaction No', sortable: false },
+    { field: 'receiptno', headerName: 'Receipt No', sortable: false },
+    { field: 'paymentdate', headerName: 'Payment Date', sortable: true },
+    { field: 'is_active', headerName: 'Is Active', sortable: true },
+
 ];
 
+function FeePaymentsManagementPanel() {
+    const [refresh, setRefresh] = useState(false);
+    const endpoint = 'home/get_data/sch_fee_payments'; // Adjusted endpoint for fee payments
 
-function PupilClassPromotion() {
-    const [refresh, setRefresh]=useState(false);
-
-    const endpoint = 'home/get_data/sch_student_class_promotions';
     const handleEdit = () => {
         // Add your edit logic here if needed
     };
-    
+
     const handleDelete = async (id) => {
         try {
             const data = { id };
-            const response = await ApiService.delete('home/delete/sch_student_class_promotions', data);
+            const response = await ApiService.delete('home/delete/sch_fee_payments', data);
             if (response.status === 200) {
                 toast.success("Deleted successfully");
                 setRefresh(!refresh);
@@ -50,32 +64,32 @@ function PupilClassPromotion() {
             toast.error("Error deleting. Please try again.");
         }
     };
-    
+
     const buttons = [
         { label: 'Edit', color: 'primary', handleFunction: handleEdit },
         { label: 'Delete', color: 'error', handleFunction: handleDelete },
     ];
-    
 
     return (
-        <MainCard title="Pupil Class Promotion" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
+        <MainCard title="Fee Payments Management" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
-                Welcome to the Pupil Class Promotion page. Here you can manage pupil promotions and their details.
+                Welcome to the Fee Payments Management page. Here you can manage fee payment details and their actions.
             </Typography>
 
+            {/* Button for adding new fee payment */}
             <Button
                 variant="contained"
                 color="primary"
                 component={Link}
-                to="/promote-student"
-                sx={{ mb: 2 }}
+                to="/payment/add-fee-payment"
+                sx={{ mr: 1 }}
             >
-                Promote Student
+                Add New Fee Payment
             </Button>
-
+            
             <TableTemplate
-                refresh={refresh}
                 buttons={buttons}
+                refresh={refresh}
                 columns={columns}
                 endpoint={endpoint}
                 handleDelete={handleDelete}
@@ -84,4 +98,4 @@ function PupilClassPromotion() {
     );
 }
 
-export default PupilClassPromotion;
+export default FeePaymentsManagementPanel;

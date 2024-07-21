@@ -6,6 +6,8 @@ import MainCard from 'components/MainCard';
 import { Link, useNavigate } from 'react-router-dom';
 import {toast, ToastContainer} from "react-toastify";
 import CalendarService from "../../../../../services/calendarService";
+import FetchData from 'services/fetch';
+import ApiService from 'services/apiservice';
 
 function PromotionTerm() {
     const navigate = useNavigate();
@@ -21,20 +23,20 @@ function PromotionTerm() {
     const [termOptions, setTermOptions] = useState([]);
     const [yearOptions, setYearOptions] = useState([]);
 
-    useEffect(() => {
-        fetchAllPupils();
-        fetchTermAndYearOptions();
-    }, []);
+    // useEffect(() => {
+    //     fetchAllPupils();
+    //     fetchTermAndYearOptions();
+    // }, []);
 
-    const fetchAllPupils = async () => {
-        try {
-            const response = await PupilService.getPromotedForReporting();
-            console.log("pupils", response.data)
-            setPupils(response.data);
-        } catch (err) {
-            handleFetchError(err);
-        }
-    };
+    // const fetchAllPupils = async () => {
+    //     try {
+    //         const response = await PupilService.getPromotedForReporting();
+    //         console.log("pupils", response.data)
+    //         setPupils(response.data);
+    //     } catch (err) {
+    //         handleFetchError(err);
+    //     }
+    // };
 
     const fetchTermAndYearOptions = async () => {
         try {
@@ -74,7 +76,7 @@ function PromotionTerm() {
         const selectedPupilData = Array.from(selectedPupils).map(id => {
             const pupil = pupils.find(p => p.id === id);
             return {
-                studentclasspromotionid: pupil.promotion_id,
+                studentclasspromotionid: pupil.id,
                 term: newTerm,
                 classterm: newYear,
                 reportingdate: new Date().toISOString(),
@@ -98,9 +100,10 @@ function PromotionTerm() {
 
     const handlePromoteAll = () => {
         const filteredPupils = pupils
-            .filter(pupil => (!selectedClass || pupil.class_name === selectedClass) &&
+            .filter(pupil => (!selectedClass || pupil.current_class_id === selectedClass) &&
                 (!selectedYear || pupil.academicyear === selectedYear))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+            
 
         const allSelected = filteredPupils.every(pupil => selectedPupils.has(pupil.id));
 
@@ -125,17 +128,68 @@ function PromotionTerm() {
         });
     };
 
-    const uniqueClasses = [...new Set(pupils.map(pupil => pupil.class_name))];
-    const uniqueYears = [...new Set(pupils.map(pupil => pupil.academicyear))];
+    const [classes, setClases]=useState([]);
+    const [academics, setAcademics]=useState([]);
+    const fetch=async()=>{
+        await FetchData('home/get_data/sch_classes', setClases);
+        await FetchData('home/get_data/sch_academic_years', setAcademics);
+        await FetchData('home/get_data/sch_terms', setTermOptions);
+        await FetchData('home/get_data/sch_academic_year_terms', setYearOptions)
+    }
+    useEffect(()=>{
+        fetch()
+    },
+    []
+    )
+
+    const uniqueClasses = [...new Set(classes.map(cls => cls.name))];
+    const uniqueYears = [...new Set(academics.map(academic => academic.name))];
 
     const filteredPupils = pupils
-        .filter(pupil => (!selectedClass || pupil.class_name === selectedClass) &&
+        .filter(pupil => (!selectedClass || pupil.current_class_id === selectedClass) &&
             (!selectedYear || pupil.academicyear === selectedYear))
         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     const selectedCount = filteredPupils.filter(pupil => selectedPupils.has(pupil.id)).length;
     const totalInView = filteredPupils.length;
     const unselectedCount = totalInView - selectedCount;
+
+    const handleSearch = async () => {
+        
+        if (!selectedClass || !selectedYear) {
+            // Determine which fields are missing
+            const missingFields = [];
+            if (!selectedClass) missingFields.push('student class');
+            if (!selectedYear) missingFields.push('academic year');
+
+            // Generate error message based on missing fields
+            toast.error(`You need to select ${missingFields.join(' and ')}`);
+            return;
+        }
+        const payload = {
+            classid: selectedClass,
+            academicyearid: selectedYear
+        };
+        
+
+        const response = await ApiService.post('home/get_non_reported_students', payload, true);
+        
+        console.log('payload', response)
+        
+        if (response.status==200) {
+            console.log('data', response.data);
+            const payloadData = response.data;
+        
+            if (payloadData.length === 0) {
+                toast.error('No Invoiced Student Found');
+                return;
+            }
+        
+            setPupils(payloadData);
+            toast.success('success');
+        }
+        
+    };
 
     return (
         <MainCard title="Student Reporting page " style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
@@ -156,7 +210,9 @@ function PromotionTerm() {
                                     <InputLabel>Class</InputLabel>
                                     <Select
                                         value={selectedClass}
-                                        onChange={(e) => setSelectedClass(e.target.value)}
+                                        onChange={(e) => setSelectedClass(e.target.value)
+                                         
+                                        }
                                         label="Class"
                                     >
                                         <MenuItem value="">All Classes</MenuItem>
@@ -179,6 +235,16 @@ function PromotionTerm() {
                                             <MenuItem key={index} value={year}>{year}</MenuItem>
                                         ))}
                                     </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <FormControl fullWidth>
+                        
+                                    <Box >
+                                        <Button variant="contained" type="submit" color="primary" onClick={handleSearch}>
+                                            Search
+                                        </Button>
+                                    </Box>
                                 </FormControl>
                             </Grid>
                         </Grid>
@@ -251,32 +317,49 @@ function PromotionTerm() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {filteredPupils.map((pupil) => (
-                            <TableRow key={pupil.id}>
-                                <TableCell>
-                                    <Checkbox
-                                        checked={selectedPupils.has(pupil.id)}
-                                        onChange={() => handleCheckboxChange(pupil.id)}
-                                    />
-                                </TableCell>
-                                <TableCell>{pupil.admission_no}</TableCell>
-                                <TableCell>{pupil.name}</TableCell>
-                                <TableCell>{pupil.current_class_id}</TableCell>
-                                <TableCell>{pupil.academicyearid}</TableCell>
-                                <TableCell>
-                                    <Button
-                                        variant="outlined"
-                                        color="primary"
-                                        component={Link}
-                                        to={`/registration/view-pupil/${pupil.id}`}
-                                        sx={{ mr: 1 }}
-                                    >
-                                        View Details
-                                    </Button>
-                                </TableCell>
+                    {filteredPupils.length === 0 ? (
+    <TableRow>
+        <TableCell colSpan={6} align="center">
+            No pupils found.
+        </TableCell>
+    </TableRow>
+) : (
+    filteredPupils.map((pupil) => (
+        <TableRow key={pupil.id}>
+            <TableCell>
+                <Checkbox
+                    checked={selectedPupils.has(pupil.id)}
+                    onChange={() => handleCheckboxChange(pupil.id)}
+                />
+            </TableCell>
+            {pupil.student ? (
+                <>
+                    <TableCell>{pupil.student.admission_no}</TableCell>
+                    <TableCell>{pupil.student.name}</TableCell>
+                    <TableCell>{pupil.student.current_class_id}</TableCell>
+                    <TableCell>{pupil.student.academicyearid}</TableCell>
+                    <TableCell>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            component={Link}
+                            to={`/registration/view-pupil/${pupil.id}`}
+                            sx={{ mr: 1 }}
+                        >
+                            View Details
+                        </Button>
+                    </TableCell>
+                </>
+            ) : (
+                <TableCell colSpan={5} align="center">
+                    Student details not available
+                </TableCell>
+            )}
+        </TableRow>
+    ))
+)}
 
-                            </TableRow>
-                        ))}
+
                     </TableBody>
                 </Table>
             </TableContainer>

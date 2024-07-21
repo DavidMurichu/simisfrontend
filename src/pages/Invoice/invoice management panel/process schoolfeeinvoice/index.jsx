@@ -15,12 +15,28 @@ const columns = [
         foreign: 'student',
         foreignField: 'name'
     },
+    {
+        field: 'adminsionno',
+        headerName: 'Admission',
+        foreign: 'student',
+        foreignField: 'admission_no'
+    },
+   
+    {
+        field: 'term',
+        headerName: 'Invoiced term',
+        foreign: 'classterm',
+        foreignField: 'term'
+    },
+    
     { field: 'amount', headerName: 'Amount' },
+    { field: 'balance', headerName: 'Balance' },
     { field: 'created_at', headerName: 'Created On' },
     { field: 'is_active', headerName: 'Is Active' }
 ];
 
 function SchoolFeeManagement() {
+    const [refresh, setRefresh]=useState(false);
     
     const [endpoint, setEndpoint]= useState('home/get_data/sch_fee_invoices');
 
@@ -35,7 +51,7 @@ function SchoolFeeManagement() {
             const response = await ApiService.delete('home/delete/sch_fee_invoices', data);
             if (response.status === 200) {
             toast.success("Deleted successfully");
-            setEndpoint('home/get_data/sch_fee_invoices');
+            setRefresh(!refresh);
             } else {
                 toast.warning("Error, try again");
             }
@@ -61,6 +77,7 @@ function SchoolFeeManagement() {
             const response = await ApiService.delete('home/reverse-invoice', data);
             if (response.status === 200) {
             toast.success("Reversed successfully");
+            setRefresh(!refresh);
 
             window.location.reload();
             } else {
@@ -97,12 +114,13 @@ function SchoolFeeManagement() {
                 Process School Fee
             </Button>
             <TableTemplate
+                refresh={refresh}
                 buttons={buttons}
                 columns={columns}
                 endpoint={endpoint}
                 handleDelete={handleDelete}
             />
-            <ToastContainer /> 
+            
         </MainCard>
     );
 }

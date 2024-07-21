@@ -14,10 +14,13 @@ import {
   TextField,
   Checkbox,
   TablePagination,
+  IconButton,
 } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import usePagination from './customPagination';
+import { Navigate } from 'react-router';
 
-const CombinedTable = ({ title, students, setStudents, selectedStudents, onSelectStudent, voteHeadAmount }) => {
+const CombinedTable = ({ title, students, setStudents, selectedStudents, onSelectStudent, voteHeadAmount, isCombo=false }) => {
   const [expandedId, setExpandedId] = useState(null);
   const [hoveredId, setHoveredId] = useState(null);
 
@@ -140,6 +143,16 @@ const CombinedTable = ({ title, students, setStudents, selectedStudents, onSelec
   return (
     <Paper style={{ height: 'fit-content', overflowY: 'auto', padding: '10px' }}>
       <Typography variant="h5">{title}</Typography>
+     {
+      !isCombo?(
+        <IconButton onClick={() => Navigate(-1)} color="primary">
+        <ArrowBackIcon />
+</IconButton> 
+      ):null
+     }
+           
+                
+                
       <TableContainer>
         <Table className="custom-table">
           <TableHead>

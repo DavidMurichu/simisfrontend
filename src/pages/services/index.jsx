@@ -13,7 +13,7 @@ import Button from '@mui/material/Button';
 import { FileAddOutlined, HistoryOutlined, FileOutlined } from '@ant-design/icons';
 import Box from '@mui/material/Box';
 
-function InvoiceManagementPanel() {
+function ServicesManagementPanel() {
     const [selectedSection, setSelectedSection] = useState(null);
     const [open, setOpen] = useState(false);
 
@@ -28,47 +28,55 @@ function InvoiceManagementPanel() {
 
     const renderDescription = () => {
         switch (selectedSection) {
-            case 'Invoice Management':
+            case 'Service Management':
                 return (
                     <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
-                        View and manage invoices. You can review invoice details and manage invoices .
+                        Create school services. This section allows you to add new school services, specify the amount.
                         <br />
-                        <Button component={Link} to="/invoices/school-fee-management" variant="contained" color="primary" sx={{ mt: 2 }}>
-                            Manage School fee invoices
+                        <Button component={Link} to="/school-services" variant="contained" color="primary" sx={{ mt: 2 }}>
+                            Create Service
                         </Button>
                     </Typography>
                 );
-            case 'Arrear Management':
+            case 'Pupil Service Management':
                 return (
                     <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
-                        Create arrears for students. This section allows you to add new arrears, specify the amount, and assign them to specific students.
+                        View and manage pupil services. You can review service details and manage services.
                         <br />
-                        <Button component={Link} to="/invoices/create-arrear" variant="contained" color="primary" sx={{ mt: 2 }}>
-                            Create Arrear
+                        <Button component={Link} to="/student-services" variant="contained" color="primary" sx={{ mt: 2 }}>
+                            Manage Pupil Services
                         </Button>
                     </Typography>
                 );
-            
+            case 'Services Invoiced':
+                return (
+                    <Typography variant="body1" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
+                        Manage invoices for services provided. This section allows you to add, edit, and delete service invoices and track payments.
+                        <br />
+                        <Button component={Link} to="/invoices/services-invoiced" variant="contained" color="primary" sx={{ mt: 2 }}>
+                            Manage Services Invoiced
+                        </Button>
+                    </Typography>
+                );
             default:
                 return null;
         }
     };
 
     const sections = [
-        { label: 'Invoice Management', description: 'Process school fee invoices for students', icon: <FileAddOutlined /> },
-        { label: 'Arrear Management', description: 'Create arrears for students', icon: <FileAddOutlined /> },
-        
+        { label: 'Service Management', description: 'Manage services', icon: <HistoryOutlined /> },
+        { label: 'Pupil Service Management', description: 'Manage pupil services', icon: <HistoryOutlined /> },
+        { label: 'Services Invoiced', description: 'Manage service invoices', icon: <FileOutlined /> },
     ];
 
     return (
-        <MainCard title="Invoice Management Panel" boxShadow={3} sx={{ p: 2 }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
+        <MainCard title="Services Management Panel" boxShadow={3} sx={{ p: 2 }} style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
             <Typography variant="body1" gutterBottom>
-                Welcome to the Invoice Management Panel. This panel provides tools and features to manage various aspects of invoice creation and management within the institution.
+                Welcome to the Services Management Panel. This panel provides tools and features to manage various aspects of service creation and management within the institution.
             </Typography>
             <List>
                 {sections.map((section, index) => (
                     <ListItem
-                        
                         key={index}
                         onClick={() => handleSectionClick(section.label)}
                         sx={{
@@ -91,11 +99,8 @@ function InvoiceManagementPanel() {
                     {renderDescription()}
                 </DialogContent>
             </Dialog>
-        
         </MainCard>
     );
 }
 
-export default InvoiceManagementPanel;
-
-
+export default ServicesManagementPanel;

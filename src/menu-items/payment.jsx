@@ -4,6 +4,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import EditIcon from '@mui/icons-material/Edit';
 import PaymentIcon from '@mui/icons-material/Payment';
 import CompareIcon from '@mui/icons-material/Compare';
+import GridOnIcon from '@mui/icons-material/GridOn';
 
 // icons
 const paymentIcons = {
@@ -51,6 +52,22 @@ const paymentModule = {
             type: 'item',
             url: '/payment/comparison',
             icon: paymentIcons.CompareIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'fee-payment',
+            title: 'fee-payment',
+            type: 'item',
+            url: '/payment/fee-payment',
+            icon: paymentIcons.ListAltIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'base',
+            title: 'Base Tables',
+            type: 'item',
+            url: '/payment/base',
+            icon: GridOnIcon,
             breadcrumbs: false
         }
     ]

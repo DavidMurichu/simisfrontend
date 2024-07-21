@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import GenericForm from '../../../HOC/formtemplate';
+import GenericForm from '../../HOC/formtemplate';
 import MainCard from 'components/MainCard';
 import axios from 'axios';
 
