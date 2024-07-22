@@ -181,7 +181,7 @@ function PromotionTerm() {
             const payloadData = response.data;
         
             if (payloadData.length === 0) {
-                toast.error('No Invoiced Student Found');
+                toast.error('No Student Found');
                 return;
             }
         
