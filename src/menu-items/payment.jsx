@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PaymentIcon from '@mui/icons-material/Payment';
 import CompareIcon from '@mui/icons-material/Compare';
 import GridOnIcon from '@mui/icons-material/GridOn';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 
 // icons
 const paymentIcons = {
@@ -68,6 +69,15 @@ const paymentModule = {
             type: 'item',
             url: '/payment/base',
             icon: GridOnIcon,
+            breadcrumbs: false
+        }
+        ,
+        {
+            id: 'incomeinvoicecomparison',
+            title: 'Income Invoice comparison',
+            type: 'item',
+            url: '/payment/income-invoice-comparison',
+            icon: CompareArrowsIcon,
             breadcrumbs: false
         }
     ]

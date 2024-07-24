@@ -13,7 +13,7 @@ const MakePaymentManager = ({ student }) => {
     const navigate = useNavigate();
     const createdby = sessionStorage.getItem('id');
     const lasteditedby = sessionStorage.getItem('id');
-    const [formData, setFormData] = useState({  studentclasspromotiontermid:student.services[0].studentclasspromotiontermid,
+    const [formData, setFormData] = useState({  studentclasspromotiontermid:student.current_class_term.id,
       
         amountpaid: 0,
         paymentdate: '',

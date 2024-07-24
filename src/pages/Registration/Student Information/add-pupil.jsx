@@ -16,9 +16,16 @@ import {toast, ToastContainer} from 'react-toastify';
 import PupilService from '../../../services/pupilservice';
 import ClassesService from '../../../services/classesService';
 import MenuItem from "@mui/material/MenuItem";
+import { Checkbox, FormControlLabel } from '@mui/material';
+import FetchData from 'services/fetch';
+import ApiService from 'services/apiservice';
 
 function AddPupil() {
+    const [services, setServices]=useState([]);
     const navigate = useNavigate();
+    const [selectedServices, setSelectedServices] = useState([]);
+
+   
     const [formData, setFormData] = useState({
         name: '',
         admission_no: '',
@@ -44,8 +51,8 @@ function AddPupil() {
         current_academic_year: '',
         genderid: '',
         teachers_student: '0',
-        deactivated: '',
-        deactivate_reason: '',
+        deactivated: '0',
+        deactivate_reason: 'Not Deactivated',
         branch_id: '',
         fathers_name: '',
         fathers_phone: '',
@@ -72,101 +79,33 @@ function AddPupil() {
     const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
-        fetchBranches();
-        fetchGenders();
-        fetchTerms();
-        fetchClasses();
-        fetchYears();
         const branchName = sessionStorage.getItem("role");
         setBranchName(branchName);
     }, []);
 
+    const fetch=async()=>{
+        await FetchData('home/get_data/auth_branches', setBranches);
+        await FetchData('home/get_data/sys_genders', setGenders);
+        await FetchData('home/get_data/sch_terms', setTerms);
+        await FetchData('home/get_data/sch_academic_years', setYears);
+        await FetchData('home/get_data/sch_classes', setClasses);
+        await FetchData('home/get_data/sch_services', setServices);
+    }
 
-    const fetchBranches = async () => {
-        try {
-            const response = await Account.getAllBranches();
-            setBranches(response.data);
-            setLoading(false);
-        } catch (err) {
-            if (err.data) {
-                // Accessing the array of errors and getting the first error message
-                const errorMessage = err.data[0].message;
-                console.log("Error from response", err.data, errorMessage);
-                toast.warning("Try again: " + errorMessage);
-            } else if (err.message) {
-                toast.error(err.message);
-            } else {
-                toast.error("An unexpected error occurred. Please try again.");
-            }
-        }
-    };
-
-    const fetchGenders = async () => {
-        try {
-            const response = await GenderService.getAllGenders();
-            setGenders(response.data);
-        } catch (err) {
-            if (err.data) {
-                const errorMessage = err.data[0].message;
-                console.log("Error from response", err.data, errorMessage);
-                toast.warning("Try again: " + errorMessage);
-            } else if (err.message) {
-                toast.error(err.message);
-            } else {
-                toast.error("An unexpected error occurred. Please try again.");
-            }
-        }
-    };
-
-    const fetchTerms = async () => {
-        try {
-            const response = await AcademicYearService.getAllTerms();
-            setTerms(response.data);
-        } catch (err) {
-            if (err.data) {
-                const errorMessage = err.data[0].message;
-                toast.warning("Try again: " + errorMessage);
-            } else if (err.message) {
-                toast.error(err.message);
-            } else {
-                toast.error("An unexpected error occurred. Please try again.");
-            }
-        }
-    };
-    const fetchYears = async () => {
-        try {
-            const response = await AcademicYearService.getAllAcademicYears();
-            setYears(response.data);
-        } catch (err) {
-            if (err.data) {
-                const errorMessage = err.data[0].message;
-                console.log("Error from response", err.data, errorMessage);
-                toast.warning("Try again: " + errorMessage);
-            } else if (err.message) {
-                toast.error(err.message);
-            } else {
-                toast.error("An unexpected error occurred. Please try again.");
-            }
-        }
-    };
-
-    const fetchClasses = async () => {
-        try {
-            const response = await ClassesService.getAllClasses();
-            setClasses(response.data);
-            setLoading(false);
-        } catch (err) {
-            if (err.data) {
-                const errorMessage = err.data[0].message;
-                toast.warning("Try again: " + errorMessage);
-            } else if (err.message) {
-                toast.error(err.message);
-            } else {
-                toast.error("An unexpected error occurred. Please try again.");
-            }
-        }
-    };
-
+    useEffect(()=>{
+        fetch()
+    }, []);
+     // Handle checkbox change
+    const handleCheckboxChange = (id) => {
+        setSelectedServices((prevSelected) => {
+          if (prevSelected.includes(id)) {
+            return prevSelected.filter((serviceId) => serviceId !== id);
+          } else {
+            return [...prevSelected, id];
+          }
+        });
+        
+      };
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -177,8 +116,12 @@ function AddPupil() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const payload={
+            studentData:formData,
+            servicesData:selectedServices
+        }
         try {
-            const response = await PupilService.addPupil(formData);
+            const response = await ApiService.post('home/register/student', payload, true);
             console.log("response", response.data);
             if (response.status === 201) {
                 toast.success("Successfully added user to database");
@@ -199,51 +142,6 @@ function AddPupil() {
                 toast.error("An unexpected error occurred. Please try again.");
             }
         }
-    };
-
-
-    const clearForm = () => {
-        setFormData({
-            name: '',
-            admission_no: '',
-            nemis_number: '',
-            assessment_number: '',
-            parentname: '',
-            classid: '',
-            academicyearid: '',
-            parent_mobile: '',
-            secondary_mobile: '',
-            dob: '',
-            city: '',
-            town: '',
-            streetaddress: '',
-            mobile: '',
-            email: '',
-            remarks: '',
-            is_active: '',
-            ipaddress: '',
-            prev_class_id: '',
-            current_class_id: '',
-            current_term_id: '',
-            current_academic_year: '',
-            genderid: '',
-            teachers_student: '',
-            deactivated: '',
-            deactivate_reason: '',
-            branch_id: '',
-            fathers_name: '',
-            fathers_phone: '',
-            mothers_name: '',
-            mothers_phone: '',
-            guardians_name: '',
-            guardians_phone: '',
-            last_school_attended: '',
-            birth_cert_no: '',
-            upi_no: '',
-            transfer_term_id: '',
-            createdby: '',
-            lasteditedby: ''
-        });
     };
 
     return (
@@ -623,11 +521,13 @@ function AddPupil() {
                                     onChange={handleChange}
                                     required
                                 >
-                                    <MenuItem value={'0'}>Yes</MenuItem>
-                                    <MenuItem value={'1'}>No</MenuItem>
+                                    <MenuItem value={'1'}>Yes</MenuItem>
+                                    <MenuItem value={'0'}>No</MenuItem>
                                 </TextField>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            {
+                                formData.deactivated==='1'&&
+                                <Grid item xs={12} sm={6}>
                                 <TextField
                                     label="Deactivated Reason"
                                     name="deactivate_reason"
@@ -637,6 +537,9 @@ function AddPupil() {
 
                                 />
                             </Grid>
+
+                            }
+                            
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
@@ -652,6 +555,42 @@ function AddPupil() {
                                 </TextField>
                             </Grid>
                         </Grid>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                    
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography>Student Services</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                    <Grid container spacing={2}>
+                        {services.length!=0 ?(
+                            services.map((service) => (
+                                <Grid item xs={12} sm={6} md={3} key={service.id}>
+                                    <FormControlLabel
+                                        control={
+                                        <Checkbox
+                                            checked={selectedServices.includes(service.id)}
+                                            onChange={() => handleCheckboxChange(service.id)}
+                                        />
+                                        }
+                                        label={
+                                        <Typography variant="body1">
+                                            {service.name}
+                                        </Typography>
+                                        }
+                                    />
+                                </Grid>
+                                ))
+                        ):(
+                            <>
+                            <Typography padding={2}>
+                                No Services Available
+                            </Typography>
+                            </>
+                        )
+                        }
+                    </Grid>
                     </AccordionDetails>
                 </Accordion>
                 <Grid container spacing={3} sx={{ mt: 2 }}>

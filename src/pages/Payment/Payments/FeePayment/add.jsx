@@ -80,6 +80,9 @@ const AddFeePayment = () => {
         
             setStudents(payloadData);
             toast.success('success');
+        }else{
+            toast.error('No Invoiced Student Found');
+            setStudents([]);
         }
         
     };

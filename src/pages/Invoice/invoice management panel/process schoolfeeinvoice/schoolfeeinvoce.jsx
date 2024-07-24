@@ -227,9 +227,18 @@ const StudentInvoice = () => {
       const response=await ApiService.post('home/get_invoice_data', payload, true);
       if(response.data.success){
       console.log('data', response.data);
+        if((response.data.students).length===0){
+        toast.warning('No students found');
+        }else{
+        toast.success('Students found');
 
+        }
+ 
         setVoteheads(response.data.vote_heads);
         setStudents(response.data.students);
+      }else{
+      toast.success('No students found');
+
       }
      
     }
@@ -250,11 +259,7 @@ const StudentInvoice = () => {
           zIndex: 1000,
         }}
       >
-        <Button variant="contained" type="submit" color="primary"
-         onClick={handleSearch}
-         >
-          Search
-        </Button>
+        
       </Box>
                     </Typography>
                     <Grid container spacing={2}>
@@ -303,6 +308,16 @@ const StudentInvoice = () => {
                                 </Select>
                             </FormControl>
                         </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <FormControl >
+                            <Button variant="contained" type="submit" color="primary"
+                          onClick={handleSearch}
+                          >
+                            Search
+                        </Button>
+                            </FormControl>
+                        </Grid>
+                        
                     </Grid>
     <Grid container spacing={2}>
       {/* Generate Invoice Button */}

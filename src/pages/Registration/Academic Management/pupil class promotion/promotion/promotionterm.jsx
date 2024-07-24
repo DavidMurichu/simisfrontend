@@ -11,7 +11,7 @@ function PromotionTerm() {
     const [pupils, setPupils] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [selectedClass, setSelectedClass] = useState('');
+    const [selectedClass, setSelectedClass] = useState('Form 1');
     const [selectedGender, setSelectedGender] = useState('');
     const [selectedYear, setSelectedYear] = useState('');
     const [selectedPupils, setSelectedPupils] = useState(new Set());
@@ -135,9 +135,7 @@ function PromotionTerm() {
             <Box sx={{ mb: 2 }}>
                 <Accordion>
                     <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="filter-panel-content"
-                        id="filter-panel-header"
+                        
                     >
                         <Typography variant="h6">Filter Students</Typography>
                     </AccordionSummary>

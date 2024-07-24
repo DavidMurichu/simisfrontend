@@ -18,16 +18,20 @@ const columns = [
 ];
 
 function ReportedPupils() {
+    const [refresh, setRefresh]=useState(false);
     const endpoint = 'home/promoted';
-    const handleDelete = async (id) => {
-        try {
-            await PupilsService.deleteReportedPupil(id);
-            toast.success('Deleted reported pupil successfully');
-        } catch (error) {
-            console.error('Error deleting reported pupil:', error);
-            toast.error('Error deleting reported pupil. Please try again.');
-        }
-    };
+    const handleEdit=async()=>{
+
+    }
+    const handleDelete=async()=>{
+
+
+    }
+
+    const buttons = [
+        { label: 'Edit', color: 'primary', handleFunction: handleEdit },
+        { label: 'Delete', color: 'error', handleFunction: handleDelete },
+    ];
 
     return (
         <MainCard title="Reported Pupils" style={{ backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}>
@@ -45,6 +49,8 @@ function ReportedPupils() {
                 Report Students
             </Button>
             <TableTemplate
+                refresh={refresh}
+                buttons={buttons}
                 columns={columns}
                 endpoint={endpoint}
                 handleDelete={handleDelete}
